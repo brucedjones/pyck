@@ -1,5 +1,6 @@
 bin/
 CMakeFiles/
+doc/
 
 Makefile
 CMakeCache.txt

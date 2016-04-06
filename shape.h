@@ -10,7 +10,7 @@ class Shape {
   public:
     /**
      * Shape base constructor
-     * @param The state which will be assigned to particles contained in this shape. state = 0 will remove any previously assigned particles
+     * @param state The state which will be assigned to particles contained in this shape. state = 0 will remove any previously assigned particles
      */
     Shape(int state);
     ~Shape();

@@ -6,10 +6,10 @@ class Cuboid: public Shape {
   public:
     /**
      * Cuboid constructor
-     * @param State to be applied to particles within this shape. state = 0 will remove particle from output
-     * @param Lower-left corner of cuboid in cartesian coordinates
-     * @param Upper-right corner of cuboid in cartesian coordinates
-     * @param Domain in which this shape will be mapped
+     * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
+     * @param p1 Lower-left corner of cuboid in cartesian coordinates
+     * @param p2 Upper-right corner of cuboid in cartesian coordinates
+     * @param domain Domain in which this shape will be mapped
      */
     Cuboid(int state, float *p1, float *p2, Domain *domain);
     ~Cuboid();

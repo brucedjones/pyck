@@ -9,10 +9,11 @@
 class Domain {
   public:
     // Methods
+
     /**
      * Domain Constructor
-     * @param Size of the domain in cartesian cooridnate system
-     * @param Spacing between particles
+     * @param size Size of the domain in cartesian cooridnate system
+     * @param h Spacing between particles
      */
     Domain(float *size, float h);
     ~Domain();
