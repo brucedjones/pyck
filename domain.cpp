@@ -8,6 +8,7 @@
 #include "boundingBox.h"
 #include "shape.h"
 
+
 Domain::Domain(float *size, float h)
 {
   this->size[0] = size[0];

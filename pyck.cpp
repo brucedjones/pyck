@@ -11,20 +11,23 @@ int main()
 
   float h = 0.1;
 
-  float p1[3];
-  float p2[3];
+  float p1[3], p2[3], p3[3], p4[3];
   p1[0] = 0.2; p1[1] = 0.2; p1[2] = 0.2;
   p2[0] = 0.8; p2[1] = 0.8; p2[2] = 0.8;
+  p3[0] = 0.4; p3[1] = 0.4; p4[2] = 0.2;
+  p4[0] = 0.6; p4[1] = 0.6; p3[2] = 0.8;
 
   // Create a new domain
   Domain *domain = new Domain(size, h);
 
   // Create and pack a shape
   Cuboid *box = new Cuboid(1,p1,p2,domain);
+  Cuboid *clearbox = new Cuboid(0,p3,p4,domain);
   domain->MapShape(box);
+  domain->MapShape(clearbox);
 
   // Write domain to a CSV
-  domain->Serialize("particles2.csv");
+  domain->Serialize("particles3.csv");
 
   std::cout << "Packing Complete\n";
   delete box;
