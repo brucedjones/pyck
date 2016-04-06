@@ -22,9 +22,9 @@ class Shape {
      */
     virtual bool IsInside(float *pt)=0;
 
-    BoundingBox *boundingBox; /** Bounding box which will be iterated over to map the shape */
+    BoundingBox *boundingBox; /**< Bounding box which will be iterated over to map the shape */
 
-    int state;  /** State to be applied on a particle when mapping the shape. state = 0 will remove particle from output.*/
+    int state;  /**< State to be applied on a particle when mapping the shape. state = 0 will remove particle from output.*/
 };
 
 #endif

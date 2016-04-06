@@ -22,8 +22,8 @@ class Cuboid: public Shape {
     bool IsInside(float *pt);
 
   private:
-    float *p1; /** Lower-left corner of cuboid in cartesian coordinates */
-    float *p2; /** Upper-right corner of cuboid in cartesian coordinates */
+    float *p1; /**< Lower-left corner of cuboid in cartesian coordinates */
+    float *p2; /**< Upper-right corner of cuboid in cartesian coordinates */
 };
 
 #endif

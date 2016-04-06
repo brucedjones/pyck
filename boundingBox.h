@@ -17,8 +17,8 @@ class BoundingBox {
     BoundingBox(float *p1, float *p2, Domain *domain);
     ~BoundingBox();
 
-    long *p1; /** Lower-left corner */
-    long *p2; /** Upper-right corner */
+    long *p1; /**< Lower-left corner */
+    long *p2; /**< Upper-right corner */
 };
 
 #endif

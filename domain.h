@@ -94,12 +94,12 @@ class Domain {
     // Methods
 
     //Properties
-    long len[3]; /** Size of the domain in ijk system */
-    float size[3]; /** size of the domain in cartesian system */
-    int dim; /** Dimensionality of domain (2D or 3D) */
-    float dx; /** Particle spacing */
-    int *state; /** Array of particle states */
-    float *pos; /** Array of particle coordinates (cartesian) */
+    long len[3]; /**< Size of the domain in ijk system */
+    float size[3]; /**< size of the domain in cartesian system */
+    int dim; /**< Dimensionality of domain (2D or 3D) */
+    float dx; /**< Particle spacing */
+    int *state; /**< Array of particle states */
+    float *pos; /**< Array of particle coordinates (cartesian) */
 };
 
 #endif
