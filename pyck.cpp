@@ -22,12 +22,12 @@ int main()
 
   // Create and pack a shape
   Cuboid *box = new Cuboid(1,p1,p2,domain);
-  Cuboid *clearbox = new Cuboid(0,p3,p4,domain);
+  Cuboid *clearbox = new Cuboid(2,p3,p4,domain);
   domain->MapShape(box);
   domain->MapShape(clearbox);
 
   // Write domain to a CSV
-  domain->Serialize("particles3.csv");
+  domain->Serialize("particles4.csv");
 
   std::cout << "Packing Complete\n";
   delete box;

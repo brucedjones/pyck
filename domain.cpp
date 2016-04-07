@@ -33,6 +33,8 @@ Domain::Domain(float *size, float h)
       }
     }
   }
+
+  numParticles = 0;
 }
 
 Domain::~Domain()
@@ -90,16 +92,16 @@ void Domain::Serialize(char *fname)
 {
   std::ofstream outfile (fname, std::ios::out);
   if(outfile.is_open()) {
-    for(long k=0; k<len[2]; k++){
-      for(long j=0; j<len[1]; j++){
-        for(long i=0; i<len[0]; i++){
-          if(state[ID(i,j,k)] == 1) {
-            outfile << pos[DimID(0,i,j,k)] << "," << pos[DimID(1,i,j,k)];
-            if(dim>2) outfile << "," << pos[DimID(2,i,j,k)];
-            outfile << "\n";
-          }
-        }
-      }
+
+    float *positions = GetPositions();
+    int *states = GetStates();
+    long numParticles = GetNumParticles();
+
+    for(long i=0; i<numParticles; i++){
+      outfile << positions[i*dim] << "," << positions[i*dim+1];
+      if(dim>2) outfile << "," << positions[i*dim+2];
+      outfile << "," << states[i];
+      outfile << std::endl;
     }
     outfile.close();
   }
@@ -149,4 +151,53 @@ void Domain::MapShape(Shape *shape)
       }
     }
   }
+}
+
+long Domain::GetNumParticles(){
+  //if(numParticles != 0) return numParticles;
+
+  numParticles = 0;
+  long totalIJK = len[0]*len[1]*len[2];
+  for(long i=0;i<totalIJK;i++){
+    if(state[i]!=0) numParticles++;
+  }
+
+  return numParticles;
+}
+
+float* Domain::GetPositions(){
+  long numParticles = GetNumParticles();
+
+  float *positions = new float[numParticles*dim];
+
+  long totalIJK = len[0]*len[1]*len[2];
+  long particle = 0;
+  for(long i=0;i<totalIJK;i++){
+    if(state[i]!=0){
+      long thisIDX = i*dim;
+      positions[particle] = pos[thisIDX];
+      positions[particle+1] = pos[thisIDX+1];
+      if(dim>2) positions[particle+2] = pos[thisIDX+2];
+      particle+=dim;
+    }
+  }
+
+  return positions;
+}
+
+int* Domain::GetStates(){
+  long numParticles = GetNumParticles();
+
+  int *states = new int[numParticles];
+
+  long totalIJK = len[0]*len[1]*len[2];
+  long particle = 0;
+  for(long i=0;i<totalIJK;i++){
+    if(state[i]!=0){
+      states[particle] = state[i];
+      particle++;
+    }
+  }
+
+  return states;
 }

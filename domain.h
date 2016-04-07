@@ -31,13 +31,13 @@ class Domain {
     float *GetSize();
 
     /**
-     * Get the array of particle states
+     * Get the ijk ordered array of particle states
      * @return Pointer to array of particle states
      */
     int *GetState();
 
     /**
-     * Get the array of particle positions
+     * Get the ijk ordered array of particle positions
      * @return Pointer to array of particle positions
      */
     float *GetPos();
@@ -90,6 +90,23 @@ class Domain {
      */
     void MapShape(Shape *shape);
 
+    /**
+     * Get the number of particles in this domain
+     */
+    long GetNumParticles();
+
+    /**
+     * Get 1D array of particle positions
+     * @return 1D array of particle positions, format is [x1,y1,x2,y2,...xn,yn]
+     */
+    float *GetPositions();
+
+    /**
+     * Get 1D array of particle positions
+     * @return 1D array of particle States, format is [x1,y1,x2,y2,...xn,yn]
+     */
+    int *GetStates();
+
   private:
     // Methods
 
@@ -100,6 +117,7 @@ class Domain {
     float dx; /**< Particle spacing */
     int *state; /**< Array of particle states */
     float *pos; /**< Array of particle coordinates (cartesian) */
+    long numParticles; /**< The number of particles packed in this domain */
 };
 
 #endif
