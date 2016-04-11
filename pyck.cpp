@@ -1,9 +1,9 @@
 #include <iostream>
 
 #include "pyck.h"
-#include "fccPacker.h"
+#include "packers/fccPacker.h"
 #include "domain.h"
-#include "cuboid.h"
+#include "shapes/cuboid.h"
 
 int main()
 {

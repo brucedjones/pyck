@@ -1,6 +1,6 @@
 #ifndef CUBOID_H
 #define CUBOID_H
-#include "shape.h"
+#include "../shape.h"
 
 class Cuboid: public Shape {
   public:

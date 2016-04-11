@@ -1,7 +1,7 @@
 #ifndef FCC_PACKER_H
 #define FCC_PACKER_H
 
-#include "packer.h"
+#include "../packer.h"
 
 class FccPacker: public Packer {
 
