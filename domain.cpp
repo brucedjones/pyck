@@ -133,8 +133,16 @@ void Domain::Pos2IDX(float *posIn, long *idxOut, bool doFloor)
 void Domain::MapShape(Shape *shape)
 {
   BoundingBox *bb = shape->boundingBox;
-  long *p1 = bb->p1;
-  long *p2 = bb->p2;
+
+  // Convert to domain indexes
+  long *p1 = new long[3];
+  long *p2 = new long[3];
+
+  // Get the ijk extent
+  // Third argument "floors" the ijk indexes (lower left corner) if true
+  // "ceils" the ijk indexes (upper right corner) if false
+  Pos2IDX(bb->p1, p1, true);
+  Pos2IDX(bb->p2, p2, false);
 
   float thisPos[3];
 

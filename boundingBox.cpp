@@ -1,9 +1,8 @@
 #include <iostream>
 
 #include "boundingBox.h"
-#include "domain.h"
 
-BoundingBox::BoundingBox(float *p1, float *p2, Domain *domain)
+BoundingBox::BoundingBox(float *p1, float *p2)
 {
 
   // Enforce lower left corner is p1 and upper right is p2
@@ -17,15 +16,8 @@ BoundingBox::BoundingBox(float *p1, float *p2, Domain *domain)
     }
   }
 
-  // Convert to domain indexes
-  this->p1 = new long[3];
-  this->p2 = new long[3];
-
-  // Get the ijk extent
-  // Third argument "floors" the ijk indexes (lower left corner) if true
-  // "ceils" the ijk indexes (upper right corner) if false
-  domain->Pos2IDX(p1, this->p1, true);
-  domain->Pos2IDX(p2, this->p2, false);
+  this->p1 = p1;
+  this->p2 = p2;
 }
 
 BoundingBox::~BoundingBox()

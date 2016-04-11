@@ -21,8 +21,8 @@ int main()
   Domain *domain = new Domain(size, h);
 
   // Create and pack a shape
-  Cuboid *box = new Cuboid(1,p1,p2,domain);
-  Cuboid *clearbox = new Cuboid(2,p3,p4,domain);
+  Cuboid *box = new Cuboid(1,p1,p2);
+  Cuboid *clearbox = new Cuboid(2,p3,p4);
   domain->MapShape(box);
   domain->MapShape(clearbox);
 

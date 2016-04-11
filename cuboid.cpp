@@ -1,11 +1,11 @@
 #include "cuboid.h"
 
-Cuboid::Cuboid(int state, float *p1, float *p2, Domain *domain) : Shape(state)
+Cuboid::Cuboid(int state, float *p1, float *p2) : Shape(state)
 {
   this->p1 = p1;
   this->p2 = p2;
 
-  this->boundingBox = new BoundingBox(p1,p2,domain);
+  this->boundingBox = new BoundingBox(p1,p2);
 }
 
 Cuboid::~Cuboid(){}

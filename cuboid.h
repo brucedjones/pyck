@@ -11,7 +11,7 @@ class Cuboid: public Shape {
      * @param p2 Upper-right corner of cuboid in cartesian coordinates
      * @param domain Domain in which this shape will be mapped
      */
-    Cuboid(int state, float *p1, float *p2, Domain *domain);
+    Cuboid(int state, float *p1, float *p2);
     ~Cuboid();
 
     /**
