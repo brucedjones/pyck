@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "pyck.h"
+#include "fccPacker.h"
 #include "domain.h"
 #include "cuboid.h"
 
@@ -17,8 +18,11 @@ int main()
   p3[0] = 0.4; p3[1] = 0.4; p4[2] = 0.2;
   p4[0] = 0.6; p4[1] = 0.6; p3[2] = 0.8;
 
+  // Create a new packer
+  FccPacker *packer = new FccPacker(size,h);
+
   // Create a new domain
-  Domain *domain = new Domain(size, h);
+  Domain *domain = new Domain(packer);
 
   // Create and pack a shape
   Cuboid *box = new Cuboid(1,p1,p2);
