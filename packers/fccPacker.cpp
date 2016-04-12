@@ -10,6 +10,8 @@ FccPacker::FccPacker(float *floatLenIn, float h)
   len[0] = (int)(floatLenIn[0]/dx);
   len[1] = (int)(2*floatLenIn[1]/dx);
   len[2] = (int)(2*floatLenIn[2]/dx);
+
+  if(floatLenIn[2]<0.00000001) len[2] = 1;
 }
 
 FccPacker::~FccPacker(){}
