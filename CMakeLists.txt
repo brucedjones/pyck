@@ -27,6 +27,7 @@ target_link_libraries(pyck domain shape packer)
 target_link_libraries(pyck fccPacker)
 target_link_libraries(pyck hcpPacker)
 target_link_libraries(pyck bccPacker)
+target_link_libraries(pyck cubicPacker)
 
 # Do this for each new shape
 target_link_libraries(pyck cuboid)

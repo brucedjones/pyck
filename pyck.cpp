@@ -4,6 +4,7 @@
 #include "packers/fccPacker.h"
 #include "packers/hcpPacker.h"
 #include "packers/bccPacker.h"
+#include "packers/cubicPacker.h"
 #include "domain.h"
 #include "shapes/cuboid.h"
 #include "shapes/sphere.h"
@@ -40,7 +41,7 @@ int main()
   p4[0] = 0.6; p4[1] = 0.6; p3[2] = 0.8;
 
   // Create a new packer
-  BccPacker *packer = new BccPacker(size,h);
+  CubicPacker *packer = new CubicPacker(size,h);
 
   // Create a new domain
   Domain *domain = new Domain(packer);

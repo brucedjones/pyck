@@ -7,3 +7,6 @@ target_link_libraries(hcpPacker packer)
 
 add_library(bccPacker bccPacker.cpp)
 target_link_libraries(bccPacker packer)
+
+add_library(cubicPacker cubicPacker.cpp)
+target_link_libraries(cubicPacker packer)
