@@ -28,3 +28,5 @@ target_link_libraries(pyck fccPacker)
 
 # Do this for each new shape
 target_link_libraries(pyck cuboid)
+target_link_libraries(pyck sphere)
+target_link_libraries(pyck cylinder)
