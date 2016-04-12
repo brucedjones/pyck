@@ -5,3 +5,6 @@ doc/
 Makefile
 CMakeCache.txt
 cmake_install.cmake
+*.vtp
+packing.txt
+*.csv

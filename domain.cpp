@@ -71,7 +71,14 @@ void Domain::Serialize(char *fname)
 
     for(long i=0; i<numParticles; i++){
       outfile << positions[i*dim] << "," << positions[i*dim+1];
-      if(dim>2) outfile << "," << positions[i*dim+2];
+      if(dim==2)
+      {
+        outfile << "," << 0.0;
+      }
+      else
+      {
+        outfile << "," << positions[i*dim+2];
+      }
       outfile << "," << states[i];
       outfile << std::endl;
     }

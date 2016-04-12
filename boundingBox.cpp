@@ -1,10 +1,6 @@
-#include <iostream>
-
 #include "boundingBox.h"
-
 BoundingBox::BoundingBox(float *p1, float *p2)
 {
-
   // Enforce lower left corner is p1 and upper right is p2
   for(int i=0; i<3; i++)
   {
