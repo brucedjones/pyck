@@ -3,6 +3,7 @@
 #include "pyck.h"
 #include "packers/fccPacker.h"
 #include "packers/hcpPacker.h"
+#include "packers/bccPacker.h"
 #include "domain.h"
 #include "shapes/cuboid.h"
 #include "shapes/sphere.h"
@@ -11,7 +12,7 @@
 int main()
 {
   float size[3];
-  size[0] = 1; size[1] = 1; size[2] = 0.0;
+  size[0] = 1; size[1] = 1; size[2] = 1.0;
 
   float h = 0.01;
 
@@ -33,13 +34,13 @@ int main()
 
   // Cuboid properties
   float p1[3], p2[3], p3[3], p4[3];
-  p1[0] = 0.3; p1[1] = 0.1; p1[2] = -1.0;
-  p2[0] = 0.7; p2[1] = 0.9; p2[2] = 1.0;
+  p1[0] = 0.3; p1[1] = 0.1; p1[2] = 0.2;
+  p2[0] = 0.7; p2[1] = 0.9; p2[2] = 0.8;
   p3[0] = 0.4; p3[1] = 0.4; p4[2] = 0.2;
   p4[0] = 0.6; p4[1] = 0.6; p3[2] = 0.8;
 
   // Create a new packer
-  HcpPacker *packer = new HcpPacker(size,h);
+  BccPacker *packer = new BccPacker(size,h);
 
   // Create a new domain
   Domain *domain = new Domain(packer);
@@ -55,7 +56,7 @@ int main()
   //domain->MapShape(cylinder);
 
   // Write domain to a CSV
-  std::string filename = "hcptest.csv";
+  std::string filename = "bcctest.csv";
   domain->Serialize((char*)filename.c_str());
 
   std::cout << "Packing Complete\n";
