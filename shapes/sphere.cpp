@@ -18,7 +18,7 @@ Sphere::~Sphere(){}
 bool Sphere::IsInside(float *pt)
 {
   bool isInside = true;
-  
+
   if((pt[0]-c[0])*(pt[0]-c[0])+(pt[1]-c[1])*(pt[1]-c[1])+(pt[2]-c[2])*(pt[2]-c[2]) > (r*r)) isInside = false;
 
   return isInside;

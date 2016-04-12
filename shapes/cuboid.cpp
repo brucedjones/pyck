@@ -14,8 +14,8 @@ bool Cuboid::IsInside(float *pt)
 {
   bool isInside = true;
   for(int i=0; i<3; i++){
-    if(pt[i]<=p1[i]) isInside = false;
-    if(pt[i]>=p2[i]) isInside = false;
+    if(pt[i]<p1[i]) isInside = false;
+    if(pt[i]>p2[i]) isInside = false;
   }
 
   return isInside;
