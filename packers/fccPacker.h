@@ -9,10 +9,10 @@ class FccPacker: public Packer {
 
     /**
      * FccPacker constructor.
-     * @param floatLenIn Size of the domain in Cartesian coordinate system
+     * @param doubleLenIn Size of the domain in Cartesian coordinate system
      * @param h Particle radius
      */
-    FccPacker(float *floatLenIn, float h);
+    FccPacker(double *doubleLenIn, double h);
     ~FccPacker();
 
     /**
@@ -22,7 +22,7 @@ class FccPacker: public Packer {
      * @param k      k index (along Z)
      * @param posOut Cartesian coordinate output, array of length 3
      */
-    void IDX2Pos(long i, long j, long k, float *posOut);
+    void IDX2Pos(long i, long j, long k, double *posOut);
 
     /**
      * Converts a Cartesian coordinate to an IJK position
@@ -30,7 +30,7 @@ class FccPacker: public Packer {
      * @param idxOut  ijk coordinate output, array of length 3
      * @param doFloor Returns the lower-left point in relation to the Cartesian point if true. Returns the upper-right point if false
      */
-    void Pos2IDX(float *posIn, long *idxOut, bool doFloor);
+    void Pos2IDX(double *posIn, long *idxOut, bool doFloor);
 };
 
 #endif

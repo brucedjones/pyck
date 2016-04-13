@@ -17,7 +17,7 @@ class Packer {
      * @param k      k index (along Z)
      * @param posOut Cartesian coordinate output, array of length 3
      */
-    virtual void IDX2Pos(long i, long j, long k, float *posOut)=0;
+    virtual void IDX2Pos(long i, long j, long k, double *posOut)=0;
 
     /**
      * Converts a Cartesian coordinate to an IJK position
@@ -25,9 +25,9 @@ class Packer {
      * @param idxOut  ijk coordinate output, array of length 3
      * @param doFloor Returns the lower-left point in relation to the Cartesian point if true. Returns the upper-right point if false
      */
-    virtual void Pos2IDX(float *posIn, long *idxOut, bool doFloor)=0;
+    virtual void Pos2IDX(double *posIn, long *idxOut, bool doFloor)=0;
 
-    float dx; /**< Offset between particle */
+    double dx; /**< Offset between particle */
     long len[3]; /**< Size of the domain in ijk system */
 };
 

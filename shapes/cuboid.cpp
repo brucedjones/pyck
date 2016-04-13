@@ -1,6 +1,6 @@
 #include "cuboid.h"
 
-Cuboid::Cuboid(int state, float *p1, float *p2) : Shape(state)
+Cuboid::Cuboid(int state, double *p1, double *p2) : Shape(state)
 {
   this->p1 = p1;
   this->p2 = p2;
@@ -10,7 +10,7 @@ Cuboid::Cuboid(int state, float *p1, float *p2) : Shape(state)
 
 Cuboid::~Cuboid(){}
 
-bool Cuboid::IsInside(float *pt)
+bool Cuboid::IsInside(double *pt)
 {
   bool isInside = true;
   for(int i=0; i<3; i++){

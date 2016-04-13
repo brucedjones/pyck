@@ -2,14 +2,14 @@
 #include <iostream>
 #include <math.h>
 
-Cylinder::Cylinder(int state, float *c, float r, float *l) : Shape(state)
+Cylinder::Cylinder(int state, double *c, double r, double *l) : Shape(state)
 {
   this->c = c;
   this->r = r;
   this->l = l;
 
-  float *p1 = new float[3];
-  float *p2 = new float[3];
+  double *p1 = new double[3];
+  double *p2 = new double[3];
 
   if(l[0] != 0.0 && l[1] == 0.0 && l[2] == 0.0)
   {
@@ -38,14 +38,14 @@ Cylinder::Cylinder(int state, float *c, float r, float *l) : Shape(state)
 
 Cylinder::~Cylinder(){}
 
-bool Cylinder::IsInside(float *pt)
+bool Cylinder::IsInside(double *pt)
 {
   bool isInside = true;
 
   if(l[0] != 0.0 && l[1] == 0.0 && l[2] == 0.0)
   {
      if((pt[1]-c[1])*(pt[1]-c[1])+(pt[2]-c[2])*(pt[2]-c[2]) > (r*r)) isInside = false;
-     
+
      if(fabs(pt[0]-c[0]) > fabs(l[0])) isInside = false;
 
   }

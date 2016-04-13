@@ -28,7 +28,7 @@ class Domain {
      * Get the size of the domain in cartesian format
      * @return Pointer to an array of length 3 containing length in xyz
      */
-    float *GetSize();
+    double *GetSize();
 
     /**
      * Get the ijk ordered array of particle states
@@ -40,7 +40,7 @@ class Domain {
      * Get the ijk ordered array of particle positions
      * @return Pointer to array of particle positions
      */
-    float *GetPos();
+    double *GetPos();
 
     /**
      * Write domain to CSV file
@@ -82,7 +82,7 @@ class Domain {
      * Get 1D array of particle positions
      * @return 1D array of particle positions, format is [x1,y1,x2,y2,...xn,yn]
      */
-    float *GetPositions();
+    double *GetPositions();
 
     /**
      * Get 1D array of particle positions
@@ -98,7 +98,7 @@ class Domain {
     long *len; /**< Size of the domain in ijk system */
     int dim; /**< Dimensionality of domain (2D or 3D) */
     int *state; /**< Array of particle states */
-    float *pos; /**< Array of particle coordinates (cartesian) */
+    double *pos; /**< Array of particle coordinates (cartesian) */
     long numParticles; /**< The number of particles packed in this domain */
 };
 

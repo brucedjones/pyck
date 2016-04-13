@@ -4,28 +4,28 @@
 
 #include "bccPacker.h"
 
-BccPacker::BccPacker(float *floatLenIn, float h)
+BccPacker::BccPacker(double *doubleLenIn, double h)
 {
   dx = sqrt((16.0/3.0)*h*h);
-  len[0] = (int)(floatLenIn[0]/dx);
-  len[1] = (int)(floatLenIn[1]/dx);
-  len[2] = (int)(2*floatLenIn[2]/dx);
+  len[0] = (int)(doubleLenIn[0]/dx);
+  len[1] = (int)(doubleLenIn[1]/dx);
+  len[2] = (int)(2*doubleLenIn[2]/dx);
 
-  if(floatLenIn[2]<0.00000001) len[2] = 1;
+  if(doubleLenIn[2]<0.00000001) len[2] = 1;
 }
 
 BccPacker::~BccPacker(){}
 
-void BccPacker::IDX2Pos(long i, long j, long k, float *posOut)
+void BccPacker::IDX2Pos(long i, long j, long k, double *posOut)
 {
-    posOut[0] = (float)i*dx+(float)(k%2)*dx/2;
-    posOut[1] = (float)j*dx+(float)(k%2)*dx/2;
-    posOut[2] = (float)k*dx/2;
+    posOut[0] = (double)i*dx+(double)(k%2)*dx/2;
+    posOut[1] = (double)j*dx+(double)(k%2)*dx/2;
+    posOut[2] = (double)k*dx/2;
 }
 
-void BccPacker::Pos2IDX(float *posIn, long *idxOut, bool doFloor)
+void BccPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
-  float i,j,k;
+  double i,j,k;
   i = posIn[0]/dx;
   j = posIn[1]/dx;
   k = 2*posIn[2]/dx;

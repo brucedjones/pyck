@@ -5,28 +5,28 @@
 
 #include "hcpPacker.h"
 
-HcpPacker::HcpPacker(float *floatLenIn, float h)
+HcpPacker::HcpPacker(double *doubleLenIn, double h)
 {
   dx = 2.0*h;
-  len[0] = (int)(floatLenIn[0]/((dx/2.0)*(2.0*sqrt(6.0)/3.0)));
-  len[1] = (int)(floatLenIn[1]/((dx/2.0)*sqrt(3.0)));
-  len[2] = (int)(floatLenIn[2]/dx);
+  len[0] = (int)(doubleLenIn[0]/((dx/2.0)*(2.0*sqrt(6.0)/3.0)));
+  len[1] = (int)(doubleLenIn[1]/((dx/2.0)*sqrt(3.0)));
+  len[2] = (int)(doubleLenIn[2]/dx);
 
-  if(floatLenIn[2]<0.00000001) len[2] = 1;
+  if(doubleLenIn[2]<0.00000001) len[2] = 1;
 }
 
 HcpPacker::~HcpPacker(){}
 
-void HcpPacker::IDX2Pos(long i, long j, long k, float *posOut)
+void HcpPacker::IDX2Pos(long i, long j, long k, double *posOut)
 {
-  posOut[0] = (dx/2.0)*2.0*sqrt(6.0)*(float)(i)/3.0;
-  posOut[1] = (dx/2.0)*sqrt(3.0)*((float)j+(float)(i%2)/3.0);
-  posOut[2] = (dx/2.0)*2.0*(float)(k+(j+i)%2);
+  posOut[0] = (dx/2.0)*2.0*sqrt(6.0)*(double)(i)/3.0;
+  posOut[1] = (dx/2.0)*sqrt(3.0)*((double)j+(double)(i%2)/3.0);
+  posOut[2] = (dx/2.0)*2.0*(double)(k+(j+i)%2);
 }
 
-void HcpPacker::Pos2IDX(float *posIn, long *idxOut, bool doFloor)
+void HcpPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
-  float i,j,k;
+  double i,j,k;
   i = posIn[0]/((dx/2.0)*(2.0*sqrt(6)/3.0));
   j = posIn[1]/((dx/2.0)*sqrt(3));
   k = posIn[2]/dx;

@@ -12,11 +12,11 @@ class BoundingBox {
      * @param p2 Upper-right corner in cartesian coordinates
      * @param domain Domain in which this BoundingBox exists
      */
-    BoundingBox(float *p1, float *p2);
+    BoundingBox(double *p1, double *p2);
     ~BoundingBox();
 
-    float *p1; /**< Lower-left corner */
-    float *p2; /**< Upper-right corner */
+    double *p1; /**< Lower-left corner */
+    double *p2; /**< Upper-right corner */
 };
 
 #endif

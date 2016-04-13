@@ -20,7 +20,7 @@ class Shape {
      * @param  pt Coordinates to check
      * @return    True if coordinate is inside shape, false otherwise
      */
-    virtual bool IsInside(float *pt)=0;
+    virtual bool IsInside(double *pt)=0;
 
     BoundingBox *boundingBox; /**< Bounding box which will be iterated over to map the shape */
 

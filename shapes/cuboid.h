@@ -11,7 +11,7 @@ class Cuboid: public Shape {
      * @param p2 Upper-right corner of cuboid in cartesian coordinates
      * @param domain Domain in which this shape will be mapped
      */
-    Cuboid(int state, float *p1, float *p2);
+    Cuboid(int state, double *p1, double *p2);
     ~Cuboid();
 
     /**
@@ -19,11 +19,11 @@ class Cuboid: public Shape {
      * @param  pt Coordinates to check
      * @return    True if coordinate is inside shape, false otherwise
      */
-    bool IsInside(float *pt);
+    bool IsInside(double *pt);
 
   private:
-    float *p1; /**< Lower-left corner of cuboid in cartesian coordinates */
-    float *p2; /**< Upper-right corner of cuboid in cartesian coordinates */
+    double *p1; /**< Lower-left corner of cuboid in cartesian coordinates */
+    double *p2; /**< Upper-right corner of cuboid in cartesian coordinates */
 };
 
 #endif

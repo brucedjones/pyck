@@ -1,12 +1,12 @@
 #include "sphere.h"
 
-Sphere::Sphere(int state, float *c, float r) : Shape(state)
+Sphere::Sphere(int state, double *c, double r) : Shape(state)
 {
   this->c = c;
   this->r = r;
 
-  float *p1 = new float[3];
-  float *p2 = new float[3];
+  double *p1 = new double[3];
+  double *p2 = new double[3];
   p1[0] = c[0] + r; p1[1] = c[1] + r; p1[2] = c[2] + r;
   p2[0] = c[0] - r; p2[1] = c[1] - r; p2[2] = c[2] - r;
 
@@ -15,7 +15,7 @@ Sphere::Sphere(int state, float *c, float r) : Shape(state)
 
 Sphere::~Sphere(){}
 
-bool Sphere::IsInside(float *pt)
+bool Sphere::IsInside(double *pt)
 {
   bool isInside = true;
 
