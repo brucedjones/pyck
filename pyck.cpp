@@ -9,7 +9,7 @@
 #include "shapes/cuboid.h"
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
-#include "sparkWriter.h"
+#include "writers/sparkWriter.h"
 
 int main()
 {
@@ -44,47 +44,37 @@ int main()
   // Create a new packer
   CubicPacker *packer = new CubicPacker(size,h);
 
+  // Create a new writer
+  SparkWriter *sw = new SparkWriter();
   // Create a new domain
-  Domain *domain = new Domain(packer);
+  Domain *domain = new Domain(packer,sw);
 
   // Create and pack a shape
   Cuboid *box = new Cuboid(1,p1,p2);
   Sphere *sphere = new Sphere(2,c,r);
   Cylinder *cylinder = new Cylinder(3,cc,rc,l);
 
-  domain->MapShape(box);
-  domain->MapShape(sphere);
-  domain->MapShape(cylinder);
+  domain->AddShape(box);
+  domain->AddShape(sphere);
+  domain->AddShape(cylinder);
+  domain->Pack();
 
-  // Count particles
-  long numParticles = domain->GetNumParticles();
-
-  std::cout << numParticles << " particles packed" << std::endl;
-
-  SparkWriter *sw = new SparkWriter(domain);
-
-
-  int stateField = sw->CreateIntField("STATE",1);
+  int stateField = domain->CreateIntField("STATE",1);
   int desiredState[1];
   desiredState[0] = 10;
-  sw->SetIntField(stateField,1,desiredState);
+  domain->SetIntField(stateField,1,desiredState);
 
-  int velocityField = sw->CreateDoubleField("VELOCITY",3);
+  int velocityField = domain->CreateDoubleField("VELOCITY",3);
   double desiredVelocity[3];
   desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;
-  sw->SetDoubleField(velocityField,1,desiredVelocity);
-  sw->AddParameter("TestParam1","0.1");
-  sw->AddParameter("TestParam2","0.2");
-  sw->AddParameter("TestParam3","0.6");
+  domain->SetDoubleField(velocityField,1,desiredVelocity);
 
-  //double desiredVelocity[3];
-  //desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;
-  //sw->SetDoubleField(velocityField,1,desiredVelocity);
+  domain->AddParameter("TestParam1","0.1");
+  domain->AddParameter("TestParam2","0.2");
+  domain->AddParameter("TestParam3","0.6");
 
-  // Write domain to a CSV
-  //std::string filename = "bcctest.csv";
-  //domain->Serialize((char*)filename.c_str());
-  sw->Serialize("sw_test.csv");
+
+  domain->Serialize("sw_test.csv");
 
   std::cout << "Packing Complete\n";
   //std::cout << "File " << filename << " generated" << std::endl;

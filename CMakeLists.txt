@@ -7,6 +7,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 add_subdirectory(packers)
 add_subdirectory(shapes)
+add_subdirectory(writers)
 
 find_package(OpenMP REQUIRED)
 if(OPENMP_FOUND)
@@ -19,18 +20,18 @@ add_library(domain domain.cpp)
 add_library(shape shape.cpp)
 add_library(boundingBox boundingBox.cpp)
 add_library(packer packer.cpp)
-add_library(sparkWriter sparkWriter.cpp)
+add_library(writer writer.cpp)
 add_library(intField intField.cpp)
 add_library(doubleField doubleField.cpp)
 
 target_link_libraries(domain shape boundingBox packer)
 target_link_libraries(boundingBox shape)
 target_link_libraries(shape boundingBox)
-target_link_libraries(sparkWriter intField doubleField)
+target_link_libraries(writer intField doubleField)
 
 add_executable(pyck pyck.cpp)
 
-target_link_libraries(pyck domain shape packer sparkWriter)
+target_link_libraries(pyck domain shape packer writer)
 
 # Do this for each new packer
 target_link_libraries(pyck fccPacker)
@@ -42,3 +43,6 @@ target_link_libraries(pyck cubicPacker)
 target_link_libraries(pyck cuboid)
 target_link_libraries(pyck sphere)
 target_link_libraries(pyck cylinder)
+
+# Do this for each new writer
+target_link_libraries(pyck sparkWriter)

@@ -8,10 +8,11 @@
 #include "shape.h"
 
 
-Domain::Domain(Packer *packer)
+Domain::Domain(Packer *packer, Writer *writer)
 {
   std::cout << "Initializing domain..." << std::flush;
   this->packer = packer;
+  this->writer = writer;
   this->len = packer->len;
 
   dim = 3;
@@ -43,6 +44,9 @@ Domain::Domain(Packer *packer)
 
   numParticles = 0;
 
+  positions = NULL;
+  states = NULL;
+
   std::cout << " complete" << std::endl;
 }
 
@@ -50,6 +54,8 @@ Domain::~Domain()
 {
   delete [] state;
   delete [] pos;
+  if(!positions) delete [] positions;
+  if(!states) delete [] states;
 }
 
 long* Domain::GetIntLength()
@@ -77,39 +83,26 @@ long Domain::DimID(long thisDim,long i, long j, long k)
   return thisDim+i*dim+j*dim*len[0]+k*dim*len[0]*len[1];
 }
 
-void Domain::Serialize(char *fname)
+void Domain::Serialize(std::string fname)
 {
+  writer->Write(fname, parameters, positions, intFields, doubleFields, dim, numParticles);
+}
 
-  std::ofstream outfile (fname, std::ios::out);
-  if(outfile.is_open()) {
+void Domain::AddShape(Shape *shape)
+{
+  shapes.push_back(shape);
+}
 
-    std::cout << "Getting particle positions..." << std::flush;
-    double *positions = GetPositions();
-    std::cout << " complete" << std::endl;
-    std::cout << "Getting particle states..." << std::flush;
-    int *states = GetStates();
-    std::cout << " complete" << std::endl;
-    std::cout << "Getting number of particles..." << std::flush;
-    long numParticles = GetNumParticles();
-    std::cout << " complete" << std::endl;
-
-    std::cout << "Writing to output file..." << std::flush;
-    for(long i=0; i<numParticles; i++){
-      outfile << positions[i*dim] << "," << positions[i*dim+1];
-      if(dim==2)
-      {
-        outfile << "," << 0.0;
-      }
-      else
-      {
-        outfile << "," << positions[i*dim+2];
-      }
-      outfile << "," << states[i];
-      outfile << std::endl;
-    }
-    outfile.close();
-    std::cout << " complete" << std::endl;
+void Domain::Pack()
+{
+  for (int i=0; i<shapes.size(); i++)
+  {
+    MapShape(shapes[i]);
   }
+
+  numParticles = ComputeNumParticles();
+  positions = CreatePositions();
+  states = CreateStates();
 }
 
 void Domain::MapShape(Shape *shape)
@@ -165,21 +158,19 @@ void Domain::MapShape(Shape *shape)
     std::cout << " complete" << std::endl;
 }
 
-long Domain::GetNumParticles(){
-  //if(numParticles != 0) return numParticles;
+long Domain::ComputeNumParticles(){
+  if(numParticles != 0) return numParticles;
 
-  numParticles = 0;
+  long n = 0;
   long totalIJK = len[0]*len[1]*len[2];
   for(long i=0;i<totalIJK;i++){
-    if(state[i]!=0) numParticles++;
+    if(state[i]!=0) n++;
   }
 
-  return numParticles;
+  return n;
 }
 
-double* Domain::GetPositions(){
-  long numParticles = GetNumParticles();
-
+double* Domain::CreatePositions(){
   double *positions = new double[numParticles*dim];
 
   long totalIJK = len[0]*len[1]*len[2];
@@ -197,10 +188,8 @@ double* Domain::GetPositions(){
   return positions;
 }
 
-int* Domain::GetStates()
+int* Domain::CreateStates()
 {
-  long numParticles = GetNumParticles();
-
   int *states = new int[numParticles];
 
   long totalIJK = len[0]*len[1]*len[2];
@@ -219,4 +208,58 @@ int* Domain::GetStates()
 int Domain::GetDim()
 {
   return dim;
+}
+
+int Domain::CreateIntField(std::string name, int dim)
+{
+  intFields.push_back(new IntField(name, numParticles,dim));
+  return intFields.size()-1;
+}
+
+int Domain::CreateDoubleField(std::string name, int dim)
+{
+  doubleFields.push_back(new DoubleField(name, numParticles,dim));
+  return doubleFields.size()-1;
+}
+
+void Domain::SetIntField(int handle, int state, int *val)
+{
+  IntField *thisField = intFields[handle];
+  int fieldDim = thisField->dim;
+
+  for(long i=0; i<numParticles; i++)
+  {
+
+    if(states[i] == state)
+    {
+      for(int d=0; d<fieldDim; d++)
+      {
+        long idx = d+i*fieldDim;
+        thisField->data[idx] = val[d];
+      }
+    }
+  }
+}
+
+void Domain::SetDoubleField(int handle, int state, double *val)
+{
+  DoubleField *thisField = doubleFields[handle];
+  int fieldDim = thisField->dim;
+
+  for(long i=0; i<numParticles; i++)
+  {
+    if(states[i] == state)
+    {
+      for(int d=0; d<fieldDim; d++)
+      {
+        long idx = d+i*fieldDim;
+        thisField->data[idx] = val[d];
+      }
+    }
+  }
+}
+
+void Domain::AddParameter(std::string key, std::string value)
+{
+  parameters[key] = value;
 }
