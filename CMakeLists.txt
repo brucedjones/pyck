@@ -19,14 +19,18 @@ add_library(domain domain.cpp)
 add_library(shape shape.cpp)
 add_library(boundingBox boundingBox.cpp)
 add_library(packer packer.cpp)
+add_library(sparkWriter sparkWriter.cpp)
+add_library(intField intField.cpp)
+add_library(doubleField doubleField.cpp)
 
 target_link_libraries(domain shape boundingBox packer)
 target_link_libraries(boundingBox shape)
 target_link_libraries(shape boundingBox)
+target_link_libraries(sparkWriter intField doubleField)
 
 add_executable(pyck pyck.cpp)
 
-target_link_libraries(pyck domain shape packer)
+target_link_libraries(pyck domain shape packer sparkWriter)
 
 # Do this for each new packer
 target_link_libraries(pyck fccPacker)

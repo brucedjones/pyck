@@ -90,6 +90,12 @@ class Domain {
      */
     int *GetStates();
 
+    /**
+     * Get the dimensionality of the domain
+     * @return Number of dimensions
+     */
+    int GetDim();
+
   private:
     // Methods
 

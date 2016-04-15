@@ -197,7 +197,8 @@ double* Domain::GetPositions(){
   return positions;
 }
 
-int* Domain::GetStates(){
+int* Domain::GetStates()
+{
   long numParticles = GetNumParticles();
 
   int *states = new int[numParticles];
@@ -212,4 +213,10 @@ int* Domain::GetStates(){
   }
 
   return states;
+}
+
+
+int Domain::GetDim()
+{
+  return dim;
 }
