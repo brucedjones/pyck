@@ -73,6 +73,9 @@ int main()
   double desiredVelocity[3];
   desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;
   sw->SetDoubleField(velocityField,1,desiredVelocity);
+  sw->AddParameter("TestParam1","0.1");
+  sw->AddParameter("TestParam2","0.2");
+  sw->AddParameter("TestParam3","0.6");
 
   //double desiredVelocity[3];
   //desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;

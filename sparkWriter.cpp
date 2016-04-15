@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <map>
 
 #include "sparkWriter.h"
 #include "domain.h"
@@ -19,27 +20,20 @@ SparkWriter::~SparkWriter(){};
 
 int SparkWriter::CreateIntField(std::string name, int dim)
 {
-  IntField *newField = new IntField(name, numParticles,dim);
-  intFields.push_back(newField);
+  intFields.push_back(new IntField(name, numParticles,dim));
   return intFields.size()-1;
 }
 
 int SparkWriter::CreateDoubleField(std::string name, int dim)
 {
-  DoubleField *newField = new DoubleField(name, numParticles,dim);
-  doubleFields.push_back(newField);
+  doubleFields.push_back(new DoubleField(name, numParticles,dim));
   return doubleFields.size()-1;
 }
 
 void SparkWriter::SetIntField(int handle, int state, int *val)
 {
-  IntField *thisField;
-  thisField = intFields[handle];
+  IntField *thisField = intFields[handle];
   int dim = thisField->dim;
-
-  std::cout << "dim = " << dim << std::endl;
-  std::cout << "numParticles = " << numParticles << std::endl;
-  std::cout << "val = " << val[0] << std::endl;
 
   for(long i=0; i<numParticles; i++)
   {
@@ -49,9 +43,7 @@ void SparkWriter::SetIntField(int handle, int state, int *val)
       for(int d=0; d<dim; d++)
       {
         long idx = d+i*dim;
-        //std::cout << idx << std::endl;
         thisField->data[idx] = val[d];
-        //std::cout << "thisField->data[idx] = " << thisField->data[idx] << std::endl;
       }
     }
   }
@@ -59,8 +51,7 @@ void SparkWriter::SetIntField(int handle, int state, int *val)
 
 void SparkWriter::SetDoubleField(int handle, int state, double *val)
 {
-  DoubleField *thisField;
-  thisField = doubleFields[handle];
+  DoubleField *thisField = doubleFields[handle];
   int dim = thisField->dim;
 
   for(long i=0; i<numParticles; i++)
@@ -81,6 +72,14 @@ void SparkWriter::Serialize(std::string fname)
   std::ofstream outfile((char*)fname.c_str(), std::ios::out);
   if(outfile.is_open()) {
     std::cout << "Writing to output file..." << std::flush;
+
+    std::map<std::string, std::string>::iterator it;
+
+    for ( it = parameters.begin(); it != parameters.end(); it++ )
+    {
+      outfile << it->first << " = " << it->second << std::endl;
+    }
+
     for(long i=0; i<numParticles; i++){
       outfile << pos[i*domDim] << "," << pos[i*domDim+1];
       if(domDim==2)
@@ -111,7 +110,6 @@ void SparkWriter::Serialize(std::string fname)
         DoubleField *thisField;
         thisField = doubleFields[doublef];
         int dim = thisField->dim;
-        std::cout <<"DIM = "<<dim<<std::endl;
         for(int d=0; d<dim; d++)
         {
           long idx = d+i*dim;
@@ -125,4 +123,9 @@ void SparkWriter::Serialize(std::string fname)
     outfile.close();
     std::cout << " complete" << std::endl;
   }
+}
+
+void SparkWriter::AddParameter(std::string key, std::string value)
+{
+  parameters[key] = value;
 }
