@@ -5,16 +5,17 @@
 #include "packers/hcpPacker.h"
 #include "packers/bccPacker.h"
 #include "packers/cubicPacker.h"
-#include "domain.h"
 #include "shapes/cuboid.h"
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
 #include "writers/sparkWriter.h"
+#include "pack.h"
+#include "model.h"
 
 int main()
 {
   double size[3];
-  size[0] = 1; size[1] = 1; size[2] = 0.0;
+  size[0] = 1; size[1] = 1; size[2] = 1.0;
 
   double h = 0.05;
 
@@ -43,38 +44,37 @@ int main()
 
   // Create a new packer
   CubicPacker *packer = new CubicPacker(size,h);
-
-  // Create a new writer
-  SparkWriter *sw = new SparkWriter();
-  // Create a new domain
-  Domain *domain = new Domain(packer,sw);
+  // Create a new pack
+  Pack *pack = new Pack(packer);
 
   // Create and pack a shape
   Cuboid *box = new Cuboid(1,p1,p2);
   Sphere *sphere = new Sphere(2,c,r);
   Cylinder *cylinder = new Cylinder(3,cc,rc,l);
 
-  domain->AddShape(box);
-  domain->AddShape(sphere);
-  domain->AddShape(cylinder);
-  domain->Pack();
+  pack->AddShape(box);
+  pack->AddShape(sphere);
+  pack->AddShape(cylinder);
+  pack->Pack();
 
-  int stateField = domain->CreateIntField("STATE",1);
+  Model *model = new Model(pack);
+
+  int stateField = model->CreateIntField("State",1);
   int desiredState[1];
   desiredState[0] = 10;
-  domain->SetIntField(stateField,1,desiredState);
+  model->SetIntField(stateField,1,desiredState);
 
-  int velocityField = domain->CreateDoubleField("VELOCITY",3);
+  int velocityField = model->CreateDoubleField("Velocity",3);
   double desiredVelocity[3];
   desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;
-  domain->SetDoubleField(velocityField,1,desiredVelocity);
+  model->SetDoubleField(velocityField,1,desiredVelocity);
 
-  domain->AddParameter("TestParam1","0.1");
-  domain->AddParameter("TestParam2","0.2");
-  domain->AddParameter("TestParam3","0.6");
+  model->AddParameter("TestParam1","0.1");
+  model->AddParameter("TestParam2","0.2");
+  model->AddParameter("TestParam3","0.6");
 
-
-  domain->Serialize("sw_test.csv");
+  // Create a new writer
+  model->Serialize("sw_test.vtp", new SparkWriter());
 
   std::cout << "Packing Complete\n";
   //std::cout << "File " << filename << " generated" << std::endl;
@@ -82,5 +82,7 @@ int main()
   delete sphere;
   delete cylinder;
   delete packer;
-  delete domain;
+  delete sw;
+  delete pack;
+  delete model;
 }

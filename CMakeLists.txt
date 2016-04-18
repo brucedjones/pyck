@@ -16,7 +16,8 @@ if(OPENMP_FOUND)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-add_library(domain domain.cpp)
+add_library(pack pack.cpp)
+add_library(model model.cpp)
 add_library(shape shape.cpp)
 add_library(boundingBox boundingBox.cpp)
 add_library(packer packer.cpp)
@@ -24,14 +25,16 @@ add_library(writer writer.cpp)
 add_library(intField intField.cpp)
 add_library(doubleField doubleField.cpp)
 
-target_link_libraries(domain shape boundingBox packer)
+target_link_libraries(pack shape boundingBox packer)
 target_link_libraries(boundingBox shape)
 target_link_libraries(shape boundingBox)
 target_link_libraries(writer intField doubleField)
+target_link_libraries(model pack writer)
+
 
 add_executable(pyck pyck.cpp)
 
-target_link_libraries(pyck domain shape packer writer)
+target_link_libraries(pyck pack shape packer writer model)
 
 # Do this for each new packer
 target_link_libraries(pyck fccPacker)

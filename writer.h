@@ -19,7 +19,7 @@ class Writer {
       std::vector<IntField*> intFields,
       std::vector<DoubleField*> doubleFields,
       int dim,
-      int numParticles
+      long numParticles
     )=0;
 };
 

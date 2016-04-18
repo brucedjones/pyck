@@ -1,6 +1,8 @@
 #ifndef SPARK_WRITER_H
 #define SPARK_WRITER_H
 
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -8,6 +10,8 @@
 #include "../intField.h"
 #include "../doubleField.h"
 #include "../writer.h"
+
+#define VTP_BINARY_BLOCK_SIZE (1<<30)
 
 class SparkWriter : public Writer{
   public:
@@ -20,8 +24,10 @@ class SparkWriter : public Writer{
       std::vector<IntField*> intFields,
       std::vector<DoubleField*> doubleFields,
       int dim,
-      int numParticles
+      long numParticles
     );
+  private:
+    void WriteEncodedString(void *data, long numParticles, int dim, int numBytes, std::ofstream *outfile);
 };
 
 #endif
