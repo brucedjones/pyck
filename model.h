@@ -12,6 +12,11 @@ class Model {
   public:
 
     /**
+     * Model Constructor, creates an empty model with no particles
+     */
+    Model();
+
+    /**
      * Model Constructor
      * @param pack Packed pack object
      */
@@ -26,6 +31,9 @@ class Model {
     Model(double *positions, int *states, long numParticles, int dim);
 
     ~Model();
+
+    void AddPack(Pack *pack);
+    void AddPack(double *positions, int *states, long numParticles, int dim);
 
     /**
      * Create a dim dimensional field of integers

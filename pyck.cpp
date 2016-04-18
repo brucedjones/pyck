@@ -14,41 +14,47 @@
 
 int main()
 {
-  double size[3];
+  double *size = new double[3];
   size[0] = 1; size[1] = 1; size[2] = 1.0;
 
   double h = 0.05;
 
   // Sphere properties
   double r = 0.2;
-  double c[3];
+  double *c = new double[3];
   c[0] = 0.5; c[1] = 0.5; c[2] = 0.0;
 
 
   // Cylinder properties
-  double l[3];
+  double *l = new double[3];
   l[0] = 0.0; l[1] = 0.0; l[2] = 0.1;
   double rc = 0.1;
-  double cc[3];
+  double *cc = new double[3];
   cc[0] = 0.5; cc[1] = 0.5; cc[2] = 0.0;
   /*  double l2[3];
   l2[0] = 0.0; l2[1] = -0.2; l2[2] = 0.0;*/
 
 
   // Cuboid properties
-  double p1[3], p2[3], p3[3], p4[3];
+  double *p1 = new double[3];
+  double *p2 = new double[3];
+  double *p3 = new double[3];
+  double *p4 = new double[3];
+
   p1[0] = 0.3; p1[1] = 0.1; p1[2] = -0.2;
   p2[0] = 0.7; p2[1] = 0.9; p2[2] = 0.8;
-  p3[0] = 0.4; p3[1] = 0.4; p4[2] = -0.2;
-  p4[0] = 0.6; p4[1] = 0.6; p3[2] = 0.8;
+  p3[0] = 0.0; p3[1] = 0.0; p4[2] = 0.0;
+  p4[0] = 0.3; p4[1] = 0.3; p3[2] = 0.3;
 
   // Create a new packer
   CubicPacker *packer = new CubicPacker(size,h);
   // Create a new pack
   Pack *pack = new Pack(packer);
+  Pack *pack2 = new Pack(packer);
 
   // Create and pack a shape
   Cuboid *box = new Cuboid(1,p1,p2);
+  Cuboid *box2 = new Cuboid(5,p3,p4);
   Sphere *sphere = new Sphere(2,c,r);
   Cylinder *cylinder = new Cylinder(3,cc,rc,l);
 
@@ -57,7 +63,11 @@ int main()
   pack->AddShape(cylinder);
   pack->Process();
 
+  pack2->AddShape(box2);
+  pack2->Process();
+
   Model *model = new Model(pack);
+  model->AddPack(pack2);
 
   int stateField = model->CreateIntField("State",1);
   int desiredState[1];
