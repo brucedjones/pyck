@@ -1,7 +1,7 @@
-%module CubicPacker
+%module Pack
 
 %{
-#include "cubicPacker.h"
+#include "pack.h"
 %}
 
 %typemap(in) (double *xyz) {
@@ -23,8 +23,13 @@
   if ($1) free($1);
 }
 
-class CubicPacker {
+%typemap(in) (Packer *packer) {
+ $1 = (Packer *) $input;
+}
 
+class Pack {
   public:
-    CubicPacker(double *xyz, double h);
+    Pack(Packer *packer);
+    void AddShape(Shape *shape);
+    void Process();
 };
