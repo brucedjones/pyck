@@ -12,9 +12,10 @@ Model::Model(Pack *pack)
   this->positions = pack->positions;
   this->states = pack->states;
   this->numParticles = pack->numParticles;
+  this->numParticles = pack->dim;
 }
 
-Model::Model(double *positions, int *states, long numParticles)
+Model::Model(double *positions, int *states, long numParticles, int dim)
 {
   this->positions = positions;
   this->states = states;

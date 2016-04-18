@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#include "domain.h"
+#include "pack.h"
 #include "writer.h"
 
 class Model {
@@ -23,7 +23,8 @@ class Model {
      * @param states N x 1 array of pack states
      * @param numParticles Specifies N particles
      */
-    Model(double *positions, int *states, long numParticles);
+    Model(double *positions, int *states, long numParticles, int dim);
+
     ~Model();
 
     /**
@@ -75,6 +76,7 @@ class Model {
     double *positions;
     int *states;
     long numParticles;
+    int dim;
     std::vector<IntField*> intFields; /**< Vector of integer fields */
     std::vector<DoubleField*> doubleFields; /**< Vector of double fields */
     std::map<std::string, std::string> parameters; /**< Map of parameters */

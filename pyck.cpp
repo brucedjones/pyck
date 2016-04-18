@@ -55,7 +55,7 @@ int main()
   pack->AddShape(box);
   pack->AddShape(sphere);
   pack->AddShape(cylinder);
-  pack->Pack();
+  pack->Process();
 
   Model *model = new Model(pack);
 
@@ -82,7 +82,6 @@ int main()
   delete sphere;
   delete cylinder;
   delete packer;
-  delete sw;
   delete pack;
   delete model;
 }
