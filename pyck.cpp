@@ -11,13 +11,14 @@
 #include "writers/sparkWriter.h"
 #include "pack.h"
 #include "model.h"
+#include "cylindricalPacker.h"
 
 int main()
 {
   double *size = new double[3];
   size[0] = 1; size[1] = 1; size[2] = 1.0;
 
-  double h = 0.05;
+  double h = 0.01;
 
   // Sphere properties
   double r = 0.2;
@@ -27,7 +28,7 @@ int main()
 
   // Cylinder properties
   double *l = new double[3];
-  l[0] = 0.0; l[1] = 0.0; l[2] = 0.1;
+  l[0] = 0.0; l[1] = 0.0; l[2] = 0.4;
   double rc = 0.1;
   double *cc = new double[3];
   cc[0] = 0.5; cc[1] = 0.5; cc[2] = 0.0;
@@ -66,15 +67,20 @@ int main()
   pack2->AddShape(box2);
   pack2->Process();
 
-  Model *model = new Model(pack);
-  model->AddPack(pack2);
+
+  CylindricalPacker *radialpack  = new CylindricalPacker(h, 1, c, r, 1.0,l);
+
+// Model *model = new Model();
+ Model *model = new Model(radialpack->getPositions(),radialpack->getStates(),radialpack->getNumParticles(),radialpack->getDim());
+
+  // model->AddPack(pack2);
 
   int stateField = model->CreateIntField("State",1);
   int desiredState[1];
   desiredState[0] = 10;
   model->SetIntField(stateField,1,desiredState);
 
-  int velocityField = model->CreateDoubleField("Velocity",3);
+  int velocityField = model->CreateDoubleField("Velocity",1);
   double desiredVelocity[3];
   desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;
   model->SetDoubleField(velocityField,1,desiredVelocity);
@@ -91,6 +97,7 @@ int main()
   delete box;
   delete sphere;
   delete cylinder;
+  delete radialpack;
   delete packer;
   delete pack;
   delete model;
