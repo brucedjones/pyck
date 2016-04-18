@@ -87,7 +87,7 @@ void Pack::AddShape(Shape *shape)
   shapes.push_back(shape);
 }
 
-void Pack::Pack()
+void Pack::Process()
 {
   for (int i=0; i<shapes.size(); i++)
   {

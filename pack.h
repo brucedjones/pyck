@@ -32,11 +32,12 @@ class Pack {
     /**
      * Pack all added shapes and generate positions and states
      */
-    void Pack();
+    void Process();
 
     double *positions; /**< Array containing all packed particle positions */
     int *states; /**< Array containing all packed particle states */
     long numParticles; /**< The number of particles packed in this pack */
+    int dim; /**< Dimensionality of pack (2D or 3D) */
 
   private:
     // Methods
@@ -115,7 +116,6 @@ class Pack {
     //Properties
     Packer *packer;
     long *len; /**< Size of the pack in ijk system */
-    int dim; /**< Dimensionality of pack (2D or 3D) */
     int *state; /**< ijk Array of particle states */
     double *pos; /**< ijk Array of particle coordinates (cartesian) */
     std::vector<Shape*> shapes; /**< Vector of integer fields */
