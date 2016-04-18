@@ -7,12 +7,17 @@
 #include "intField.h"
 #include "doubleField.h"
 
+Model::Model()
+{
+  this->numParticles = 0;
+}
+
 Model::Model(Pack *pack)
 {
   this->positions = pack->positions;
   this->states = pack->states;
   this->numParticles = pack->numParticles;
-  this->numParticles = pack->dim;
+  this->dim = pack->dim;
 }
 
 Model::Model(double *positions, int *states, long numParticles, int dim)
@@ -20,6 +25,7 @@ Model::Model(double *positions, int *states, long numParticles, int dim)
   this->positions = positions;
   this->states = states;
   this->numParticles = numParticles;
+  this->dim = dim;
 }
 
 Model::~Model()
@@ -35,6 +41,64 @@ Model::~Model()
     DoubleField *thisField = doubleFields[i];
     delete [] thisField;
   }
+}
+
+void Model::AddPack(Pack *pack)
+{
+  if(this->numParticles!=0){
+    long numParticlesNew = numParticles + pack->numParticles;
+
+    double *positionsTmp = new double[numParticlesNew*3];
+    int *statesTmp = new int[numParticlesNew];
+
+    std::copy(positions, positions+numParticles*3, positionsTmp);
+    std::copy(pack->positions, pack->positions+pack->numParticles*3, positionsTmp+numParticles*3);
+
+    std::copy(states, states+numParticles, statesTmp);
+    std::copy(pack->states, pack->states+pack->numParticles, statesTmp+numParticles);
+
+    delete [] positions;
+    delete [] states;
+
+    positions = positionsTmp;
+    states = statesTmp;
+    numParticles = numParticlesNew;
+  } else {
+    positions = pack->positions;
+    states = pack->states;
+    numParticles = pack->numParticles;
+  }
+
+  dim = pack->dim;
+}
+
+void Model::AddPack(double *positions, int *states, long numParticles, int dim)
+{
+  if(this->numParticles!=0){
+    long numParticlesNew = this->numParticles + numParticles;
+
+    double *positionsTmp = new double[numParticlesNew*3];
+    int *statesTmp = new int[numParticlesNew];
+
+    std::copy(this->positions, this->positions+this->numParticles*3, positionsTmp);
+    std::copy(positions, positions+numParticles*3, positionsTmp+this->numParticles*3);
+
+    std::copy(this->states, this->states+this->numParticles, statesTmp);
+    std::copy(states, states+numParticles, statesTmp+this->numParticles);
+
+    delete [] positions;
+    delete [] states;
+
+    this->positions = positionsTmp;
+    this->states = statesTmp;
+    this->numParticles = numParticlesNew;
+  } else {
+    this->positions = positions;
+    this->states = states;
+    this->numParticles = numParticles;
+  }
+
+  this->dim = dim;
 }
 
 void Model::Serialize(std::string fname, Writer *writer)
