@@ -16,6 +16,8 @@ if(OPENMP_FOUND)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
+
 add_library(pack pack.cpp)
 add_library(model model.cpp)
 add_library(shape shape.cpp)
@@ -32,20 +34,39 @@ target_link_libraries(writer intField doubleField)
 target_link_libraries(model pack writer)
 
 
-add_executable(pyck pyck.cpp)
+#add_executable(pyck pyck.cpp)
 
-target_link_libraries(pyck pack shape packer writer model)
+#target_link_libraries(pyck pack shape packer writer model)
 
 # Do this for each new packer
-target_link_libraries(pyck fccPacker)
-target_link_libraries(pyck hcpPacker)
-target_link_libraries(pyck bccPacker)
-target_link_libraries(pyck cubicPacker)
+#target_link_libraries(pyck fccPacker)
+#target_link_libraries(pyck hcpPacker)
+#target_link_libraries(pyck bccPacker)
+#target_link_libraries(pyck cubicPacker)
 
 # Do this for each new shape
-target_link_libraries(pyck cuboid)
-target_link_libraries(pyck sphere)
-target_link_libraries(pyck cylinder)
+#target_link_libraries(pyck cuboid)
+#target_link_libraries(pyck sphere)
+#target_link_libraries(pyck cylinder)
 
 # Do this for each new writer
-target_link_libraries(pyck sparkWriter)
+#target_link_libraries(pyck sparkWriter)
+
+
+FIND_PACKAGE(SWIG REQUIRED)
+INCLUDE(${SWIG_USE_FILE})
+
+SET(CMAKE_SWIG_OUTDIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
+
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+
+SET(CMAKE_SWIG_FLAGS "")
+
+SET_SOURCE_FILES_PROPERTIES(packers/cubicPacker.i PROPERTIES CPLUSPLUS ON)
+SET_SOURCE_FILES_PROPERTIES(packers/cubicPacker.i PROPERTIES SWIG_FLAGS "-includeall")
+SWIG_ADD_MODULE(pyck python packers/cubicPacker.i packers/cubicPacker.cpp)
+SWIG_LINK_LIBRARIES(pyck ${PYTHON_LIBRARIES})
+SWIG_LINK_LIBRARIES(pyck packer)
