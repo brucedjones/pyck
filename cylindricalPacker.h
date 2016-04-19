@@ -9,6 +9,7 @@ public:
   
   CylindricalPacker(double h, int state, double *c, double r, double ratio);
   CylindricalPacker(double h, int state, double *c, double r, double ratio, double *l);
+  CylindricalPacker(double h, int state, double *c, double r, double ratioY, double ratioZ);
   ~CylindricalPacker();
   
   double *getPositions();

@@ -156,7 +156,7 @@ CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, d
   }
 
 
-  for(int n = 1; n <= ceil(fabs(L / htemp)); n++)
+  for(long n = 1; n <= ceil(fabs(L / htemp)); n++)
   {
     for(long i = 0; i < numparttemp; i++)
     {
@@ -189,10 +189,79 @@ CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, d
     states[j] = p[j].state;
   }
 
-this->numParticles = number_of_particles;
-this->dim = 3;
+  this->numParticles = number_of_particles;
+  this->dim = 3;
 
-return;
+  return;
+}
+
+CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, double ratioY, double ratioZ)
+{
+  double halfcircle_number_of_divisions = 3.0; // number of divisions of a half circle
+
+  std::vector<particle> p;
+
+
+  double ra;
+  double dr;
+  double dth;
+  double th;
+  double curvmax;
+  double curv;
+  double rat;
+  double ratio;
+  long number_of_particles = 1;
+  double current_radius;
+
+  for(double z = -(r*ratioZ);z<=(r*ratioZ);z+=h)
+  {
+    ra = h;
+    dr = h;
+    dth = 0.0;
+    th = 0.0;
+    curvmax = 0.0;
+    curv = 0.0;
+    rat = 0.0;
+    ratio = ratioY;
+    current_radius = r * sqrt(1-((z*z)/(r*ratioZ*r*ratioZ)));
+
+      if(current_radius != 0.0) p.push_back(make_particle(0.0,0.0,z,state));
+      while(ra <= current_radius)
+      {
+        dth=M_PI*sqrt(dr*dr*ratio)/(halfcircle_number_of_divisions*(sqrt(ra*ra*ratio)));
+        th=0.0;
+        curvmax = std::max(ra/(ra*ra*ratio*ratio),(ra*ratio)/(ra*ra));
+
+        while(th<= 2*M_PI-dth/2)
+        {
+          curv = (ra*ra*ratio) / pow(sqrt(ra*ra*sin(th)*sin(th)+ra*ratio*ratio*ra*cos(th)*cos(th)),3.0);
+          rat = curv/curvmax;
+
+          p.push_back(make_particle((ra)*cos(th),(ra*ratio)*sin(th),z,state));
+
+          th=th+dth;
+          number_of_particles=number_of_particles+1;   
+        }
+        ra=ra+dr;
+      }
+  }
+
+
+  states = new int[number_of_particles];
+  positions = new double[number_of_particles*3];
+
+  for(long j = 0; j < number_of_particles; j++)
+  {
+    positions[3*j + 0] = p[j].x + c[0];
+    positions[3*j + 1] = p[j].y + c[1];
+    positions[3*j + 2] = p[j].z + c[2];
+    states[j] = p[j].state;
+  }
+
+  this->numParticles = number_of_particles;
+  this->dim = 3;
+
+  return;
 }
 
 CylindricalPacker::~CylindricalPacker()
