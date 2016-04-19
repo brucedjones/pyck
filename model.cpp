@@ -31,17 +31,17 @@ Model::Model(double *positions, int *states, long numParticles, int dim)
 
 Model::~Model()
 {
-  /*for (long i=0; i < intFields.size(); i++)
+  for (long i=0; i < intFields.size(); i++)
   {
     IntField *thisField = intFields[i];
-    delete [] thisField;
+    delete thisField;
   }
 
   for (long i=0; i < doubleFields.size(); i++)
   {
     DoubleField *thisField = doubleFields[i];
-    delete [] thisField;
-  }*/
+    delete thisField;
+  }
 }
 
 void Model::AddPack(Pack *pack)

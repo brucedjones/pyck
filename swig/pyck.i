@@ -15,9 +15,9 @@
  }
 }
 
-//%typemap(freearg) (double *xyz) {
-//  if ($1) free($1);
-//}
+%typemap(freearg) (double *xyz) {
+  if ($1) free($1);
+}
 
 %typemap(in) (double *dprop) {
  int i;
@@ -34,9 +34,9 @@
  }
 }
 
-//%typemap(freearg) (double *dprop) {
-//  if ($1) free($1);
-//}
+%typemap(freearg) (double *dprop) {
+  if ($1) free($1);
+}
 
 %typemap(in) (int *iprop) {
  int i;
@@ -53,9 +53,9 @@
  }
 }
 
-//%typemap(freearg) (int *iprop) {
-//  if ($1) free($1);
-//}
+%typemap(freearg) (int *iprop) {
+  if ($1) free($1);
+}
 
 %include pack.i
 
