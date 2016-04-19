@@ -22,15 +22,17 @@
 %typemap(in) (double *dprop) {
  int i;
  if (!PySequence_Check($input)) {
-   PyErr_SetString(PyExc_ValueError,"Expected a sequence");
-   return NULL;
- }
- int len = PySequence_Length($input);
- $1 = (double *) malloc(len*sizeof(double));
+   $1 = (double *) malloc(sizeof(double));
+   PyObject *s = $input;
+   $1[0] = (double) PyFloat_AsDouble(s);
+ } else {
 
- for (i = 0; i < len; i++) {
-   PyObject *s = PyList_GetItem($input,i);
-   $1[i] = (double) PyFloat_AsDouble(s);
+  $1 = (double *) malloc(3*sizeof(double));
+
+  for (i = 0; i < 3; i++) {
+    PyObject *s = PyList_GetItem($input,i);
+    $1[i] = (double) PyFloat_AsDouble(s);
+  }
  }
 }
 
@@ -41,15 +43,17 @@
 %typemap(in) (int *iprop) {
  int i;
  if (!PySequence_Check($input)) {
-   PyErr_SetString(PyExc_ValueError,"Expected a sequence");
-   return NULL;
- }
- int len = PySequence_Length($input);
- $1 = (int *) malloc(len*sizeof(int));
+   $1 = (int *) malloc(sizeof(int));
+   PyObject *s = $input;
+   $1[0] = (int) PyFloat_AsDouble(s);
+ } else {
 
- for (i = 0; i < len; i++) {
-   PyObject *s = PyList_GetItem($input,i);
-   $1[i] = (int) PyInt_AsLong(s);
+  $1 = (int *) malloc(3*sizeof(int));
+
+  for (i = 0; i < 3; i++) {
+    PyObject *s = PyList_GetItem($input,i);
+    $1[i] = (int) PyInt_AsLong(s);
+  }
  }
 }
 
