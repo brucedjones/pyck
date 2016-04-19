@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iostream>
 
 #include "model.h"
 #include "writer.h"
@@ -33,13 +34,13 @@ Model::~Model()
   for (long i=0; i < intFields.size(); i++)
   {
     IntField *thisField = intFields[i];
-    delete [] thisField;
+    delete thisField;
   }
 
   for (long i=0; i < doubleFields.size(); i++)
   {
     DoubleField *thisField = doubleFields[i];
-    delete [] thisField;
+    delete thisField;
   }
 }
 

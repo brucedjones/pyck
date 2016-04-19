@@ -5,6 +5,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+set(pyckLibs "")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
+
 add_subdirectory(packers)
 add_subdirectory(shapes)
 add_subdirectory(writers)
@@ -17,15 +20,25 @@ if(OPENMP_FOUND)
 endif()
 
 add_library(cylindricalPacker cylindricalPacker.cpp)
+list(APPEND pyckLibs "cylindricalPacker")
 add_library(ellipsoidalPacker ellipsoidalPacker.cpp)
+list(APPEND pyckLibs "ellipsoidalPacker")
 add_library(pack pack.cpp)
+list(APPEND pyckLibs "pack")
 add_library(model model.cpp)
+list(APPEND pyckLibs "model")
 add_library(shape shape.cpp)
+list(APPEND pyckLibs "shape")
 add_library(boundingBox boundingBox.cpp)
+list(APPEND pyckLibs "boundingBox")
 add_library(packer packer.cpp)
+list(APPEND pyckLibs "packer")
 add_library(writer writer.cpp)
+list(APPEND pyckLibs "writer")
 add_library(intField intField.cpp)
+list(APPEND pyckLibs "intField")
 add_library(doubleField doubleField.cpp)
+list(APPEND pyckLibs "doubleField")
 
 target_link_libraries(pack shape boundingBox packer cylindricalPacker ellipsoidalPacker)
 target_link_libraries(boundingBox shape)
@@ -34,20 +47,23 @@ target_link_libraries(writer intField doubleField)
 target_link_libraries(model pack writer)
 
 
-add_executable(pyck pyck.cpp)
+#add_executable(pyck pyck.cpp)
 
-target_link_libraries(pyck pack shape packer writer model)
+#target_link_libraries(pyck pack shape packer writer model)
 
 # Do this for each new packer
-target_link_libraries(pyck fccPacker)
-target_link_libraries(pyck hcpPacker)
-target_link_libraries(pyck bccPacker)
-target_link_libraries(pyck cubicPacker)
+#target_link_libraries(pyck fccPacker)
+#target_link_libraries(pyck hcpPacker)
+#target_link_libraries(pyck bccPacker)
+#target_link_libraries(pyck cubicPacker)
 
 # Do this for each new shape
-target_link_libraries(pyck cuboid)
-target_link_libraries(pyck sphere)
-target_link_libraries(pyck cylinder)
+#target_link_libraries(pyck cuboid)
+#target_link_libraries(pyck sphere)
+#target_link_libraries(pyck cylinder)
 
 # Do this for each new writer
-target_link_libraries(pyck sparkWriter)
+#target_link_libraries(pyck sparkWriter)
+
+
+add_subdirectory(swig)

@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "cubicPacker.h"
+#include "../packer.h"
 
 CubicPacker::CubicPacker(double *doubleLenIn, double h)
 {
