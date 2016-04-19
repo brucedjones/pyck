@@ -5,6 +5,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+set(pyckLibs "")
+
 add_subdirectory(packers)
 add_subdirectory(shapes)
 add_subdirectory(writers)
@@ -19,13 +21,21 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
 
 add_library(pack pack.cpp)
+list(APPEND pyckLibs "pack")
 add_library(model model.cpp)
+list(APPEND pyckLibs "model")
 add_library(shape shape.cpp)
+list(APPEND pyckLibs "shape")
 add_library(boundingBox boundingBox.cpp)
+list(APPEND pyckLibs "boundingBox")
 add_library(packer packer.cpp)
+list(APPEND pyckLibs "packer")
 add_library(writer writer.cpp)
+list(APPEND pyckLibs "writer")
 add_library(intField intField.cpp)
+list(APPEND pyckLibs "intField")
 add_library(doubleField doubleField.cpp)
+list(APPEND pyckLibs "doubleField")
 
 target_link_libraries(pack shape boundingBox packer)
 target_link_libraries(boundingBox shape)
@@ -53,31 +63,4 @@ target_link_libraries(model pack writer)
 #target_link_libraries(pyck sparkWriter)
 
 
-FIND_PACKAGE(SWIG REQUIRED)
-INCLUDE(${SWIG_USE_FILE})
-
-SET(CMAKE_SWIG_OUTDIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
-
-FIND_PACKAGE(PythonLibs)
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
-
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-
-SET(CMAKE_SWIG_FLAGS "")
-
-SET_SOURCE_FILES_PROPERTIES(packers/cubicPacker.i PROPERTIES CPLUSPLUS ON)
-SET_SOURCE_FILES_PROPERTIES(packers/cubicPacker.i PROPERTIES SWIG_FLAGS "-includeall")
-SWIG_ADD_MODULE(CubicPacker python packers/cubicPacker.i packers/cubicPacker.cpp)
-SWIG_LINK_LIBRARIES(CubicPacker ${PYTHON_LIBRARIES})
-SWIG_LINK_LIBRARIES(CubicPacker packer)
-
-
-SET_SOURCE_FILES_PROPERTIES(pack.i PROPERTIES CPLUSPLUS ON)
-SET_SOURCE_FILES_PROPERTIES(pack.i PROPERTIES SWIG_FLAGS "-includeall")
-SWIG_ADD_MODULE(Pack python pack.i pack.cpp)
-SWIG_LINK_LIBRARIES(Pack ${PYTHON_LIBRARIES})
-SWIG_LINK_LIBRARIES(Pack packer shape boundingBox)
-
-SET_SOURCE_FILES_PROPERTIES(pyck.i PROPERTIES CPLUSPLUS ON)
-SET_SOURCE_FILES_PROPERTIES(pyck.i PROPERTIES SWIG_FLAGS "-includeall")
-SWIG_ADD_MODULE(pyck python pyck.i)
+add_subdirectory(swig)

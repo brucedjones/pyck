@@ -1,7 +1,7 @@
 %module CubicPacker
 
 %{
-#include "cubicPacker.h"
+#include "packers/cubicPacker.h"
 %}
 
 %typemap(in) (double *xyz) {

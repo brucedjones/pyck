@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iostream>
 
 #include "model.h"
 #include "writer.h"
@@ -30,7 +31,7 @@ Model::Model(double *positions, int *states, long numParticles, int dim)
 
 Model::~Model()
 {
-  for (long i=0; i < intFields.size(); i++)
+  /*for (long i=0; i < intFields.size(); i++)
   {
     IntField *thisField = intFields[i];
     delete [] thisField;
@@ -40,7 +41,7 @@ Model::~Model()
   {
     DoubleField *thisField = doubleFields[i];
     delete [] thisField;
-  }
+  }*/
 }
 
 void Model::AddPack(Pack *pack)
