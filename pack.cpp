@@ -97,6 +97,8 @@ void Pack::Process()
   numParticles = ComputeNumParticles();
   positions = CreatePositions();
   states = CreateStates();
+
+  std::cout << "Processing pack...complete (" << numParticles << " particles)" << std::endl;;
 }
 
 void Pack::MapShape(Shape *shape)
@@ -169,6 +171,7 @@ double* Pack::CreatePositions(){
 
   long totalIJK = len[0]*len[1]*len[2];
   long particle = 0;
+  
   for(long i=0;i<totalIJK;i++){
     if(state[i]!=0){
       long thisIDX = i*3;

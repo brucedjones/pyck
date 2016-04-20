@@ -76,9 +76,9 @@ void SparkWriter::Write(std::string fname,
 
 void SparkWriter::WriteEncodedString(void *data, long numParticles, int dim, int numBytes, std::ofstream *outfile)
 {
-  int inputBytes = numParticles * dim * numBytes;
-  int numberOfBlocks = ceil(inputBytes / (double) VTP_BINARY_BLOCK_SIZE);
-  int lastBlockSize  = inputBytes % VTP_BINARY_BLOCK_SIZE;
+  uLongf inputBytes = numParticles * dim * numBytes;
+  uLongf numberOfBlocks = ceil(inputBytes / (double) VTP_BINARY_BLOCK_SIZE);
+  uLongf lastBlockSize  = inputBytes % VTP_BINARY_BLOCK_SIZE;
 
 
   int *headerData = new int[3+numberOfBlocks];
@@ -112,8 +112,8 @@ void SparkWriter::WriteEncodedString(void *data, long numParticles, int dim, int
     currentSize = compressedDataSize - (compressBufferPtr-compressBuffer);
   }
 
-  int b64HeaderSize = ((4*(numberOfBlocks+3)+2)/3)*4;
-  int b64DataSize   = ((totalCompressedDataSize+2)/3)*4;
+  uLongf b64HeaderSize = ((4*(numberOfBlocks+3)+2)/3)*4;
+  uLongf b64DataSize   = ((totalCompressedDataSize+2)/3)*4;
 
   char *outputBuffer = new char[b64HeaderSize + b64DataSize+1];
   base64encode(headerData, 4*(numberOfBlocks+3), outputBuffer, b64HeaderSize+1);
