@@ -8,6 +8,7 @@ class EllipsoidalPacker
 public:
   
   EllipsoidalPacker(double h, int state, double *c, double r, double ratioY, double ratioZ);
+  EllipsoidalPacker(double h, int state, double *c, double r, double ratio);
   ~EllipsoidalPacker();
   
   double *getPositions();
