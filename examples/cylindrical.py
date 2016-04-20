@@ -2,7 +2,9 @@ import sys
 sys.path.insert(0, '/f/bruce/pyck/bin');
 import pyck
 
-pack = pyck.CylindricalPacker(0.04, 1, [0.5,0.5,0.5], 0.4, 0.5);
+#pack = pyck.CylindricalPacker(0.04, 1, [0.5,0.5,0.5], 0.4, 0.5);
+#pack = pyck.CylindricalPacker(0.04, 1, [0.5,0.5,0.5], 0.4, 1.0,[0.0,0.0,0.4]);
+pack = pyck.CylindricalPacker(0.04, 1, [0.5,0.5,0.5], 0.4, 0.2, 0.5);
 positions = pack.getPositions();
 states = pack.getStates();
 numParticles = pack.getNumParticles();

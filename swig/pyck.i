@@ -19,6 +19,10 @@
   if ($1) free($1);
 }
 
+%typemap(typecheck) (double *xyz) {
+   $1 = PySequence_Check($input) ? 1 : 0;
+}
+
 %typemap(in) (double *dprop) {
  int i;
  if (!PySequence_Check($input)) {
