@@ -158,12 +158,12 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
         }
       }
 
-    // std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")" <<std::endl;
+      std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")" <<std::endl;
 
       // Adding the first point for a random theta
       if(randomstart)
       {
-      th0 = 2*M_PI*((double) rand() / (RAND_MAX));
+        th0 = 2*M_PI*((double) rand() / (RAND_MAX));
       }
       else
       {
@@ -522,6 +522,83 @@ EllipsoidalPacker::~EllipsoidalPacker()
 {
   delete [] positions;
   delete [] states;
+}
+
+void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,double ratio, int state)
+{
+  double xc,yc,zc,thetac,rc,xth,yth,zth,rth, thetamax,ymax;
+  double ra = r0 - h/2;
+  
+  double kk = 0;
+  double xmax = 10000000;
+  while(xmax > r)  
+  {
+    kk = kk + h;
+
+    if(kk >= ((ratio*ratio*ra*ra) / ra)) //critical value for kk obtained by solving y(t) = 0
+    {
+      thetamax = asin(sqrt((((ra*ra*kk*kk)/(ratio*ratio*ra*ra)) - (ratio*ratio*ra*ra)) / (ra*ra-ratio*ratio*ra*ra))); //
+      xmax = ra*cos(thetamax)- (ra*ratio*kk*cos(thetamax)) / sqrt(ra*ra*sin(thetamax)*sin(thetamax)+ra*ratio*ratio*ra*cos(thetamax)*cos(thetamax)); // Talbot's curve (inner) intersection point with the y axis
+      ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2));
+    }
+    else
+    {
+      xmax = ra-kk;
+      ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2));
+    }
+  }  
+
+  std::cout << "Offset : " << kk << " Local radius : " << xmax<< " Asked radius " << r << " h " << h << " r0 " << r0-h/2 << std::endl;
+  for(long j = 0; j < numParticles; j++)
+  {
+    xc = positions[3*j + 0] - c[0];
+    yc = positions[3*j + 1] - c[1];
+    zc = positions[3*j + 2] - c[2];
+    if(fabs(xc) > xmax || fabs(yc) > ymax)
+    {
+      std::cout << "coucou 1 " << std::endl;
+      states[j] = state;
+    }
+    else
+    {
+
+      // thetac = atan2(ra*yc,ratio*ra*xc);
+      thetac = atan2((ra*sqrt(ra*ra*ratio)-ra*ratio*kk)*yc,(ra*ratio*sqrt(ra*ra*ratio)-ra*kk)*xc);
+      if(thetac < 0) thetac = thetac + 2.0*M_PI;
+
+
+      rc = sqrt(xc*xc+yc*yc);
+
+
+      xth = ra*cos(thetac)- (ra*ratio*kk*cos(thetac)) / sqrt(ra*ra*sin(thetac)*sin(thetac)+ra*ratio*ratio*ra*cos(thetac)*cos(thetac));
+      yth = ra*ratio*sin(thetac)- (ra*kk*sin(thetac)) / sqrt(ra*ra*sin(thetac)*sin(thetac)+ra*ratio*ratio*ra*cos(thetac)*cos(thetac));
+      zth = 0.0;
+      rth = sqrt(xth*xth+yth*yth);
+
+      std::cout << " xc : " << xc << " yc : " << yc << " Theta : " << thetac*180/M_PI<< " rc : " << rc<< "rth : " << rth << std::endl;
+      if(rc >=(rth+h/1.5))
+      {
+        std::cout << "coucou 2 " << std::endl;
+        states[j] = state;
+      }
+    }
+  }
+}
+
+
+void EllipsoidalPacker::updateStates(double *c, double r,double ratioY, double ratioZ, int state)
+{
+  double x,y,z,equation;
+  for(long j = 0; j < numParticles; j++)
+  {
+    x = positions[3*j + 0] - c[0];
+    y = positions[3*j + 1] - c[1];
+    z = positions[3*j + 2] - c[2];
+
+    equation = ((x*x)/(r*r)) + ((y*y)/(ratioY*ratioY*r*r)) + ((z*z)/(ratioZ*ratioZ*r*r));
+    
+    if(equation > 1) states[j] = state;
+  }
 }
 
 
