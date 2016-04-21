@@ -52,7 +52,7 @@ std::vector<part> calculateEllipse(double x, double y, double a, double b, doubl
   double alphastep; 
   if(stepsA != 1)
   {
-    alphastep = 360 / (stepsA -1);
+    alphastep = 360 / (double)(stepsA -1);
     for(long i = 0;i<stepsA;i++)
     {
       alpha[i] = i*alphastep * (M_PI / 180);
@@ -195,7 +195,7 @@ std::vector<part> calculateEllipsoid(double x, double y, double z, double a, dou
   double betastep;
   if(stepsA != 1)
   {
-    alphastep = 360 / (stepsA -1);
+    alphastep = 360 / (double)(stepsA -1);
     for(long i = 0;i<stepsA;i++)
     {
       alpha[i] = i*alphastep * (M_PI / 180);
@@ -209,7 +209,7 @@ std::vector<part> calculateEllipsoid(double x, double y, double z, double a, dou
 
   if(stepsB != 1)
   {
-    betastep = 180 / (stepsB -1);
+    betastep = 180 / (double)(stepsB -1);
     for(long j = 0;j<stepsB;j++)
     {
       beta[j] = j*betastep * (M_PI / 180);
@@ -259,6 +259,8 @@ for(long m=0;m<stepsA;m++)
     p.push_back(make_part(X[m][n],Y[m][n],Z[m][n],state));
   }
 }
+
+
 
     // exclusion of redondant points
 bool debut = true;
@@ -370,7 +372,7 @@ EllipsoidalPacker::EllipsoidalPacker(double h, int state, double *c, double r, d
     {
       npts = ceil( (2 * M_PI) / asin(h / radius) );
     }
-
+std::cout << npts << std::endl;
       temp = calculateEllipse(0.0,0.0,radius,ratio*radius,0.0,npts,h,state);
       
       // #pragma omp critical 
@@ -379,6 +381,7 @@ EllipsoidalPacker::EllipsoidalPacker(double h, int state, double *c, double r, d
         p.push_back(temp[u]);
       }
 
+      // std::cout << temp.size() << std::endl;
     // #pragma omp critical
     number_of_parts = number_of_parts + temp.size();
   }

@@ -19,7 +19,7 @@ int main()
   double *size = new double[3];
   size[0] = 1; size[1] = 1; size[2] = 1.0;
 
-  double h = 0.01;
+  double h = 0.0175;
 
   // Sphere properties
   double r = 0.2;
@@ -71,15 +71,15 @@ int main()
 
   // CylindricalPacker *radialpack2D  = new CylindricalPacker(h, 1, c, r, 0.8);
   // CylindricalPacker *radialpack3D  = new CylindricalPacker(h, 1, c, r, 0.8,l);
-  CylindricalPacker *radialpack3D2  = new CylindricalPacker(h, 1, c, r, 1.0,1.0);
-  // EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(h, 1, c, r, 0.2,0.4);
-  // EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(h, 1, c, r, 0.8);
+  // CylindricalPacker *radialpack3D2  = new CylindricalPacker(h, 1, c, r, 0.8,0.6);
+  EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(h, 1, c, r, 0.2,0.4);
+  // EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(h, 1, c, r, 0.4);
 
 // Model *model = new Model();
  // Model *model = new Model(radialpack2D->getPositions(),radialpack2D->getStates(),radialpack2D->getNumParticles(),radialpack2D->getDim());
  // Model *model = new Model(radialpack3D->getPositions(),radialpack3D->getStates(),radialpack3D->getNumParticles(),radialpack3D->getDim());
- Model *model = new Model(radialpack3D2->getPositions(),radialpack3D2->getStates(),radialpack3D2->getNumParticles(),radialpack3D2->getDim());
- // Model *model = new Model(ellipsoid3D->getPositions(),ellipsoid3D->getStates(),ellipsoid3D->getNumParticles(),ellipsoid3D->getDim());
+ // Model *model = new Model(radialpack3D2->getPositions(),radialpack3D2->getStates(),radialpack3D2->getNumParticles(),radialpack3D2->getDim());
+ Model *model = new Model(ellipsoid3D->getPositions(),ellipsoid3D->getStates(),ellipsoid3D->getNumParticles(),ellipsoid3D->getDim());
 
   // model->AddPack(pack2);
 
@@ -107,8 +107,8 @@ int main()
   // delete cylinder;
   // delete radialpack2D;
   // delete radialpack3D;
-  delete radialpack3D2;
-  // delete ellipsoid3D;
+  // delete radialpack3D2;
+  delete ellipsoid3D;
   // delete packer;
   // delete pack;
   delete model;

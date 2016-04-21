@@ -52,14 +52,14 @@ if(r != 0.0)
   if(ratio == 1.0) ratio = 0.9999999;
 
 
-  ra = h*floor(r/h);
+  ra = r; //h*floor(r/h);
 
   xmax = ra;
   ymax = ra*ratio;
   double eccentricity = sqrt(1-(ymax*ymax)/(xmax*xmax));
   double circumference = 4 * xmax * Legendre_Elliptic_Integral_Second_Kind(M_PI/2,'k', eccentricity);
   dr = circumference/round(circumference/h);
-  std::cout << "Packing ellipse of radius :" << ra << " with dx=" << dr << " (" << number_of_particles << ")"<< std::endl;
+  // std::cout << "Packing ellipse of radius :" << ra << " with dx=" << dr << " (" << number_of_particles << ")"<< std::endl;
 
 
   dth=M_PI*sqrt(dr*dr*ratio)/(halfcircle_number_of_divisions*(sqrt(ra*ra*ratio)));
@@ -141,7 +141,7 @@ if(r != 0.0)
       dr = circumference/round(circumference/h);
     }
 
-    std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_particles << ")" <<std::endl;
+    // std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_particles << ")" <<std::endl;
 
 
     dth=M_PI*sqrt(dr*dr*ratio)/(halfcircle_number_of_divisions*(sqrt(ra*ra*ratio)));
