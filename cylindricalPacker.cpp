@@ -21,10 +21,10 @@ particle make_particle(double x, double y, double z, int state)
   return p;
 }
 
-CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, double ratio)
+CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double h, int state, double num_div)
 {
 
-  double halfcircle_number_of_divisions = 3.0; // number of divisions of a half circle
+  double halfcircle_number_of_divisions = num_div; // number of divisions of a half circle
 
   std::vector<particle> p;
 
@@ -75,7 +75,7 @@ CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, d
   return;
 }
 
-CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, double ratio, double *l)
+CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double *l, double h, int state, double num_div)
 {
 
   double L = 0.0;
@@ -97,7 +97,7 @@ CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, d
   }
 
 
-  double halfcircle_number_of_divisions = 3.0; // number of divisions of a half circle
+  double halfcircle_number_of_divisions = num_div; // number of divisions of a half circle
 
   std::vector<particle> p;
 
@@ -195,9 +195,9 @@ CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, d
   return;
 }
 
-CylindricalPacker::CylindricalPacker(double h, int state, double *c, double r, double ratioY, double ratioZ)
+CylindricalPacker::CylindricalPacker(double *c, double r, double ratioY, double ratioZ, double h, int state, double num_div)
 {
-  double halfcircle_number_of_divisions = 3.0; // number of divisions of a half circle
+  double halfcircle_number_of_divisions = num_div; // number of divisions of a half circle
 
   std::vector<particle> p;
 

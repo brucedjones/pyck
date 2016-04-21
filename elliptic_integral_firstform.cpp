@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>           // required for fabs(), sqrt(), log(), atanl(),
-                            // tanl(), sqrtl(), fabsl() and M_PI_2 = pi/2.
+                            // tanl(), sqrtl(), fabsl() and M_PICONST_2 = pi/2.
 #include <float.h>          // required for LDBL_EPSILON, DBL_MAX
 
 //                         Internally Defined Routines                        //
@@ -14,12 +14,12 @@ static void Landen_Transform( long double phi, long double parameter,
                                                         double *K, double *F);
 static void Elliptic_Integral_First_Kind( long double phi, long double m, 
                                                          double *K, double *F);
-static double Large_Modulus(double amplitude, long double k);
+static double Large_Modulus2(double amplitude, long double k);
 
 //                         Internally Defined Constants                       //
 
-static const long double PI_2 =  1.5707963267948966192313216916397514L; // pi/2
-static const long double PI   =  3.1415926535897932384626433832795029L; // pi
+static const long double PICONST_2 =  1.5707963267948966192313216916397514L; // pi/2
+static const long double PICONST   =  3.1415926535897932384626433832795029L; // pi
 
 ////////////////////////////////////////////////////////////////////////////////
 // double Legendre_Elliptic_Integral_First_Kind(double amplitude, char arg,   //
@@ -131,9 +131,9 @@ double Legendre_Elliptic_Integral_First_Kind(double amplitude, char arg,
           // Check for case m < 0 i.e. a purely imaginary modulus. //
    
    if (m < 0.0L ) {
-      phi = PI_2 - fabsl((long double) amplitude);
+      phi = PICONST_2 - fabsl((long double) amplitude);
       Elliptic_Integral_First_Kind( fabsl(phi), fabsl(m / (1.0L - m)), &K, &F);
-      if (phi > PI_2)
+      if (phi > PICONST_2)
          return (double) (sgn_amplitude * (K + F) / sqrtl(1.0 - m));
       else 
          return (double) (sgn_amplitude * (K - F) / sqrtl(1.0 - m));
@@ -149,7 +149,7 @@ double Legendre_Elliptic_Integral_First_Kind(double amplitude, char arg,
 
                    // Check for the remaining case m > 1. //
 
-   return sgn_amplitude * Large_Modulus(fabs(amplitude), k);
+   return sgn_amplitude * Large_Modulus2(fabs(amplitude), k);
 
 }
 
@@ -195,8 +195,8 @@ static void Elliptic_Integral_First_Kind(long double phi, long double m,
 { 
    int n;
 
-   n = (int) ( ( phi + PI_2 ) / PI );
-   phi -= n * PI;
+   n = (int) ( ( phi + PICONST_2 ) / PICONST );
+   phi -= n * PICONST;
    n += n;
    Landen_Transform( fabsl(phi), m, K, F);
    if (phi >= 0.0) *F +=  n * *K;
@@ -206,7 +206,7 @@ static void Elliptic_Integral_First_Kind(long double phi, long double m,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// static double Large_Modulus( double amplitude, long double k)              //
+// static double Large_Modulus2( double amplitude, long double k)              //
 //                                                                            //
 //  Description:                                                              //
 //     This routine calculates the real part of Legendre's Elliptic Integral  //
@@ -230,26 +230,26 @@ static void Elliptic_Integral_First_Kind(long double phi, long double m,
 //                                                                            //
 //     ( code to initialize phi > 0 and k > 1 )                               //
 //                                                                            //
-//     F = Large_Modulus( amplitude, k );                                     //
+//     F = Large_Modulus2( amplitude, k );                                     //
 //     printf("Re[F(phi,k)] = %12.6f where phi = %12.6Lf, k =                 //
 //                                                    %12.6f\n",F, phi, k);   //
 ////////////////////////////////////////////////////////////////////////////////
 
-static double Large_Modulus(double amplitude, long double k)
+static double Large_Modulus2(double amplitude, long double k)
 {
    double F, K; 
    long double phi = (long double) amplitude;
    long double sin_phi;
    int n;
 
-   n = (int) ( ( phi + PI_2 ) / PI );
-   phi -= n * PI;
+   n = (int) ( ( phi + PICONST_2 ) / PICONST );
+   phi -= n * PICONST;
    n += n;
    
    sin_phi = sinl(phi);
    if ( fabsl(sin_phi) >= 1.0L / k ) 
-      if (phi > 0.0L) phi = PI_2;
-      else phi = -PI_2;
+      if (phi > 0.0L) phi = PICONST_2;
+      else phi = -PICONST_2;
    else phi = asinl(k * sin_phi);
    Landen_Transform( fabsl(phi), 1.0L/(k*k) , &K, &F);
    if (phi >= 0.0L) F +=  n * K;
@@ -326,5 +326,5 @@ static void Landen_Transform( long double phi, long double parameter,
    }
    phi /= two_n;
    *F = (double) (phi / g); 
-   *K = (double) (PI_2 / g);
+   *K = (double) (PICONST_2 / g);
 }
