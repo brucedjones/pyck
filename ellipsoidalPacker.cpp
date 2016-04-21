@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <vector>
 #include "ellipsoidalPacker.h"
-#include "elliptic_integral_firstform.cpp"
 #include "elliptic_integral_secondform.cpp"
 
 struct part
@@ -21,381 +20,354 @@ part make_part(double x, double y, double z, int state)
 {
   part p = {x, y, z, state};
   return p;
-};
-
-void swap(double &x, double &y){
-    double tmp = x;
-    x = y;
-    y = tmp;
-    return;
 }
 
-void sort(double &a, double &b, double &c){
-    if(c>b){
-        swap(c,b);
-    }
-    if(c>a){
-        swap(c,a);
-    }
-    if(b>a){
-        swap(b,a);
-    }
-    return;
-}
-
-std::vector<part> calculateEllipse(double x, double y, double a, double b, double angle, long stepsA, double h, int state)
+EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
 {
+  std::vector<part> p,pfinal,pexclu;
 
-  // linspace MATLAB function
-  double alpha[stepsA];
-  double beta;
-  double alphastep; 
-  if(stepsA != 1)
+  p.push_back(make_part(0.0,0.0,0.0,state));
+
+  double ra = h;
+  double dr = h;
+  double dth = 0.0;
+  double th = 0.0;
+  double th0 = 0.0;
+  double curvmax = 0.0;
+  double curv = 0.0;
+  double rat = 0.0;
+  long number_of_parts = 1;
+  part temp1,temp2, temp3;
+  double dist;
+  double xcurrent, xmax, thetamax, xmaxtemp, thetamaxtemp, ymax;
+  int count;
+  double tolh = tolerance_h;//0.55; // tolerance for the requested spacing
+  double toldth = tolerance_angle;//0.000001; //tolerance on the angle, big impact on performance
+  bool randomstart = random_startingpoint;
+  bool h_correction = adjust_h;
+  double eccentricity,circumference;
+  if(r != 0.0) // if r=0, skip everything as p already contains the initital point
   {
-    alphastep = 360 / (double)(stepsA -1);
-    for(long i = 0;i<stepsA;i++)
+
+    if(ratio == 1.0) ratio = 0.9999999; // there is a singularity for circles/spheres so ratio has to be adjusted
+
+
+    // ******** Start : Creation of the outer ellipse ******** //
+    ra = r-h/2;
+    // Adjusting h to be able to close the ellipse
+    xmax = ra;
+    ymax = ra*ratio;
+    if(h_correction)
     {
-      alpha[i] = i*alphastep * (M_PI / 180);
-    }
-  }
-  else
-  {
-    alphastep = 360;
-    alpha[stepsA] = alphastep * (M_PI / 180);
-  }
-
-  beta =  -angle * (M_PI / 180);
-
-
-
-  // meshgrid MATLAB function
-  double alpha2[stepsA][1];
-  double beta2[stepsA][1];
-
-  for(long m=0;m<stepsA;m++)
-  {
-     alpha2[m][0]=alpha[m];
-     beta2[m][0]=beta;
- }
-
- // creation of the points
- double X[stepsA][1];
- double Y[stepsA][1];
- double Z[stepsA][1];
- for(long m=0;m<stepsA;m++)
- { 
-    X[m][0] = x + (a * cos(alpha2[m][0]) * cos(beta2[m][0]) - b * sin(alpha2[m][0]) * sin(beta2[m][0]));
-    Y[m][0] = y + (a * cos(alpha2[m][0]) * sin(beta2[m][0]) + b * sin(alpha2[m][0]) * cos(beta2[m][0]));
-    Z[m][0] = 0.0;
-}
-
-  // conversion to 1D arrays
-std::vector<part> p;
-
-for(long m=0;m<stepsA;m++)
-{
-    p.push_back(make_part(X[m][0],Y[m][0],Z[m][0],state));
-}
-
-    // exclusion of redondant points
-bool debut = true;
-bool currentpointok;
-bool neighborpointok;
-std::vector<int> e;
-std::vector<part> q;
-double xc,xn;
-double yc,yn;
-double zc,zn;
-double dist;
-// std::cout << "Nbre points before loop :" << p.size() << std::endl;
-while(debut == true || e.size() > 0)
-{
-  if(debut == false)
-  {
-    if(e.size() > 0) p.erase(p.begin() + e[0]);
-    std::cout << "Point(" << e[0] << ") excluded" << std::endl;
-  }
-  std::cout << "Nbre points :" << p.size() << std::endl;
-  
-
-  debut = false;
-
-  e.clear();
-  q.clear();
-  
-  for(long k = 0;k<p.size();k++)
-  {
-    xc = p[k].x;
-    yc = p[k].y;
-    zc = p[k].z;
-    currentpointok = true;
-
-    for(long l = 0;l<e.size();l++)
-    {
-      if(k == e[l])
-      {
-        currentpointok = false;
-        break;
-      }
-    }
-
-    if(currentpointok == true)
-    {
-      for(long m = 0;m<p.size();m++)
-      {
-        xn = p[m].x;
-        yn = p[m].y;
-        zn = p[m].z;
-        neighborpointok = true;
-
-        if(xc == xn && yc == yn && zc == zn)
-        {
-          neighborpointok = false;
-          break;
-        }
-        for(long n = 0;n<e.size();n++)
-        {
-          if(m == e[n])
-          {
-            neighborpointok = false;
-            break;
-          }
-        }
-
-        if(neighborpointok == true)
-        {
-          dist = sqrt((xc-xn)*(xc-xn)+(yc-yn)*(yc-yn)+(zc-zn)*(zc-zn));
-          if(dist < 0*0.1*h)
-          {
-            e.push_back(k);
-            currentpointok = false;
-          }
-        }
-      }
-    }
-
-    if(currentpointok == true)
-    {
-      q.push_back(make_part(xc,yc,zc,state));
-    }
-  }
-}
-
-return q;
-};
-
-
-std::vector<part> calculateEllipsoid(double x, double y, double z, double a, double b, double c, double angle, long stepsA, long stepsB, double h, int state)
-{
-
-  // linspace MATLAB function
-  double alpha[stepsA];
-  double beta[stepsB];
-  double alphastep; 
-  double betastep;
-  if(stepsA != 1)
-  {
-    alphastep = 360 / (double)(stepsA -1);
-    for(long i = 0;i<stepsA;i++)
-    {
-      alpha[i] = i*alphastep * (M_PI / 180);
-    }
-  }
-  else
-  {
-    alphastep = 360;
-    alpha[stepsA] = alphastep * (M_PI / 180);
-  }
-
-  if(stepsB != 1)
-  {
-    betastep = 180 / (double)(stepsB -1);
-    for(long j = 0;j<stepsB;j++)
-    {
-      beta[j] = j*betastep * (M_PI / 180);
-    }
-  }
-  else
-  {
-    betastep = 180;
-    beta[stepsB] = betastep * (M_PI / 180);
-  }
-
-
-  // meshgrid MATLAB function
-  double alpha2[stepsA][stepsB];
-  double beta2[stepsA][stepsB];
-
-  for(long m=0;m<stepsA;m++)
-  {
-    for(long n=0;n<stepsB;n++)
-    {
-     alpha2[m][n]=alpha[m];
-     beta2[m][n]=beta[n];
-   }
- }
-
- // creation of the points
- double X[stepsA][stepsB];
- double Y[stepsA][stepsB];
- double Z[stepsA][stepsB];
- for(long m=0;m<stepsA;m++)
- {
-  for(long n=0;n<stepsB;n++)
-  {
-    X[m][n] = x + a * cos(alpha2[m][n]) * sin(beta2[m][n]);
-    Y[m][n] = y + b * sin(alpha2[m][n]) * sin(beta2[m][n]);
-    Z[m][n] = z + c * cos(beta2[m][n]);
-  }
-}
-
-  // conversion to 1D arrays
-std::vector<part> p;
-
-for(long m=0;m<stepsA;m++)
-{
-  for(long n=0;n<stepsB;n++)
-  {
-    p.push_back(make_part(X[m][n],Y[m][n],Z[m][n],state));
-  }
-}
-
-
-
-    // exclusion of redondant points
-bool debut = true;
-bool currentpointok;
-bool neighborpointok;
-std::vector<int> e;
-std::vector<part> q;
-double xc,xn;
-double yc,yn;
-double zc,zn;
-double dist;
-// std::cout << "Nbre points before loop :" << p.size() << std::endl;
-while(debut == true || e.size() > 0)
-{
-  if(debut == false)
-  {
-    if(e.size() > 0) p.erase(p.begin() + e[0]);
-    std::cout << "Point(" << e[0] << ") excluded" << std::endl;
-  }
-  std::cout << "Nbre points :" << p.size() << std::endl;
-  
-
-  debut = false;
-
-  e.clear();
-  q.clear();
-  
-  for(long k = 0;k<p.size();k++)
-  {
-    xc = p[k].x;
-    yc = p[k].y;
-    zc = p[k].z;
-    currentpointok = true;
-
-    for(long l = 0;l<e.size();l++)
-    {
-      if(k == e[l])
-      {
-        currentpointok = false;
-        break;
-      }
-    }
-
-    if(currentpointok == true)
-    {
-      for(long m = 0;m<p.size();m++)
-      {
-        xn = p[m].x;
-        yn = p[m].y;
-        zn = p[m].z;
-        neighborpointok = true;
-
-        if(xc == xn && yc == yn && zc == zn)
-        {
-          neighborpointok = false;
-          break;
-        }
-        for(long n = 0;n<e.size();n++)
-        {
-          if(m == e[n])
-          {
-            neighborpointok = false;
-            break;
-          }
-        }
-
-        if(neighborpointok == true)
-        {
-          dist = sqrt((xc-xn)*(xc-xn)+(yc-yn)*(yc-yn)+(zc-zn)*(zc-zn));
-          if(dist < h)
-          {
-            e.push_back(k);
-            currentpointok = false;
-          }
-        }
-      }
-    }
-
-    if(currentpointok == true)
-    {
-      q.push_back(make_part(xc,yc,zc,state));
-    }
-  }
-}
-
-return q;
-};
-
-
-EllipsoidalPacker::EllipsoidalPacker(double h, int state, double *c, double r, double ratio)
-{
-
-  double min_radius = 0.0;
-  double max_radius =r;
-  int number_of_parts = 0;
-  long npts = 0;
-  std::vector<part> p;
-  std::vector<part> temp;
-
-  // #pragma omp parallel for private(temp,radiusX,radiusY,radiusZ,a0,b0,c0,surface_area,npts) schedule(dynamic) //reduction(+:nprimes)
-  for(double radius = min_radius;radius <= max_radius;radius+=h)
-  {
-
-    if(radius == 0)
-    {
-      npts = 1;
+      eccentricity = sqrt(1-(ymax*ymax)/(xmax*xmax));
+      circumference = 4 * xmax * Legendre_Elliptic_Integral_Second_Kind(M_PI/2,'k', eccentricity);
+      dr = circumference/round(circumference/h);
     }
     else
     {
-      npts = ceil( (2 * M_PI) / asin(h / radius) );
+      dr = h;
     }
-std::cout << npts << std::endl;
-      temp = calculateEllipse(0.0,0.0,radius,ratio*radius,0.0,npts,h,state);
-      
-      // #pragma omp critical 
-      for(long u = 0; u<temp.size();u++)
+    
+    // std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")"<< std::endl;
+
+    // Adding the first point for theta = 0
+    p.push_back(make_part((ra)*cos(th),(ra*ratio)*sin(th),0.0,state));
+    temp3 = p.back(); // Storing the last point in p
+    number_of_parts=number_of_parts+1; // Updating number of parts
+    while(th<= 2*M_PI-dth/2) //until 2PI
+    {
+
+      // Defining position fo the next point so that the distance from the previous point is exactly dr
+      dth = 0.0;
+      temp1 = make_part((ra)*cos(th+dth),(ra*ratio)*sin(th+dth),0.0,state);
+      temp2 = temp3;
+      dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z));
+
+      while(dist <= dr )
       {
-        p.push_back(temp[u]);
+        dth+= toldth;
+
+        temp1 = make_part((ra)*cos(th+dth),(ra*ratio)*sin(th+dth),0.0,state);
+        dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z));
       }
 
-      // std::cout << temp.size() << std::endl;
-    // #pragma omp critical
-    number_of_parts = number_of_parts + temp.size();
+
+      // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
+      count = 1;
+      for(int v = 0;v<(p.size()-1);v++)
+      {
+        temp2 = p[v];
+
+        dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+
+        if(dist < tolh*dr)
+        {
+          count = 0;
+          break;
+        } 
+      }
+      if(count == 1) 
+      {
+        p.push_back(temp1);
+        temp3 = temp1;
+        th=th+dth;
+        number_of_parts=number_of_parts+1; 
+      }
+      else
+      {
+        temp3 = temp2;
+        if(dth == 0.0) dth = toldth;
+        th=th+dth;
+      } 
+    }
+    // ******** End : Creation of the outer ellipse ******** //
+
+    // ******** Start : Creation of the inner parallel curves (ressembling Talbot's curves - http://mathworld.wolfram.com/EllipseParallelCurves.html) ******** //
+    double kk = 0; // kk is the offset of the parallel curve from the ellipse towards its center
+    while(kk<=(std::min(ra,ratio*ra)-h))  
+    {
+      kk = kk + h;
+
+      // Adjusting h to be able to close the parallel curve (approximatiom : assuming circumference is the same as for ellipses)
+      if(kk >= ((ratio*ratio*ra*ra) / ra)) //critical value for kk obtained by solving y(t) = 0
+      {
+        thetamax = asin(sqrt((((ra*ra*kk*kk)/(ratio*ratio*ra*ra)) - (ratio*ratio*ra*ra)) / (ra*ra-ratio*ratio*ra*ra))); //
+        xmax = ra*cos(thetamax)- (ra*ratio*kk*cos(thetamax)) / sqrt(ra*ra*sin(thetamax)*sin(thetamax)+ra*ratio*ratio*ra*cos(thetamax)*cos(thetamax)); // Talbot's curve (inner) intersection point with the y axis
+        ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2)); // max y for Talbot's curve
+      }
+      else
+      {
+        xmax = ra-kk;
+        ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2));
+      }
+      if( thetamax !=thetamax)
+      {
+        dr = h;
+      }
+      else
+      {
+        if(h_correction)
+        {
+          eccentricity = sqrt(1-(ymax*ymax)/(xmax*xmax));
+          circumference = 4 * xmax * Legendre_Elliptic_Integral_Second_Kind(M_PI/2,'k', eccentricity);
+          dr = circumference/round(circumference/h);
+        }
+        else
+        {
+          dr = h;
+        }
+      }
+
+    // std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")" <<std::endl;
+
+      // Adding the first point for a random theta
+      if(randomstart)
+      {
+      th0 = 2*M_PI*((double) rand() / (RAND_MAX));
+      }
+      else
+      {
+        th0 = 0.0;
+      }
+      if( (kk >= ((ratio*ratio*ra*ra) / ra)) && (fabs(th0) > fabs(thetamax)) ) th0 = thetamax;
+      th=th0;
+      p.push_back(make_part(ra*cos(th)- (ra*ratio*kk*cos(th)) / sqrt(ra*ra*sin(th)*sin(th)+ra*ratio*ratio*ra*cos(th)*cos(th)),ra*ratio*sin(th)- (ra*kk*sin(th)) / sqrt(ra*ra*sin(th)*sin(th)+ra*ratio*ratio*ra*cos(th)*cos(th)),0.0,state));
+      temp3 = p.back();
+      number_of_parts=number_of_parts+1; 
+      while((th-th0)<= 2*M_PI-dth/2)
+      {
+        // Defining position fo the next point so that the distance from the previous point is exactly dr
+        dth = 0.0;
+        temp1 = make_part(ra*cos(th+dth)- (ra*ratio*kk*cos(th+dth)) / sqrt(ra*ra*sin(th+dth)*sin(th+dth)+ra*ratio*ratio*ra*cos(th+dth)*cos(th+dth)),ra*ratio*sin(th+dth)- (ra*kk*sin(th+dth)) / sqrt(ra*ra*sin(th+dth)*sin(th+dth)+ra*ratio*ratio*ra*cos(th+dth)*cos(th+dth)),0.0,state);
+        temp2 = temp3;
+        dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z));
+
+        while(dist <= dr )
+        {
+          dth+= toldth;
+          temp1 = make_part(ra*cos(th+dth)- (ra*ratio*kk*cos(th+dth)) / sqrt(ra*ra*sin(th+dth)*sin(th+dth)+ra*ratio*ratio*ra*cos(th+dth)*cos(th+dth)),ra*ratio*sin(th+dth)- (ra*kk*sin(th+dth)) / sqrt(ra*ra*sin(th+dth)*sin(th+dth)+ra*ratio*ratio*ra*cos(th+dth)*cos(th+dth)),0.0,state);
+          dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z));
+        }
+
+
+        if(kk >= ((ratio*ratio*ra*ra) / ra)) //critical value for kk obtained by solving y(t) = 0
+        {
+          xcurrent = temp1.x;
+
+          // Test if the point is outside the intersection points of Talbot's curve
+          if( fabs(xcurrent) <= 1.01*std::max(xmax,xmax))
+          {
+            // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
+            count = 1;
+            for(int v = 0;v<(p.size()-1);v++)
+            {
+              temp2 = p[v];
+              dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+              if(dist < tolh*dr)
+              {
+                count = 0;
+                break;
+              } 
+            }
+            if(count == 1) 
+            {
+              p.push_back(temp1);
+              temp3 = temp1;
+              th=th+dth;
+              number_of_parts=number_of_parts+1; 
+            }
+            else
+            {
+              temp3 = temp2;
+              if(dth == 0.0) dth = toldth;
+              th=th+dth;
+            }
+
+          }
+          else
+          {
+            temp3 = temp2;
+            if(dth == 0.0) dth = toldth;
+            th=th+dth;
+          }
+        }
+        else
+        {
+          // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
+          count = 1;
+          for(int v = 0;v<(p.size()-1);v++)
+          {
+            temp2 = p[v];
+            dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+            if(dist < tolh*dr)
+            {
+              count = 0;
+              break;
+            } 
+          }
+          if(count == 1) 
+          {
+            p.push_back(temp1);
+            temp3 = temp1;
+            th=th+dth;
+            number_of_parts=number_of_parts+1; 
+          }
+          else
+          {
+            temp3 = temp2;
+            if(dth == 0.0) dth = toldth;
+            th=th+dth;
+          }
+        }
+      }
+    }
+    // ******** End : Creation of the inner parallel curves ******** //
+    
+    // ******** Start : Housecleaning of the packing ******** //
+    //Adding a line of points in the middle of the ellipse
+    thetamaxtemp = asin(sqrt((((ra*ra*(kk)*(kk))/(ratio*ratio*ra*ra)) - (ratio*ratio*ra*ra)) / (ra*ra-ratio*ratio*ra*ra)));
+    xmaxtemp = ra*cos(thetamax)- (ra*ratio*(kk)*cos(thetamaxtemp)) / sqrt(ra*ra*sin(thetamaxtemp)*sin(thetamaxtemp)+ra*ratio*ratio*ra*cos(thetamaxtemp)*cos(thetamaxtemp));
+    for(int jj = 0;jj<floor(xmaxtemp/h);jj++)
+    {
+      // towards x>0
+      temp1 = make_part(jj*h,0.0,0.0,state);
+      // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
+      count = 1;
+      for(int v = 0;v<(p.size()-1);v++)
+      {
+        temp2 = p[v];
+        dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+        if(dist < std::min(1.5*tolh*h,h))
+        {
+          count = 0;
+          break;
+        } 
+      }
+      if(count == 1) 
+      {
+        p.push_back(temp1);
+        number_of_parts=number_of_parts+1; 
+      }
+
+      // towards x<0
+      temp1 = make_part(-jj*h,0.0,0.0,state);
+      // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
+      count = 1;
+      for(int v = 0;v<(p.size()-1);v++)
+      {
+        temp2 = p[v];
+        dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+        if(dist < std::min(1.5*tolh*h,h))
+        {
+          count = 0;
+          break;
+        } 
+      }
+      if(count == 1) 
+      {
+        p.push_back(temp1);
+        number_of_parts=number_of_parts+1; 
+      }
+
+    }
+
   }
+  
+  std::cout << "Packing for r=" << r << " finished with " << number_of_parts << " point(s) "<< std::endl;
+
+  // Test if any point is too close from another point, if yes it is deleted otherwise it is kept
+  while(p.size() > 0)
+  {
+
+    for(int u = 0;u<(p.size());u++)
+    {
+      temp1 = p[u];
 
 
+
+      count = 1;
+      for(int v = 0;v<(p.size());v++)
+      {
+
+        temp2 = p[v];
+        dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+        if((dist < tolh*h) && (u!=v))
+        {
+          count = 0;
+          break;
+        } 
+      }
+      if(count == 1)
+      {
+        p.erase(p.begin()+u);
+        pfinal.push_back(temp1);
+        break;
+      }
+      if(count == 0)
+      {
+        number_of_parts=number_of_parts-1;
+        p.erase(p.begin()+u);
+        pexclu.push_back(temp1);
+        break;
+      }
+    }
+
+  }
+  // ******** End : Housecleaning of the packing ******** //
+
+
+  std::cout << "Final number of points : " << number_of_parts  <<  " (" << pexclu.size() << " points excluded)" << std::endl;
+
+  // Reorganisation of the data to be used in pyck
   states = new int[number_of_parts];
   positions = new double[number_of_parts*3];
 
   for(long i = 0; i < number_of_parts; i++)
   {
-    positions[3*i + 0] = p[i].x + c[0];
-    positions[3*i + 1] = p[i].y + c[1];
-    positions[3*i + 2] = p[i].z + c[2];
-    states[i] = p[i].state;
+    positions[3*i + 0] = pfinal[i].x + c[0];
+    positions[3*i + 1] = pfinal[i].y + c[1];
+    positions[3*i + 2] = pfinal[i].z + c[2];
+    states[i] = pfinal[i].state;
   }
 
   this->numParticles = number_of_parts;
@@ -404,116 +376,80 @@ std::cout << npts << std::endl;
   return;
 }
 
-
-EllipsoidalPacker::EllipsoidalPacker(double h, int state, double *c, double r, double ratioY, double ratioZ)
+EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio, double *l, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
 {
 
-  double min_radius = 0.0;
-  double max_radius =r;
-  double radiusX = 0.0;
-  double radiusY = 0.0;
-  double radiusZ = 0.0;
-  int number_of_parts = 0;
-  double k = 1.6075;
-  double a0 = 0.0;
-  double b0 = 0.0;
-  double c0 = 0.0;
-  double a1 = 0.0;
-  double b1 = 0.0;
-  double c1 = 0.0;
-  double surface_area = 0.0;
-  long npts = 0;
-  double phi = 0;
-  double kk = 0;
-  std::vector<part> p;
-  std::vector<part> temp;
-
-  // #pragma omp parallel for private(temp,radiusX,radiusY,radiusZ,a0,b0,c0,surface_area,npts) schedule(dynamic) //reduction(+:nprimes)
-  for(double radius = min_radius;radius <= max_radius;radius+=h)
+  double L = 0.0;
+  if(l[0] == 0.0 && l[1] == 0.0 && l[2] == 0.0)
   {
-    if(radius == min_radius)
-    {
-      radiusX = radius;
-      radiusY = ratioY*(radiusX - h) + h;
-      radiusZ = ratioZ*(radiusX - h) + h;
-    }
-    else if(radius == h)
-    {
-      radiusX = radius;
-      radiusY = ratioY*(radius) + h;
-      radiusZ = ratioZ*(radius) + h;
-    }
-    else
-    {
-      radiusZ = ratioZ * radiusX + h;
-      radiusY = ratioY * radiusX + h;
-      radiusX = radius;
-    }
-
-
-    // if(radiusX == radiusY || radiusY == radiusZ || radiusX == radiusZ )
-    // {
-    a0 = radiusX;
-    b0 = radiusY;
-    c0 = radiusZ;
-    surface_area = 4 * M_PI * pow((pow(a0*b0,k) + pow(a0*c0,k) + pow(c0*b0,k))/3, 1/k);
-    // }
-    // else
-    // {
-    // a1 = radiusX;
-    // b1 = radiusY;
-    // c1 = radiusZ;
-    // sort(a1,b1,c1);
-    // phi = acos(c1/a1);
-    // kk = sqrt((a1*a1*(b1*b1-c1*c1)) / (b1*b1*(a1*a1-c1*c1)));
-    // surface_area = 2*M_PI*c1*c1 + ((2*M_PI*a1*b1)/sin(phi))*(Legendre_Elliptic_Integral_First_Kind(phi,'k',kk)*cos(phi)*cos(phi) + Legendre_Elliptic_Integral_Second_Kind(phi,'k',kk)*sin(phi)*sin(phi));
-    // std::cout << surface_area << " " << 4 * M_PI * pow((pow(a1*b1,k) + pow(a1*c1,k) + pow(c1*b1,k))/3, 1/k) << std::endl;
-    // }
-    
-
-    if(radius == 0)
-    {
-      npts = 1;
-    }
-    else
-    {
-      npts = ceil(1.2146 * sqrt(surface_area / (M_PI * pow(h/2,2))));
-    }
-
-    if(npts == 1)
-    {
-      temp = calculateEllipsoid(0.0,0.0,0.0,a0,b0,c0,0,npts,npts,h,state);
-      
-      // #pragma omp critical 
-      for(long u = 0; u<temp.size();u++)
-      {
-        p.push_back(temp[u]);
-      }
-    }
-    else
-    {
-      temp = calculateEllipsoid(0.0,0.0,0.0,a0,b0,c0,0,npts,npts/2,h,state);
-      
-      // #pragma omp critical 
-      for(long u = 0; u<temp.size();u++)
-      {
-        p.push_back(temp[u]);
-      }
-    }
-    // #pragma omp critical
-    number_of_parts = number_of_parts + temp.size();
+    std::cout << "Incorrect input format for the length of the cylinder. Should be (l,0,0) or (0,l,0) or (0,0,l).\n";
+  }
+  if(l[0] != 0.0 && l[1] == 0.0 && l[2] == 0.0)
+  {
+    L = l[1];
+  }
+  else if(l[0] == 0.0 && l[1] != 0.0 && l[2] == 0.0)
+  {
+    L = l[1];
+  }
+  else if(l[0] == 0.0 && l[1] == 0.0 && l[2] != 0.0)
+  {
+    L = l[2];
   }
 
+  std::vector<part> p;
+  EllipsoidalPacker *pack  = new EllipsoidalPacker(c, r, ratio,h, state,tolerance_angle,tolerance_h,random_startingpoint,adjust_h);
+
+  for(int u = 0; u<pack->getNumParticles();u++)
+  {
+    p.push_back(make_part(pack->getPositions()[3*u+0],pack->getPositions()[3*u+1],pack->getPositions()[3*u+2],pack->getStates()[u]));
+  }
+  long number_of_parts = pack->getNumParticles();
+  delete pack;
+
+  double htemp;
+  long numparttemp = number_of_parts;
+  if (L > 0.0)
+  {
+    htemp = h;
+  }
+  else
+  {
+    htemp = -h;
+  }
+
+
+  for(long n = 1; n <= ceil(fabs(L / htemp)); n++)
+  {
+    for(long i = 0; i < numparttemp; i++)
+    {
+      if(l[0] != 0.0 && l[1] == 0.0 && l[2] == 0.0)
+      {
+        p.push_back(make_part(p[i].x + n * htemp,p[i].y,p[i].z,state));
+
+      }
+      else if(l[0] == 0.0 && l[1] != 0.0 && l[2] == 0.0)
+      {
+        p.push_back(make_part(p[i].x,p[i].y + n * htemp,p[i].z + n * h,state));
+      }
+      else if(l[0] == 0.0 && l[1] == 0.0 && l[2] != 0.0)
+      {
+        p.push_back(make_part(p[i].x,p[i].y,p[i].z + n * htemp,state));
+      }
+      number_of_parts=number_of_parts+1;
+    }
+
+  }
 
   states = new int[number_of_parts];
   positions = new double[number_of_parts*3];
 
-  for(long i = 0; i < number_of_parts; i++)
+  for(long j = 0; j < number_of_parts; j++)
   {
-    positions[3*i + 0] = p[i].x + c[0];
-    positions[3*i + 1] = p[i].y + c[1];
-    positions[3*i + 2] = p[i].z + c[2];
-    states[i] = p[i].state;
+    positions[3*j + 0] = p[j].x + c[0];
+    positions[3*j + 1] = p[j].y + c[1];
+    positions[3*j + 2] = p[j].z + c[2];
+    states[j] = p[j].state;
   }
 
   this->numParticles = number_of_parts;
@@ -522,6 +458,65 @@ EllipsoidalPacker::EllipsoidalPacker(double h, int state, double *c, double r, d
   return;
 }
 
+EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratioY, double ratioZ, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
+{
+  double halfcircle_number_of_divisions = 3.0; // number of divisions of a half circle
+
+  std::vector<part> p;
+
+
+  double ra;
+  double dr;
+  double dth;
+  double th;
+  double curvmax;
+  double curv;
+  double rat;
+  double ratio;
+  long number_of_parts = 0;
+  double current_radius;
+
+
+  for(double z = -(r*ratioZ)+h/2;z<=(r*ratioZ);z+=h)
+  {
+
+
+    ratio = ratioY;
+    current_radius = r * sqrt(1-((z*z)/(r*ratioZ*r*ratioZ)));
+
+    double ctemp[3] = { 0.0,0.0,z }; 
+    std::cout << "[Ellipsoid] Packing at z= "<<z<< " with r=" << current_radius << " and ratio=" << ratio << " ..."<<std::endl;
+    EllipsoidalPacker *pack  = new EllipsoidalPacker(ctemp, current_radius, ratio,h, state,tolerance_angle,tolerance_h,random_startingpoint,adjust_h);
+
+
+    for(int u = 0; u<pack->getNumParticles();u++)
+    {
+      p.push_back(make_part(pack->getPositions()[3*u+0],pack->getPositions()[3*u+1],pack->getPositions()[3*u+2],pack->getStates()[u]));
+    }
+    number_of_parts += pack->getNumParticles();
+
+    std::cout << "[Ellipsoid] Packing at z= "<<z<< " finished. "<< number_of_parts << " point(s)" << std::endl;
+    delete pack;
+
+  }
+
+
+  states = new int[number_of_parts];
+  positions = new double[number_of_parts*3];
+
+  for(long j = 0; j < number_of_parts; j++)
+  {
+    positions[3*j + 0] = p[j].x + c[0];
+    positions[3*j + 1] = p[j].y + c[1];
+    positions[3*j + 2] = p[j].z + c[2];
+    states[j] = p[j].state;
+  }
+
+  this->numParticles = number_of_parts;
+  this->dim = 3;
+
+  return;
+}
 
 EllipsoidalPacker::~EllipsoidalPacker()
 {
