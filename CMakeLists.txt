@@ -47,23 +47,23 @@ target_link_libraries(writer intField doubleField)
 target_link_libraries(model pack writer)
 
 
-#add_executable(pyck pyck.cpp)
+add_executable(pyckcpp pyck.cpp)
 
-#target_link_libraries(pyck pack shape packer writer model)
+target_link_libraries(pyckcpp pack shape packer writer model cylindricalPacker ellipsoidalPacker)
 
 # Do this for each new packer
-#target_link_libraries(pyck fccPacker)
-#target_link_libraries(pyck hcpPacker)
-#target_link_libraries(pyck bccPacker)
-#target_link_libraries(pyck cubicPacker)
+target_link_libraries(pyckcpp fccPacker)
+target_link_libraries(pyckcpp hcpPacker)
+target_link_libraries(pyckcpp bccPacker)
+target_link_libraries(pyckcpp cubicPacker)
 
 # Do this for each new shape
-#target_link_libraries(pyck cuboid)
-#target_link_libraries(pyck sphere)
-#target_link_libraries(pyck cylinder)
+target_link_libraries(pyckcpp cuboid)
+target_link_libraries(pyckcpp sphere)
+target_link_libraries(pyckcpp cylinder)
 
 # Do this for each new writer
-#target_link_libraries(pyck sparkWriter)
+target_link_libraries(pyckcpp sparkWriter)
 
 
 add_subdirectory(swig)
