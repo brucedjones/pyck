@@ -15,3 +15,11 @@ SET_SOURCE_FILES_PROPERTIES(pyck.i PROPERTIES SWIG_FLAGS "-includeall")
 SWIG_ADD_MODULE(pyck python pyck.i)
 SWIG_LINK_LIBRARIES(pyck ${PYTHON_LIBRARIES})
 SWIG_LINK_LIBRARIES(pyck ${pyckLibs})
+
+ADD_CUSTOM_COMMAND(
+    TARGET _pyck
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${CMAKE_SOURCE_DIR}/pyck_utils/pyck_utils.py
+    ${CMAKE_SOURCE_DIR}/bin
+)
