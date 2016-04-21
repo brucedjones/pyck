@@ -1,12 +1,10 @@
-#define M_PI 3.14159265358979323846264338327
-
 #include <math.h>
 
 #include "fccPacker.h"
 
 FccPacker::FccPacker(double *doubleLenIn, double h)
 {
-  dx = 2.0*h*sin(M_PI/4.0);
+  dx = sqrt(8*h*h);
   len[0] = (int)(doubleLenIn[0]/dx);
   len[1] = (int)(2*doubleLenIn[1]/dx);
   len[2] = (int)(2*doubleLenIn[2]/dx);
