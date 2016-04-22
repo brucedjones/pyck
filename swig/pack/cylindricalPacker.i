@@ -1,10 +1,10 @@
 %module CylindricalPacker
 
 %{
-#include "../cylindricalPacker.h"
+#include "../pack/cylindricalPacker.h"
 %}
 
-class CylindricalPacker
+class CylindricalPacker : Pack
 {
 public:
 

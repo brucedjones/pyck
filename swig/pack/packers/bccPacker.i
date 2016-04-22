@@ -1,7 +1,7 @@
 %module BccPacker
 
 %{
-#include "../packers/bccPacker.h"
+#include "../pack/packers/bccPacker.h"
 %}
 
 class BccPacker : public Packer {

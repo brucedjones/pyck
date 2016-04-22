@@ -67,16 +67,15 @@
   if ($1) free($1);
 }
 
-%include cylindricalPacker.i
-%include ellipsoidalPacker.i
-
-%include pack.i
+%include pack/cylindricalPacker.i
+%include pack/ellipsoidalPacker.i
+%include pack/structuredPack.i
 
 // Add an interface file for each new packer, see existing packers for reference
-%include packers/cubicPacker.i
-%include packers/fccPacker.i
-%include packers/bccPacker.i
-%include packers/hcpPacker.i
+%include pack/packers/cubicPacker.i
+%include pack/packers/fccPacker.i
+%include pack/packers/bccPacker.i
+%include pack/packers/hcpPacker.i
 
 // Add an interface file for each new shape, see existing shapes for reference
 %include shapes/cuboid.i

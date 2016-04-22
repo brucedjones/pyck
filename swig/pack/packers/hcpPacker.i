@@ -1,7 +1,7 @@
 %module HcpPacker
 
 %{
-#include "../packers/hcpPacker.h"
+#include "../pack/packers/hcpPacker.h"
 %}
 
 class HcpPacker : public Packer {

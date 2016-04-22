@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include "cylindricalPacker.h"
+#include "../shape.h"
 
 struct particle
 {
@@ -53,7 +54,7 @@ CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double h
       p.push_back(make_particle((ra)*cos(th),(ra*ratio)*sin(th),0.0,state));
 
       th=th+dth;
-      number_of_particles=number_of_particles+1;   
+      number_of_particles=number_of_particles+1;
     }
     ra=ra+dr;
   }
@@ -136,10 +137,10 @@ CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double *
       {
         p.push_back(make_particle((ra)*cos(th),(ra*ratio)*sin(th),0.0,state));
       }
-      
+
 
       th=th+dth;
-      number_of_particles=number_of_particles+1;   
+      number_of_particles=number_of_particles+1;
     }
     ra=ra+dr;
   }
@@ -240,7 +241,7 @@ CylindricalPacker::CylindricalPacker(double *c, double r, double ratioY, double 
           p.push_back(make_particle((ra)*cos(th),(ra*ratio)*sin(th),z,state));
 
           th=th+dth;
-          number_of_particles=number_of_particles+1;   
+          number_of_particles=number_of_particles+1;
         }
         ra=ra+dr;
       }
@@ -280,7 +281,7 @@ void CylindricalPacker::updateStates(double *c, double r,double ratio, int state
     z = positions[3*j + 2] - c[2];
 
     equation = ((x*x)/(r*r)) + ((y*y)/(ratio*ratio*r*r));
-    
+
     if(equation > 1) states[j] = state;
   }
 }
@@ -296,14 +297,10 @@ void CylindricalPacker::updateStates(double *c, double r,double ratioY, double r
     z = positions[3*j + 2] - c[2];
 
     equation = ((x*x)/(r*r)) + ((y*y)/(ratioY*ratioY*r*r)) + ((z*z)/(ratioZ*ratioZ*r*r));
-    
+
     if(equation > 1) states[j] = state;
   }
 }
-
-
-
-
 
 double* CylindricalPacker::getPositions()
 {
@@ -322,4 +319,21 @@ long CylindricalPacker::getNumParticles()
 int CylindricalPacker::getDim()
 {
   return dim;
+}
+
+void CylindricalPacker::MapShape(Shape *shape)
+{
+  std::cout << "Mapping a shape..." << std::flush;
+
+  #pragma omp parallel for schedule(static)
+  for(long i=0; i<numParticles; i++){
+    double thisPos[3];
+    thisPos[0] = positions[i*3];
+    thisPos[1] = positions[i*3+1];
+    thisPos[2] = positions[i*3+2];
+    if(shape->IsInside(thisPos)){
+      states[i] = shape->state;
+    }
+  }
+    std::cout << " complete" << std::endl;
 }

@@ -1,7 +1,7 @@
 %module FccPacker
 
 %{
-#include "../packers/fccPacker.h"
+#include "../pack/packers/fccPacker.h"
 %}
 
 class FccPacker : public Packer {
