@@ -163,5 +163,9 @@ void Model::SetParameter(std::string key, std::string value)
 
 void Model::SetParameters(std::map<std::string, std::string> &parameters)
 {
-  this->parameters.insert(parameters.begin(), parameters.end());
+  std::map<std::string, std::string>::iterator it;
+  for ( it = parameters.begin(); it != parameters.end(); it++ )
+  {
+    this->parameters[it->first] = it->second;
+  }
 }
