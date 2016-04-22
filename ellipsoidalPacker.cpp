@@ -577,6 +577,8 @@ void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,do
         ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2));
       }
     }  
+
+    kk = kk -h/3;
     for(long j = 0; j < numParticles; j++)
     {
       xc = positions[3*j + 0] - c[0];
