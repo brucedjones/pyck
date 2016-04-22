@@ -7,6 +7,7 @@
 #include <vector>
 #include "ellipsoidalPacker.h"
 #include "elliptic_integral_secondform.cpp"
+#include "../shape.h"
 
 struct part
 {
@@ -670,4 +671,21 @@ long EllipsoidalPacker::getNumParticles()
 int EllipsoidalPacker::getDim()
 {
   return dim;
+}
+
+void EllipsoidalPacker::MapShape(Shape *shape)
+{
+  std::cout << "Mapping a shape..." << std::flush;
+
+  #pragma omp parallel for schedule(static)
+  for(long i=0; i<numParticles; i++){
+    double thisPos[3];
+    thisPos[0] = positions[i*3];
+    thisPos[1] = positions[i*3+1];
+    thisPos[2] = positions[i*3+2];
+    if(shape->IsInside(thisPos)){
+      states[i] = shape->state;
+    }
+  }
+    std::cout << " complete" << std::endl;
 }

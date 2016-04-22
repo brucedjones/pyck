@@ -1,10 +1,10 @@
 %module EllipsoidalPacker
 
 %{
-#include "../ellipsoidalPacker.h"
+#include "../pack/ellipsoidalPacker.h"
 %}
 
-class EllipsoidalPacker
+class EllipsoidalPacker : Pack
 {
 public:
 

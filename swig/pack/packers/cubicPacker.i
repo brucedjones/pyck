@@ -1,7 +1,7 @@
 %module CubicPacker
 
 %{
-#include "../packers/cubicPacker.h"
+#include "../pack/packers/cubicPacker.h"
 %}
 
 class CubicPacker : public Packer {
