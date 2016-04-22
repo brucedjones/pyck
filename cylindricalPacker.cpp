@@ -270,6 +270,40 @@ CylindricalPacker::~CylindricalPacker()
   delete [] states;
 }
 
+void CylindricalPacker::updateStates(double *c, double r,double ratio, int state)
+{
+  double x,y,z,equation;
+  for(long j = 0; j < numParticles; j++)
+  {
+    x = positions[3*j + 0] - c[0];
+    y = positions[3*j + 1] - c[1];
+    z = positions[3*j + 2] - c[2];
+
+    equation = ((x*x)/(r*r)) + ((y*y)/(ratio*ratio*r*r));
+    
+    if(equation > 1) states[j] = state;
+  }
+}
+
+
+void CylindricalPacker::updateStates(double *c, double r,double ratioY, double ratioZ, int state)
+{
+  double x,y,z,equation;
+  for(long j = 0; j < numParticles; j++)
+  {
+    x = positions[3*j + 0] - c[0];
+    y = positions[3*j + 1] - c[1];
+    z = positions[3*j + 2] - c[2];
+
+    equation = ((x*x)/(r*r)) + ((y*y)/(ratioY*ratioY*r*r)) + ((z*z)/(ratioZ*ratioZ*r*r));
+    
+    if(equation > 1) states[j] = state;
+  }
+}
+
+
+
+
 
 double* CylindricalPacker::getPositions()
 {

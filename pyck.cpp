@@ -19,7 +19,7 @@ int main()
   double *size = new double[3];
   size[0] = 1; size[1] = 1; size[2] = 1.0;
 
-  double h = 0.005;
+  double h = 0.01;
 
   // Sphere properties
   double r = 0.2;
@@ -70,10 +70,17 @@ int main()
 
 
   CylindricalPacker *radialpack2D  = new CylindricalPacker(c, r, 0.4,h, 1, 4.0);
+  radialpack2D->updateStates(c,r/2+h/10,0.4,2);
   // CylindricalPacker *radialpack3D  = new CylindricalPacker(h, 1, c, r, 0.8,l);
-  // CylindricalPacker *radialpack3D2  = new CylindricalPacker(h, 1, c, r, 0.2,0.4);
-  EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(c, r, 0.4,h, 1, 0.000001,0.65);
-  // EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(h, 1, c, r, 0.4);
+  CylindricalPacker *radialpack3D2  = new CylindricalPacker(c, r, 0.2,0.4,h, 1);
+  radialpack3D2->updateStates(c,r/2+h/10,0.2,0.4,2);
+
+  EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(c, r, 0.6,h, 1, 0.0001,0.65,true,true);
+  ellipsoid3D->updateStates(c,r,h,r-3*h,0.6,2);
+
+    // EllipsoidalPacker *ellipsoid3D  = new EllipsoidalPacker(c, r, 0.6,0.8,h, 1, 0.001,0.65,false,false);
+  // ellipsoid3D->updateStates(c,r,h,r-2*h,0.6,0.8,2);
+
 
 // Model *model = new Model();
  // Model *model = new Model(radialpack2D->getPositions(),radialpack2D->getStates(),radialpack2D->getNumParticles(),radialpack2D->getDim());
@@ -86,7 +93,11 @@ int main()
   int stateField = model->CreateIntField("State",1);
   int desiredState[1];
   desiredState[0] = 10;
+  int desiredState2[1];
+  desiredState2[0] = 20;
   model->SetIntField(stateField,1,desiredState);
+  model->SetIntField(stateField,2,desiredState2);
+
 
   int velocityField = model->CreateDoubleField("Velocity",1);
   double desiredVelocity[3];
@@ -107,7 +118,7 @@ int main()
   // delete cylinder;
   delete radialpack2D;
   // delete radialpack3D;
-  // delete radialpack3D2;
+  delete radialpack3D2;
   delete ellipsoid3D;
   // delete packer;
   // delete pack;

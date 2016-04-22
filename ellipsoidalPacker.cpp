@@ -68,7 +68,7 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
       dr = h;
     }
     
-    // std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")"<< std::endl;
+    std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")"<< std::endl;
 
     // Adding the first point for theta = 0
     p.push_back(make_part((ra)*cos(th),(ra*ratio)*sin(th),0.0,state));
@@ -94,7 +94,7 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
 
       // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
       count = 1;
-      for(int v = 0;v<(p.size()-1);v++)
+      for(int v = 0;v<=(p.size()-1);v++)
       {
         temp2 = p[v];
 
@@ -158,12 +158,17 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
         }
       }
 
-    // std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")" <<std::endl;
+      if(xmax<h)
+        {
+          kk = kk -h;
+          break;
+        }
+      std::cout << "Packing ellipse of radius :" << xmax << " with dx=" << dr << " (" << number_of_parts << ")" <<std::endl;
 
       // Adding the first point for a random theta
       if(randomstart)
       {
-      th0 = 2*M_PI*((double) rand() / (RAND_MAX));
+        th0 = 2*M_PI*((double) rand() / (RAND_MAX));
       }
       else
       {
@@ -189,17 +194,19 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
           dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z));
         }
 
-
+    // std::cout << "dth " << dth << " th " << th<< " th0 " << th0 <<std::endl;
         if(kk >= ((ratio*ratio*ra*ra) / ra)) //critical value for kk obtained by solving y(t) = 0
         {
           xcurrent = temp1.x;
 
           // Test if the point is outside the intersection points of Talbot's curve
-          if( fabs(xcurrent) <= 1.01*std::max(xmax,xmax))
+          // if( fabs(xcurrent) <= 1.01*std::max(xmax,xmax))
+          if( fabs(xcurrent) <= 1.01*std::max(ra-kk,ra-kk)) 
           {
             // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
             count = 1;
-            for(int v = 0;v<(p.size()-1);v++)
+            
+            for(int v = 0;v<=(p.size()-1);v++)
             {
               temp2 = p[v];
               dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
@@ -209,15 +216,18 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
                 break;
               } 
             }
+
             if(count == 1) 
             {
               p.push_back(temp1);
+              // std::cout << "Point added1" <<std::endl;
               temp3 = temp1;
               th=th+dth;
               number_of_parts=number_of_parts+1; 
             }
             else
             {
+              // std::cout << "Point denied2" <<std::endl;
               temp3 = temp2;
               if(dth == 0.0) dth = toldth;
               th=th+dth;
@@ -226,16 +236,18 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
           }
           else
           {
+            // std::cout << "Point denied3" <<std::endl;
             temp3 = temp2;
             if(dth == 0.0) dth = toldth;
             th=th+dth;
           }
+          
         }
         else
         {
           // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
           count = 1;
-          for(int v = 0;v<(p.size()-1);v++)
+          for(int v = 0;v<=(p.size()-1);v++)
           {
             temp2 = p[v];
             dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
@@ -248,35 +260,49 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
           if(count == 1) 
           {
             p.push_back(temp1);
+            // std::cout << "Point added4" <<std::endl;
             temp3 = temp1;
             th=th+dth;
             number_of_parts=number_of_parts+1; 
           }
           else
           {
+            // std::cout << "Point denied5" <<std::endl;
             temp3 = temp2;
             if(dth == 0.0) dth = toldth;
             th=th+dth;
           }
         }
+        // std::cout << "coucou dth " << dth << " th " << th << " condition " << ((th-th0)<= (2*M_PI-dth/2)) <<std::endl;
       }
+      // std::cout << "coucou" <<std::endl;
     }
     // ******** End : Creation of the inner parallel curves ******** //
-    
+
     // ******** Start : Housecleaning of the packing ******** //
     //Adding a line of points in the middle of the ellipse
+    
+    if(kk != 0.0)
+    {
     thetamaxtemp = asin(sqrt((((ra*ra*(kk)*(kk))/(ratio*ratio*ra*ra)) - (ratio*ratio*ra*ra)) / (ra*ra-ratio*ratio*ra*ra)));
     xmaxtemp = ra*cos(thetamax)- (ra*ratio*(kk)*cos(thetamaxtemp)) / sqrt(ra*ra*sin(thetamaxtemp)*sin(thetamaxtemp)+ra*ratio*ratio*ra*cos(thetamaxtemp)*cos(thetamaxtemp));
-    for(int jj = 0;jj<floor(xmaxtemp/h);jj++)
+    }
+    else
+    {
+      xmaxtemp = ra;
+    }      
+    std::cout <<"kk "<< kk << "xmaxtemp " << (xmaxtemp) << " thetamaxtemp " << thetamaxtemp << " jjmax " << floor(xmaxtemp/h) << std::endl;
+    for(int jj = 0;jj<=floor(xmaxtemp/h);jj++)
     {
       // towards x>0
       temp1 = make_part(jj*h,0.0,0.0,state);
       // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
       count = 1;
-      for(int v = 0;v<(p.size()-1);v++)
+      for(int v = 0;v<=(p.size()-1);v++)
       {
         temp2 = p[v];
         dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+        // std::cout << "jj " << jj << " dist " << dist << " distmax " << std::min(1.5*tolh*h,h) << std::endl;
         if(dist < std::min(1.5*tolh*h,h))
         {
           count = 0;
@@ -285,6 +311,7 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
       }
       if(count == 1) 
       {
+        // std::cout << "coucou" <<std::endl;
         p.push_back(temp1);
         number_of_parts=number_of_parts+1; 
       }
@@ -293,10 +320,11 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
       temp1 = make_part(-jj*h,0.0,0.0,state);
       // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
       count = 1;
-      for(int v = 0;v<(p.size()-1);v++)
+      for(int v = 0;v<=(p.size()-1);v++)
       {
         temp2 = p[v];
         dist = sqrt((temp1.x-temp2.x)*(temp1.x-temp2.x) + (temp1.y-temp2.y)*(temp1.y-temp2.y)+ (temp1.z-temp2.z)*(temp1.z-temp2.z)); 
+        // std::cout << "jj " << -jj << " dist " << dist << " distmax " << std::min(1.5*tolh*h,h) << std::endl;
         if(dist < std::min(1.5*tolh*h,h))
         {
           count = 0;
@@ -305,6 +333,7 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
       }
       if(count == 1) 
       {
+        // std::cout << "coucou" <<std::endl;
         p.push_back(temp1);
         number_of_parts=number_of_parts+1; 
       }
@@ -460,7 +489,6 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio, double *
 
 EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratioY, double ratioZ, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
 {
-  double halfcircle_number_of_divisions = 3.0; // number of divisions of a half circle
 
   std::vector<part> p;
 
@@ -522,6 +550,106 @@ EllipsoidalPacker::~EllipsoidalPacker()
 {
   delete [] positions;
   delete [] states;
+}
+
+void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,double ratio, int state)
+{
+  double xc,yc,zc,thetac,rc,xth,yth,zth,rth, thetamax,ymax;
+  double ra = r0 - h/2;
+  
+  double kk = 0;
+  double xmax = 10000000;
+  if(r > 0.0)
+  {
+    while(xmax > r)  
+    {
+      kk = kk + h;
+
+      if(kk >= ((ratio*ratio*ra*ra) / ra)) //critical value for kk obtained by solving y(t) = 0
+      {
+        thetamax = asin(sqrt((((ra*ra*kk*kk)/(ratio*ratio*ra*ra)) - (ratio*ratio*ra*ra)) / (ra*ra-ratio*ratio*ra*ra))); //
+        xmax = ra*cos(thetamax)- (ra*ratio*kk*cos(thetamax)) / sqrt(ra*ra*sin(thetamax)*sin(thetamax)+ra*ratio*ratio*ra*cos(thetamax)*cos(thetamax)); // Talbot's curve (inner) intersection point with the y axis
+        ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2));
+      }
+      else
+      {
+        xmax = ra-kk;
+        ymax = ra*ratio*sin(M_PI/2)- (ra*kk*sin(M_PI/2)) / sqrt(ra*ra*sin(M_PI/2)*sin(M_PI/2)+ra*ratio*ratio*ra*cos(M_PI/2)*cos(M_PI/2));
+      }
+    }  
+
+    kk = kk -h/3;
+    for(long j = 0; j < numParticles; j++)
+    {
+      xc = positions[3*j + 0] - c[0];
+      yc = positions[3*j + 1] - c[1];
+      zc = positions[3*j + 2] - c[2];
+      if((fabs(xc) > xmax || fabs(yc) > ymax)&& (fabs(zc) < h/4))
+      {
+        states[j] = state;
+      }
+      else
+      {
+
+        // thetac = atan2(ra*yc,ratio*ra*xc);
+        thetac = atan2((ra*sqrt(ra*ra*ratio)-ra*ratio*kk)*yc,(ra*ratio*sqrt(ra*ra*ratio)-ra*kk)*xc);
+        if(thetac < 0) thetac = thetac + 2.0*M_PI;
+
+
+        rc = sqrt(xc*xc+yc*yc);
+
+
+        xth = ra*cos(thetac)- (ra*ratio*kk*cos(thetac)) / sqrt(ra*ra*sin(thetac)*sin(thetac)+ra*ratio*ratio*ra*cos(thetac)*cos(thetac));
+        yth = ra*ratio*sin(thetac)- (ra*kk*sin(thetac)) / sqrt(ra*ra*sin(thetac)*sin(thetac)+ra*ratio*ratio*ra*cos(thetac)*cos(thetac));
+        zth = 0.0;
+        rth = sqrt(xth*xth+yth*yth);
+        // std::cout << "zc " << zc << std::endl;  
+        if((rc >=(rth+h/1.5)) && (fabs(zc) < h/4))
+        {
+          // std::cout << "coucou" << std::endl;
+          states[j] = state;
+        }
+      }
+    }
+  }
+  else
+  {
+    for(long j = 0; j < numParticles; j++)
+    {
+      zc = positions[3*j + 2] - c[2];
+      if((fabs(zc) < h/4)) states[j] = state;
+    }
+  }
+}
+
+
+void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,double ratioY, double ratioZ, int state)
+{
+  double ratio;
+  double current_radius;
+  double gap = r0 - r;
+  for(double z = -(r0*ratioZ)+h/2;z<=(r0*ratioZ);z+=h)
+  {
+
+
+    ratio = ratioY;
+    current_radius = r0 * sqrt(1-((z*z)/(r0*ratioZ*r0*ratioZ)));
+
+    double ctemp[3] = { c[0],c[1],c[2]+z}; 
+
+
+    if(fabs(z) < ratioZ*r)
+    {  
+      this->updateStates(ctemp,current_radius,h,current_radius-gap,ratio,state);
+    }
+    else
+    {
+      this->updateStates(ctemp,current_radius,h,0,ratio,state);
+    }
+
+  }
+
+
 }
 
 
