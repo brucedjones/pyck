@@ -13,7 +13,7 @@ public:
   ~EllipsoidalPacker();
 
   void updateStates(double *c, double r0, double h, double r,double ratio, int state);
-  void updateStates(double *c, double r,double ratioY, double ratioZ, int state);
+  void updateStates(double *c, double r0, double h, double r,double ratioY, double ratioZ, int state);
   
   double *getPositions();
   int *getStates();
