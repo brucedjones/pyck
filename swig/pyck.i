@@ -67,8 +67,8 @@
   if ($1) free($1);
 }
 
-//%include cylindricalPacker.i
-//%include ellipsoidalPacker.i
+%include cylindricalPacker.i
+%include ellipsoidalPacker.i
 
 %include pack.i
 

@@ -2,7 +2,8 @@ import sys
 sys.path.insert(0, '/f/bruce/pyck/bin');
 import pyck
 
-pack = pyck.EllipsoidalPacker(0.04, 1, [0.5,0.5,0.5], 0.4, 0.2, 0.2);
+#pack = pyck.EllipsoidalPacker([0.5,0.5,0.5], 0.2, 1, 0.02, 1);
+pack = pyck.EllipsoidalPacker([0.5,0.5,0.5], 0.2, 1, 1, 0.02, 1,0.0001);
 positions = pack.getPositions();
 states = pack.getStates();
 numParticles = pack.getNumParticles();
