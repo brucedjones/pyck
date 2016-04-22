@@ -32,7 +32,19 @@ class Model {
 
     ~Model();
 
+    /**
+     * Append particles from another pack to this model
+     * @param pack A fully processed pack object
+     */
     void AddPack(Pack *pack);
+
+    /**
+     * Append particles to this model
+     * @param positions    Nx3 array of positions (x1,y1,z1,x2,y2,z2,...,xn,yn,zn)
+     * @param states       Length N integer array of states
+     * @param numParticles Number of particles to add
+     * @param dim          Dimensionality of the pack
+     */
     void AddPack(double *positions, int *states, long numParticles, int dim);
 
     /**

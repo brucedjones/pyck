@@ -1,0 +1,3 @@
+#!/bin/bash
+doxygen Doxyfile
+python doc/doxy2swig.py doc/xml/index.xml swig/doc.i

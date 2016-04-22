@@ -1,5 +1,7 @@
 %module pyck
 
+%include doc.i
+
 %typemap(in) (double *xyz) {
  int i;
  if (!PySequence_Check($input)) {

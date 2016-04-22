@@ -611,7 +611,12 @@ EXCLUDE_SYMLINKS       = NO
 # against the file with absolute path, so to exclude all test directories
 # for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       =
+EXCLUDE_PATTERNS       = */swig/*
+EXCLUDE_PATTERNS      += */bin/*
+EXCLUDE_PATTERNS      += */bin/*
+EXCLUDE_PATTERNS      += */CMakeFiles/*
+EXCLUDE_PATTERNS      += */examples/*
+EXCLUDE_PATTERNS      += */pyck_utils/*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -1139,7 +1144,7 @@ MAN_LINKS              = NO
 # generate an XML file that captures the structure of
 # the code including all documentation.
 
-GENERATE_XML           = NO
+GENERATE_XML           = YES
 
 # The XML_OUTPUT tag is used to specify where the XML pages will be put.
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be
