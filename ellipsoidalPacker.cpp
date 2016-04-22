@@ -200,8 +200,8 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
           xcurrent = temp1.x;
 
           // Test if the point is outside the intersection points of Talbot's curve
-          // if( fabs(xcurrent) <= 1.01*std::max(xmax,xmax))
-          if( fabs(xcurrent) <= 1.01*std::max(ra-kk,ra-kk))
+          if( fabs(xcurrent) <= 1.01*std::max(xmax,xmax))
+          // if( fabs(xcurrent) <= 1.01*std::max(ra-kk,ra-kk))
           {
             // Test if the point is too close from another point, if yes it is deleted otherwise it is kept
             count = 1;
@@ -604,7 +604,7 @@ void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,do
         zth = 0.0;
         rth = sqrt(xth*xth+yth*yth);
         // std::cout << "zc " << zc << std::endl;
-        if((rc >=(rth+h/1.5)) && (fabs(zc) < h/4))
+        if((rc >=(rth+h/2.0)) && (fabs(zc) < h/4))
         {
           // std::cout << "coucou" << std::endl;
           states[j] = state;

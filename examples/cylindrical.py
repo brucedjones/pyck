@@ -4,8 +4,6 @@ import pyck
 import pyck_utils
 import math
 
-
-
 # ParticleType {Undefined=0, Liquid=1, Boundary=2, Floating=3, Moving=4, Solid =5};
 domain = [1.0,1.0,0.0];
 center = [0.5,0.5,0.0];
@@ -38,12 +36,10 @@ densityField = model.CreateDoubleField("Density",1);
 model.SetDoubleField(densityField,5,1);
 model.SetDoubleField(densityField,2,1);
 
-model.SetParameter("Mass","%f" % density*((math.pi*ratio_ellipse*r*r)/float(numParticles)));
-model.SetParameter("DTime","%f" % (0.00001));
-print ((math.pi*ratio_ellipse*r*r)/float(numParticles))*density;
-
 pyck_utils.SetDefaultParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
+model.SetParameter("Mass","%f" % (density*((math.pi*ratio_ellipse*r*r)/float(numParticles))));
+model.SetParameter("DTime","%f" % (0.00001));
 
 writer = pyck.SparkWriter();
 
-model.Serialize("pyck_test.vtp",writer);
+model.Serialize("Cylindrical_"+str(dim)+"D_R_"+str(r)+"_Ratio_"+str(ratio_ellipse)+"_"+str(numParticles)+".vtp",writer);
