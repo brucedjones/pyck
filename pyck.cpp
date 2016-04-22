@@ -93,9 +93,9 @@ int main()
   desiredVelocity[0]=5.0; desiredVelocity[1]=7.0; desiredVelocity[2]=9.0;
   model->SetDoubleField(velocityField,1,desiredVelocity);
 
-  model->AddParameter("TestParam1","0.1");
-  model->AddParameter("TestParam2","0.2");
-  model->AddParameter("TestParam3","0.6");
+  model->SetParameter("TestParam1","0.1");
+  model->SetParameter("TestParam2","0.2");
+  model->SetParameter("TestParam3","0.6");
 
   // Create a new writer
   model->Serialize("sw_test.vtp", new SparkWriter());

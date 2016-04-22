@@ -156,12 +156,12 @@ void Model::SetDoubleField(int handle, int state, double *val)
   }
 }
 
-void Model::AddParameter(std::string key, std::string value)
+void Model::SetParameter(std::string key, std::string value)
 {
   parameters[key] = value;
 }
 
-void Model::AddParameters(std::map<std::string, std::string> &parameters)
+void Model::SetParameters(std::map<std::string, std::string> &parameters)
 {
   this->parameters.insert(parameters.begin(), parameters.end());
 }

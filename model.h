@@ -72,13 +72,13 @@ class Model {
      * @param key   The label for this parameter
      * @param value The value of this parameter
      */
-    void AddParameter(std::string key, std::string value);
+    void SetParameter(std::string key, std::string value);
 
     /**
      * Add a parameter to the domain
      * @param parameters   Map of parameters to add
      */
-    void AddParameters(std::map<std::string, std::string> &parameters);
+    void SetParameters(std::map<std::string, std::string> &parameters);
 
     /**
      * Write domain to CSV file

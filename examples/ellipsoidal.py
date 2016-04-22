@@ -13,7 +13,7 @@ model = pyck.Model(positions,states,numParticles,dim);
 stateField = model.CreateIntField("State",1);
 model.SetIntField(stateField,1,10);
 
-model.AddParameter("TestParam","test");
+model.SetParameter("TestParam","test");
 
 writer = pyck.SparkWriter();
 
