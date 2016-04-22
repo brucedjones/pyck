@@ -5,6 +5,10 @@
 %}
 
 %include "std_string.i"
+%include "std_map.i"
+namespace std {
+%template(Parameters) map<string, string>;
+}
 
 class Model {
   public:
@@ -30,6 +34,8 @@ class Model {
     void SetDoubleField(int handle, int state, double *dprop);
 
     void AddParameter(std::string key, std::string value);
+
+    void AddParameters(std::map<std::string, std::string> &parameters);
 
     void Serialize(std::string fname, Writer *writer);
 

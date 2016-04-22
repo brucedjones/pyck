@@ -183,7 +183,7 @@ model.AddParameter("IsBoundaryForce","test");
 model.AddParameter("BoundaryForceMinLimit","test");
 model.AddParameter("BoundaryForceMaxLimit","test");
 model.AddParameter("IntegrationScheme","1");
-model.AddParameter("VerletStep","test");
+model.AddParameter("VerletStep","40");
 
 # Create a file writer, in this case VTP according to spark format
 writer = pyck.SparkWriter();

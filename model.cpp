@@ -160,3 +160,8 @@ void Model::AddParameter(std::string key, std::string value)
 {
   parameters[key] = value;
 }
+
+void Model::AddParameters(std::map<std::string, std::string> &parameters)
+{
+  this->parameters.insert(parameters.begin(), parameters.end());
+}

@@ -75,6 +75,12 @@ class Model {
     void AddParameter(std::string key, std::string value);
 
     /**
+     * Add a parameter to the domain
+     * @param parameters   Map of parameters to add
+     */
+    void AddParameters(std::map<std::string, std::string> &parameters);
+
+    /**
      * Write domain to CSV file
      * @param fname Output filename
      */
