@@ -17,13 +17,13 @@ class Model {
 
     Model(Pack *pack);
 
-    Model(double *positions, int *states, long numParticles, int dim);
+    Model(double *dprop, int *iprop, long numParticles, int dim);
 
     ~Model();
 
     void AddPack(Pack *pack);
 
-    void AddPack(double *positions, int *states, long numParticles, int dim);
+    void AddPack(double *dprop, int *iprop, long numParticles, int dim);
 
     int CreateIntField(std::string name, int dim);
 
