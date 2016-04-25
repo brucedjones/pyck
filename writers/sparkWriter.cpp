@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include <cstdlib>
 
 #include "sparkWriter.h"
 #include "../intField.h"
@@ -25,6 +26,12 @@ void SparkWriter::Write(std::string fname,
   long numParticles
 )
 {
+  if(numParticles == 0)
+  {
+    std::cout << "Error: Number of particles is 0, exiting" << std::endl;
+    std::exit(1);
+  }
+
   std::ofstream outfile((char*)fname.c_str(), std::ios::out);
   if(outfile.is_open()) {
     std::cout << "Writing to output file..." << std::flush;
