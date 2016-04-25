@@ -164,7 +164,7 @@ double* StructuredPack::CreatePositions(){
 
   for(long i=0;i<totalIJK;i++){
     if(state[i]!=0){
-      long thisIDX = i*3;
+      long thisIDX = i*dim;
       positions[particle] = pos[thisIDX];
       positions[particle+1] = pos[thisIDX+1];
       if(dim>2)
@@ -173,7 +173,7 @@ double* StructuredPack::CreatePositions(){
       } else {
         positions[particle+2] = 0.0;
       }
-      particle+=dim;
+      particle+=3;
     }
   }
 

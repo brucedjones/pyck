@@ -40,7 +40,7 @@ model.SetIntField(stateField,2,20);
 
 # Set default simulation parameters for the VTP file
 # SetDefaultParameters computes geometric simulation parameters from pack parameters
-# pyck_utils.SetDefaultParameters(model,L,r);
+#pyck_utils.SetDefaultParameters(model,L,r);
 # Overwrite some parameters
 # Arguments are SetParameter(Label,Value)
 model.SetParameter("MaxSteps","100");
