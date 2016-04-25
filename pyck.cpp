@@ -8,6 +8,7 @@
 #include "shapes/cuboid.h"
 #include "shapes/sphere.h"
 #include "shapes/cylinder.h"
+#include "shapes/triprism.h"
 #include "writers/sparkWriter.h"
 #include "pack.h"
 #include "model.h"

@@ -55,6 +55,7 @@ target_link_libraries(model pack writer)
 #target_link_libraries(pyckcpp cuboid)
 #target_link_libraries(pyckcpp sphere)
 #target_link_libraries(pyckcpp cylinder)
+#target_link_libraries(pyckcpp triprism)
 
 # Do this for each new writer
 #target_link_libraries(pyckcpp ${pyckLibs})

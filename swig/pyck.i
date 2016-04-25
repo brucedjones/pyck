@@ -81,6 +81,7 @@
 %include shapes/cuboid.i
 %include shapes/cylinder.i
 %include shapes/sphere.i
+%include shapes/triprism.i
 
 %include model.i
 

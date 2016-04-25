@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '~/Downloads/repositories/pyck/bin');
+sys.path.insert(0, '/f/sjr/pyck/bin');
 import pyck
 import pyck_utils
 import math

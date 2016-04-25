@@ -13,4 +13,8 @@ add_library(cylinder cylinder.cpp)
 target_link_libraries(cylinder shape boundingBox)
 list(APPEND pyckLibs "cylinder")
 
+add_library(triprism triprism.cpp)
+target_link_libraries(triprism shape boundingBox)
+list(APPEND pyckLibs "triprism")
+
 set(pyckLibs "${pyckLibs}" PARENT_SCOPE)
