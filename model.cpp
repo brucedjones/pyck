@@ -102,8 +102,8 @@ void Model::AddPack(double *positions, int *states, long numParticles, int dim)
     std::copy(this->states, this->states+this->numParticles, statesTmp);
     std::copy(states, states+numParticles, statesTmp+this->numParticles);
 
-    delete [] positions;
-    delete [] states;
+    delete [] this->positions;
+    delete [] this->states;
 
     this->positions = positionsTmp;
     this->states = statesTmp;

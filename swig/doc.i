@@ -209,6 +209,24 @@ ratioY, double ratioZ, double h, int state, double num_div=3.0) ";
 
 %feature("docstring")  CylindricalPacker::~CylindricalPacker "CylindricalPacker::~CylindricalPacker() ";
 
+%feature("docstring")  CylindricalPacker::updateStates "void
+CylindricalPacker::updateStates(double *c, double r, double ratio, int
+state) ";
+
+%feature("docstring")  CylindricalPacker::updateStates "void
+CylindricalPacker::updateStates(double *c, double r, double ratioY,
+double ratioZ, int state) ";
+
+%feature("docstring")  CylindricalPacker::MapShape "void
+CylindricalPacker::MapShape(Shape *shape)
+
+Map a shape to the pack
+
+Parameters:
+-----------
+
+shape:   Shape to be mapped ";
+
 %feature("docstring")  CylindricalPacker::getPositions "double *
 CylindricalPacker::getPositions() ";
 
@@ -357,6 +375,24 @@ tolerance_angle=0.001, double tolerance_h=0.55, bool
 random_startingpoint=true, bool adjust_h=true) ";
 
 %feature("docstring")  EllipsoidalPacker::~EllipsoidalPacker "EllipsoidalPacker::~EllipsoidalPacker() ";
+
+%feature("docstring")  EllipsoidalPacker::updateStates "void
+EllipsoidalPacker::updateStates(double *c, double r0, double h, double
+r, double ratio, int state) ";
+
+%feature("docstring")  EllipsoidalPacker::updateStates "void
+EllipsoidalPacker::updateStates(double *c, double r0, double h, double
+r, double ratioY, double ratioZ, int state) ";
+
+%feature("docstring")  EllipsoidalPacker::MapShape "void
+EllipsoidalPacker::MapShape(Shape *shape)
+
+Map a shape to the pack
+
+Parameters:
+-----------
+
+shape:   Shape to be mapped ";
 
 %feature("docstring")  EllipsoidalPacker::getPositions "double *
 EllipsoidalPacker::getPositions() ";
@@ -652,15 +688,9 @@ The pack to be packed with particles.
 
 C++ includes: pack.h ";
 
-%feature("docstring")  Pack::Pack "Pack::Pack(Packer *packer)
+%feature("docstring")  Pack::Pack "Pack::Pack()
 
-Pack Constructor
-
-Parameters:
------------
-
-packer:  Determines the relationship between IJK and Cartesian
-coordinates. ";
+Pack Constructor ";
 
 %feature("docstring")  Pack::~Pack "Pack::~Pack() ";
 
@@ -674,7 +704,7 @@ Parameters:
 
 shape:   Shape to be mapped ";
 
-%feature("docstring")  Pack::Process "void Pack::Process()
+%feature("docstring")  Pack::MapShapes "void Pack::MapShapes()
 
 Pack all added shapes and generate positions and states ";
 
@@ -811,6 +841,31 @@ pt:  Coordinates to check
 True if coordinate is inside shape, false otherwise ";
 
 
+// File: classStructuredPack.xml
+%feature("docstring") StructuredPack "
+
+The StructuredPack to be StructuredPacked with particles.
+
+C++ includes: structuredPack.h ";
+
+%feature("docstring")  StructuredPack::StructuredPack "StructuredPack::StructuredPack(Packer *packer)
+
+StructuredPack Constructor
+
+Parameters:
+-----------
+
+StructuredPacker:  Determines the relationship between IJK and
+Cartesian coordinates. ";
+
+%feature("docstring")  StructuredPack::~StructuredPack "StructuredPack::~StructuredPack() ";
+
+%feature("docstring")  StructuredPack::Process "void
+StructuredPack::Process()
+
+StructuredPack all added shapes and generate positions and states ";
+
+
 // File: classWriter.xml
 %feature("docstring") Writer "";
 
@@ -841,14 +896,6 @@ doxy2swig::my_open_write";
 // File: boundingBox_8h.xml
 
 
-// File: cylindricalPacker_8cpp.xml
-%feature("docstring")  make_particle "particle make_particle(double
-x, double y, double z, int state) ";
-
-
-// File: cylindricalPacker_8h.xml
-
-
 // File: doxy2swig_8py.xml
 
 
@@ -856,6 +903,32 @@ x, double y, double z, int state) ";
 
 
 // File: doubleField_8h.xml
+
+
+// File: intField_8cpp.xml
+
+
+// File: intField_8h.xml
+
+
+// File: model_8cpp.xml
+
+
+// File: model_8h.xml
+
+
+// File: pack_8cpp.xml
+
+
+// File: pack_8h.xml
+
+
+// File: cylindricalPacker_8cpp.xml
+%feature("docstring")  make_particle "particle make_particle(double
+x, double y, double z, int state) ";
+
+
+// File: cylindricalPacker_8h.xml
 
 
 // File: ellipsoidalPacker_8cpp.xml
@@ -900,18 +973,6 @@ Legendre_Elliptic_Integral_Second_Kind(double amplitude, char arg,
 double x) ";
 
 
-// File: intField_8cpp.xml
-
-
-// File: intField_8h.xml
-
-
-// File: model_8cpp.xml
-
-
-// File: model_8h.xml
-
-
 // File: old__ellipsoidalPacker_8cpp.xml
 %feature("docstring")  make_part "part make_part(double x, double y,
 double z, int state) ";
@@ -932,12 +993,6 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 
 
 // File: old__ellipsoidalPacker_8h.xml
-
-
-// File: pack_8cpp.xml
-
-
-// File: pack_8h.xml
 
 
 // File: packer_8cpp.xml
@@ -968,6 +1023,12 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 
 
 // File: hcpPacker_8h.xml
+
+
+// File: structuredPack_8cpp.xml
+
+
+// File: structuredPack_8h.xml
 
 
 // File: pyck_8cpp.xml
@@ -1032,7 +1093,10 @@ size_t inLen, unsigned char *out, size_t *outLen) ";
 // File: dir_4699ad3df0ca2385ac6f5b73c70216ce.xml
 
 
-// File: dir_d02fab7b3197f2d150e34b78c922b345.xml
+// File: dir_092f0d59b32c5c74559c105fc9b15544.xml
+
+
+// File: dir_9b03ec41c112422cb096d06b602a3667.xml
 
 
 // File: dir_52ef77e189de5fda808669e8c78dfd40.xml

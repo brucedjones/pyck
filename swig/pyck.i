@@ -48,6 +48,10 @@
   if ($1) free($1);
 }
 
+%typemap(typecheck) (double *dprop) {
+   $1 = PySequence_Check($input) ? 1 : 0;
+}
+
 %typemap(in) (int *iprop) {
  int i;
  if (!PySequence_Check($input)) {
@@ -69,6 +73,10 @@
 
 %typemap(freearg) (int *iprop) {
   if ($1) free($1);
+}
+
+%typemap(typecheck) (int *iprop) {
+   $1 = PySequence_Check($input) ? 1 : 0;
 }
 
 %include pack/cylindricalPacker.i
