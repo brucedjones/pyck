@@ -15,17 +15,27 @@ Model::Model()
 
 Model::Model(Pack *pack)
 {
-  this->positions = pack->positions;
-  this->states = pack->states;
-  this->numParticles = pack->numParticles;
+  numParticles = pack->numParticles;
+
+  positions = new double[numParticles*3];
+  std::copy(pack->positions, pack->positions+numParticles*3, positions);
+
+  states = new int[numParticles];
+  std::copy(pack->states, pack->states+numParticles, states);
+
   this->dim = pack->dim;
 }
 
 Model::Model(double *positions, int *states, long numParticles, int dim)
 {
-  this->positions = positions;
-  this->states = states;
   this->numParticles = numParticles;
+
+  this->positions = new double[numParticles*3];
+  std::copy(positions, positions+numParticles*3, this->positions);
+
+  this->states = new int[numParticles];
+  std::copy(states, states+numParticles, this->states);
+
   this->dim = dim;
 }
 
@@ -65,9 +75,14 @@ void Model::AddPack(Pack *pack)
     states = statesTmp;
     numParticles = numParticlesNew;
   } else {
-    positions = pack->positions;
-    states = pack->states;
+
     numParticles = pack->numParticles;
+
+    positions = new double[numParticles*3];
+    std::copy(pack->positions, pack->positions+numParticles*3, positions);
+
+    states = new int[numParticles];
+    std::copy(pack->states, pack->states+numParticles, states);
   }
 
   dim = pack->dim;
@@ -94,9 +109,13 @@ void Model::AddPack(double *positions, int *states, long numParticles, int dim)
     this->states = statesTmp;
     this->numParticles = numParticlesNew;
   } else {
-    this->positions = positions;
-    this->states = states;
     this->numParticles = numParticles;
+
+    this->positions = new double[numParticles*3];
+    std::copy(positions, positions+numParticles*3, this->positions);
+
+    this->states = new int[numParticles];
+    std::copy(states, states+numParticles, this->states);
   }
 
   this->dim = dim;
