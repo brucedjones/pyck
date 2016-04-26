@@ -199,45 +199,166 @@ True if coordinate is inside shape, false otherwise ";
 %feature("docstring") CylindricalPacker "";
 
 %feature("docstring")  CylindricalPacker::CylindricalPacker "CylindricalPacker::CylindricalPacker(double *c, double r, double
-ratio, double h, int state, double num_div=3.0) ";
+ratio, double h, int state, double num_div=3.0)
 
-%feature("docstring")  CylindricalPacker::CylindricalPacker "CylindricalPacker::CylindricalPacker(double *c, double r, double
-ratio, double *l, double h, int state, double num_div=3.0) ";
-
-%feature("docstring")  CylindricalPacker::CylindricalPacker "CylindricalPacker::CylindricalPacker(double *c, double r, double
-ratioY, double ratioZ, double h, int state, double num_div=3.0) ";
-
-%feature("docstring")  CylindricalPacker::~CylindricalPacker "CylindricalPacker::~CylindricalPacker() ";
-
-%feature("docstring")  CylindricalPacker::updateStates "void
-CylindricalPacker::updateStates(double *c, double r, double ratio, int
-state) ";
-
-%feature("docstring")  CylindricalPacker::updateStates "void
-CylindricalPacker::updateStates(double *c, double r, double ratioY,
-double ratioZ, int state) ";
-
-%feature("docstring")  CylindricalPacker::MapShape "void
-CylindricalPacker::MapShape(Shape *shape)
-
-Map a shape to the pack
+2D Circular constructor.
 
 Parameters:
 -----------
 
-shape:   Shape to be mapped ";
+c:  Array of 3 doubles (x y z) representing the center of the circular
+packing
+
+r:  Double representing the radius of the ellipse along X
+
+ratio:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratio
+
+h:  Double representing the spacing between created particles
+
+state:  Integer representing the state of the created particles
+
+num_div:  Double indicating in how many parts the half-circle is
+divided (default 3) ";
+
+%feature("docstring")  CylindricalPacker::CylindricalPacker "CylindricalPacker::CylindricalPacker(double *c, double r, double
+ratio, double *l, double h, int state, double num_div=3.0)
+
+3D 'Cylindrical' Circular constructor.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r:  Double representing the radius of the ellipse along X
+
+ratio:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratio
+
+l:  Array of 3 doubles (lx ly lz). Only one component should be non-
+zero indicating the length of the and the direction of the 'cylinder'
+
+h:  Double representing the spacing between created particles
+
+state:  Integer representing the state of the created particles
+
+num_div:  Double indicating in how many parts the half-circle is
+divided (default 3) ";
+
+%feature("docstring")  CylindricalPacker::CylindricalPacker "CylindricalPacker::CylindricalPacker(double *c, double r, double
+ratioY, double ratioZ, double h, int state, double num_div=3.0)
+
+3D Circular constructor.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r:  Double representing the radius of the ellipse along X
+
+ratioY:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratioY
+
+ratioZ:  Double representing the ratio of the ellipse so that the
+radius along Z is equal to r*ratioZ
+
+h:  Double representing the spacing between created particles
+
+state:  Integer representing the state of the created particles
+
+num_div:  Double indicating in how many parts the half-circle is
+divided (default 3) ";
+
+%feature("docstring")  CylindricalPacker::~CylindricalPacker "CylindricalPacker::~CylindricalPacker()
+
+Circular destructor. ";
+
+%feature("docstring")  CylindricalPacker::updateStates "void
+CylindricalPacker::updateStates(double *c, double r, double ratio, int
+state)
+
+2D Method to update the state of the particles outside a certain
+radius.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the circular
+packing
+
+r0:  Double representing the radius of the ellipse along X
+
+h:  Double representing the spacing between created particles
+
+r:  Double representing the radius from which particles have their
+state updated
+
+ratio:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratio
+
+state:  Integer representing the state of the created particles ";
+
+%feature("docstring")  CylindricalPacker::updateStates "void
+CylindricalPacker::updateStates(double *c, double r, double ratioY,
+double ratioZ, int state)
+
+3D Method to update the state of the particles outside a certain
+radius.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the circular
+packing
+
+r0:  Double representing the radius of the ellipse along X
+
+h:  Double representing the spacing between created particles
+
+r:  Double representing the radius from which particles have their
+state updated
+
+ratioY:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratioY
+
+ratioZ:  Double representing the ratio of the ellipse so that the
+radius along Z is equal to r*ratioZ
+
+state:  Integer representing the state of the created particles ";
+
+%feature("docstring")  CylindricalPacker::MapShape "void
+CylindricalPacker::MapShape(Shape *shape)
+
+Method that return the particles within a shape
+
+Parameters:
+-----------
+
+shape:   Shape object ";
 
 %feature("docstring")  CylindricalPacker::getPositions "double *
-CylindricalPacker::getPositions() ";
+CylindricalPacker::getPositions()
+
+Get positions array ";
 
 %feature("docstring")  CylindricalPacker::getStates "int *
-CylindricalPacker::getStates() ";
+CylindricalPacker::getStates()
+
+Get states array ";
 
 %feature("docstring")  CylindricalPacker::getNumParticles "long
-CylindricalPacker::getNumParticles() ";
+CylindricalPacker::getNumParticles()
+
+Get number of particles ";
 
 %feature("docstring")  CylindricalPacker::getDim "int
-CylindricalPacker::getDim() ";
+CylindricalPacker::getDim()
+
+Get dimension value ";
 
 
 // File: classDoubleField.xml
@@ -362,49 +483,199 @@ a new list. It also wraps the paragraphs nicely. ";
 %feature("docstring")  EllipsoidalPacker::EllipsoidalPacker "EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double
 ratio, double h, int state, double tolerance_angle=0.001, double
 tolerance_h=0.55, bool random_startingpoint=true, bool adjust_h=true)
+
+2D Ellipsoidal constructor.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r:  Double representing the radius of the ellipse along X
+
+ratio:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratio
+
+h:  Double representing the spacing between created particles
+
+state:  Integer representing the state of the created particles
+
+tolerance_angle:  Double representing the tolerance for the angle
+update (default 0.001)
+
+tolerance_h:  Double representing the tolerance for the spacing
+(default 0.55)
+
+random_startingpoint:  Boolean to enable/disable the random starting
+point when packing the inner ellipses (default true)
+
+adjust_h:  Boolean to enable/disable the adjustement of h so that the
+particles are better (equally) spaced along the ellipse 9default true)
 ";
 
 %feature("docstring")  EllipsoidalPacker::EllipsoidalPacker "EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double
 ratio, double *l, double h, int state, double tolerance_angle=0.001,
 double tolerance_h=0.55, bool random_startingpoint=true, bool
-adjust_h=true) ";
+adjust_h=true)
 
-%feature("docstring")  EllipsoidalPacker::EllipsoidalPacker "EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double
-ratioY, double ratioZ, double h, int state, double
-tolerance_angle=0.001, double tolerance_h=0.55, bool
-random_startingpoint=true, bool adjust_h=true) ";
-
-%feature("docstring")  EllipsoidalPacker::~EllipsoidalPacker "EllipsoidalPacker::~EllipsoidalPacker() ";
-
-%feature("docstring")  EllipsoidalPacker::updateStates "void
-EllipsoidalPacker::updateStates(double *c, double r0, double h, double
-r, double ratio, int state) ";
-
-%feature("docstring")  EllipsoidalPacker::updateStates "void
-EllipsoidalPacker::updateStates(double *c, double r0, double h, double
-r, double ratioY, double ratioZ, int state) ";
-
-%feature("docstring")  EllipsoidalPacker::MapShape "void
-EllipsoidalPacker::MapShape(Shape *shape)
-
-Map a shape to the pack
+3D 'Cylindrical' Ellipsoidal constructor.
 
 Parameters:
 -----------
 
-shape:   Shape to be mapped ";
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r:  Double representing the radius of the ellipse along X
+
+ratio:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratio
+
+l:  Array of 3 doubles (lx ly lz). Only one component should be non-
+zero indicating the length of the and the direction of the 'cylinder'
+
+h:  Double representing the spacing between created particles
+
+state:  Integer representing the state of the created particles
+
+tolerance_angle:  Double representing the tolerance for the angle
+update (default 0.001)
+
+tolerance_h:  Double representing the tolerance for the spacing
+(default 0.55)
+
+random_startingpoint:  Boolean to enable/disable the random starting
+point when packing the inner ellipses (default true)
+
+adjust_h:  Boolean to enable/disable the adjustement of h so that the
+particles are better (equally) spaced along the ellipse 9default true)
+";
+
+%feature("docstring")  EllipsoidalPacker::EllipsoidalPacker "EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double
+ratioY, double ratioZ, double h, int state, double
+tolerance_angle=0.001, double tolerance_h=0.55, bool
+random_startingpoint=true, bool adjust_h=true)
+
+3D Ellipsoidal constructor.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r:  Double representing the radius of the ellipse along X
+
+ratioY:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratioY
+
+ratioZ:  Double representing the ratio of the ellipse so that the
+radius along Z is equal to r*ratioZ
+
+h:  Double representing the spacing between created particles
+
+state:  Integer representing the state of the created particles
+
+tolerance_angle:  Double representing the tolerance for the angle
+update (default 0.001)
+
+tolerance_h:  Double representing the tolerance for the spacing
+(default 0.55)
+
+random_startingpoint:  Boolean to enable/disable the random starting
+point when packing the inner ellipses (default true)
+
+adjust_h:  Boolean to enable/disable the adjustement of h so that the
+particles are better (equally) spaced along the ellipse 9default true)
+";
+
+%feature("docstring")  EllipsoidalPacker::~EllipsoidalPacker "EllipsoidalPacker::~EllipsoidalPacker()
+
+Ellipsoidal destructor. ";
+
+%feature("docstring")  EllipsoidalPacker::updateStates "void
+EllipsoidalPacker::updateStates(double *c, double r0, double h, double
+r, double ratio, int state)
+
+2D Method to update the state of the particles outside a certain
+radius.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r0:  Double representing the radius of the ellipse along X
+
+h:  Double representing the spacing between created particles
+
+r:  Double representing the radius from which particles have their
+state updated
+
+ratio:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratio
+
+state:  Integer representing the state of the created particles ";
+
+%feature("docstring")  EllipsoidalPacker::updateStates "void
+EllipsoidalPacker::updateStates(double *c, double r0, double h, double
+r, double ratioY, double ratioZ, int state)
+
+3D Method to update the state of the particles outside a certain
+radius.
+
+Parameters:
+-----------
+
+c:  Array of 3 doubles (x y z) representing the center of the
+ellipsoidal packing
+
+r0:  Double representing the radius of the ellipse along X
+
+h:  Double representing the spacing between created particles
+
+r:  Double representing the radius from which particles have their
+state updated
+
+ratioY:  Double representing the ratio of the ellipse so that the
+radius along Y is equal to r*ratioY
+
+ratioZ:  Double representing the ratio of the ellipse so that the
+radius along Z is equal to r*ratioZ
+
+state:  Integer representing the state of the created particles ";
+
+%feature("docstring")  EllipsoidalPacker::MapShape "void
+EllipsoidalPacker::MapShape(Shape *shape)
+
+Method that return the particles within a shape
+
+Parameters:
+-----------
+
+shape:   Shape object ";
 
 %feature("docstring")  EllipsoidalPacker::getPositions "double *
-EllipsoidalPacker::getPositions() ";
+EllipsoidalPacker::getPositions()
+
+Get positions array ";
 
 %feature("docstring")  EllipsoidalPacker::getStates "int *
-EllipsoidalPacker::getStates() ";
+EllipsoidalPacker::getStates()
+
+Get states array ";
 
 %feature("docstring")  EllipsoidalPacker::getNumParticles "long
-EllipsoidalPacker::getNumParticles() ";
+EllipsoidalPacker::getNumParticles()
+
+Get number of particles ";
 
 %feature("docstring")  EllipsoidalPacker::getDim "int
-EllipsoidalPacker::getDim() ";
+EllipsoidalPacker::getDim()
+
+Get dimension value ";
 
 %feature("docstring")  EllipsoidalPacker::EllipsoidalPacker "EllipsoidalPacker::EllipsoidalPacker(double h, int state, double *c,
 double r, double ratioY, double ratioZ) ";
