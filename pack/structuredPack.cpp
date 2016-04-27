@@ -125,18 +125,17 @@ void StructuredPack::MapShape(Shape *shape)
       }
     }
   } else {
-    for(long k=p1[2]; k<p2[2]; k++){
-      #pragma omp parallel for schedule(static)
-      for(long j=p1[1]; j<p2[1]; j++){
-        double thisPos[3];
-        for(long i=p1[0]; i<p2[0]; i++){
-          packer->IDX2Pos(i,j,k,thisPos);
-          if(shape->IsInside(thisPos)){
-            state[ID(i,j,k)] = shape->state;
-            pos[DimID(0,i,j,k)] = thisPos[0];
-            pos[DimID(1,i,j,k)] = thisPos[1];
-            if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
-          }
+    long k = 0;
+    #pragma omp parallel for schedule(static)
+    for(long j=p1[1]; j<p2[1]; j++){
+      double thisPos[3];
+      for(long i=p1[0]; i<p2[0]; i++){
+        packer->IDX2Pos(i,j,k,thisPos);
+        if(shape->IsInside(thisPos)){
+          state[ID(i,j,k)] = shape->state;
+          pos[DimID(0,i,j,k)] = thisPos[0];
+          pos[DimID(1,i,j,k)] = thisPos[1];
+          if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
         }
       }
     }
