@@ -104,6 +104,11 @@ public:
      * Get number of particles
      */
   long getNumParticles();
+          /**
+     * Get number of particles for a given state
+     * @param state Integer representing the state of the created particles
+     */
+  long getNumParticlesByState(int state);
         /**
      * Get dimension value
      */

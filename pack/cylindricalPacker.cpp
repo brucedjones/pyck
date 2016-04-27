@@ -403,4 +403,12 @@ int* CylindricalPacker::CreateStates(long numParticles_temp)
 
   return states;
 }
+long CylindricalPacker::getNumParticlesByState(int state)
+{
+    long n = 0;
+  for(long i=0;i<numParticles;i++){
+    if(this->states[i]==state) n++;
+  }
 
+  return n;
+}
