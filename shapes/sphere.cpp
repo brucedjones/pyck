@@ -2,7 +2,11 @@
 
 Sphere::Sphere(int state, double *c, double r) : Shape(state)
 {
-  this->c = c;
+  this->c = new double[3];
+  this->c[0] = c[0];
+  this->c[1] = c[1];
+  this->c[2] = c[2];
+
   this->r = r;
 
   double *p1 = new double[3];
@@ -11,9 +15,14 @@ Sphere::Sphere(int state, double *c, double r) : Shape(state)
   p2[0] = c[0] - r; p2[1] = c[1] - r; p2[2] = c[2] - r;
 
   this->boundingBox = new BoundingBox(p1,p2);
+
+  delete [] p1;
+  delete [] p2;
 }
 
-Sphere::~Sphere(){}
+Sphere::~Sphere(){
+  delete [] c;
+}
 
 bool Sphere::IsInside(double *pt)
 {

@@ -1,21 +1,14 @@
 import sys
-sys.path.insert(0, '/f/sjr/pyck/bin'); # Set this to the path where pyck is compiled
+sys.path.insert(0, '/f/bruce/pyck/bin'); # Set this to the path where pyck is compiled
 import pyck
 import pyck_utils # Utility functions for creating simulation parameters
 
+L = [10.0,10.0,0.0]
+r = 0.1;
 
-domain = [1.0,1.0,0.0];
-h = 0.01;
-smoothingKernelFunc = 2;
-speedsound = 1;
-density = 1;
-shearmodulus = 1;
-bulkmodulus = 1;
 # Create a packer, see packers directory for options
-cubic = pyck.CubicPacker([10.0,10.0,10.0],h);
-# pack = pyck.Pack(cubic); # do not create the cubic packer in this function call as it will be destroyed, blame SWIG developers
-pack = pyck.StructuredPack(cubic)
-
+cubic = pyck.CubicPacker(L,r);
+pack = pyck.StructuredPack(cubic); # do not create the cubic packer in this function call as it will be destroyed, blame SWIG developers
 
 # Create some shapes, see shapes directory for options and reference
 # First argument is always a tag for these particles
@@ -47,9 +40,7 @@ model.SetIntField(stateField,2,20);
 
 # Set default simulation parameters for the VTP file
 # SetDefaultParameters computes geometric simulation parameters from pack parameters
-
-pyck_utils.SetDefaultParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
-
+#pyck_utils.SetDefaultParameters(model,L,r);
 # Overwrite some parameters
 # Arguments are SetParameter(Label,Value)
 model.SetParameter("MaxSteps","100");

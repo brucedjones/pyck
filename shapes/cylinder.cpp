@@ -4,9 +4,18 @@
 
 Cylinder::Cylinder(int state, double *c, double r, double *l) : Shape(state)
 {
-  this->c = c;
+  this->c = new double[3];
+  this->l = new double[3];
+
+  this->c[0] = c[0];
+  this->c[1] = c[1];
+  this->c[2] = c[2];
+
+  this->l[0] = l[0];
+  this->l[1] = l[1];
+  this->l[2] = l[2];
+
   this->r = r;
-  this->l = l;
 
   double *p1 = new double[3];
   double *p2 = new double[3];
@@ -34,9 +43,15 @@ Cylinder::Cylinder(int state, double *c, double r, double *l) : Shape(state)
 
 
   this->boundingBox = new BoundingBox(p1,p2);
+
+  delete [] p1;
+  delete [] p2;
 }
 
-Cylinder::~Cylinder(){}
+Cylinder::~Cylinder(){
+  delete [] c;
+  delete [] l;
+}
 
 bool Cylinder::IsInside(double *pt)
 {

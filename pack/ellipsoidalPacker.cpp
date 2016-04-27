@@ -689,3 +689,76 @@ void EllipsoidalPacker::MapShape(Shape *shape)
   }
     std::cout << " complete" << std::endl;
 }
+void EllipsoidalPacker::Process()
+{
+  MapShapes();
+  int numParticles_temp = ComputeNumParticles();
+  double *positions_temp = CreatePositions(numParticles_temp);
+  int *states_temp = CreateStates(numParticles_temp);
+  numParticles = numParticles_temp;
+
+  delete[] positions;
+  delete[] states;
+
+  positions = positions_temp;
+  states = states_temp;
+
+  std::cout << "Processing CylindricalPack...complete (" << numParticles << " particles)" << std::endl;;
+}
+long EllipsoidalPacker::ComputeNumParticles(){
+
+  long n = 0;
+  for(long i=0;i<numParticles;i++){
+    if(this->states[i]!=0) n++;
+  }
+
+  return n;
+}
+
+double* EllipsoidalPacker::CreatePositions(long numParticles_temp)
+{
+  double *positions = new double[numParticles_temp*3];
+
+  long particle = 0;
+
+  for(long i=0;i<numParticles;i++){
+    if(this->states[i]!=0){
+      long thisIDX = i*3;
+      positions[particle] = this->positions[thisIDX];
+      positions[particle+1] = this->positions[thisIDX+1];
+      if(dim>2)
+      {
+        positions[particle+2] = this->positions[thisIDX+2];
+      } else {
+        positions[particle+2] = 0.0;
+      }
+      particle+=3;
+    }
+  }
+
+  return positions;
+}
+
+int* EllipsoidalPacker::CreateStates(long numParticles_temp)
+{
+  int *states = new int[numParticles_temp];
+
+  long particle = 0;
+  for(long i=0;i<numParticles;i++){
+    if(this->states[i]!=0){
+      states[particle] = this->states[i];
+      particle++;
+    }
+  }
+
+  return states;
+}
+long EllipsoidalPacker::getNumParticlesByState(int state)
+{
+    long n = 0;
+  for(long i=0;i<numParticles;i++){
+    if(this->states[i]==state) n++;
+  }
+
+  return n;
+}

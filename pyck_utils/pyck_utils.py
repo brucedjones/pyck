@@ -17,14 +17,14 @@ def SetGeometricParameters(model,L,r,smoothingKernelFunc):
     if L[2]==0:
             L[2] = KappaH;
 
-    model.SetParameter("Lx","%f" % L[0]);
-    model.SetParameter("Ly","%f" % L[1]);
-    model.SetParameter("Lz","%f" % L[2]);
+    model.SetParameter("Lx","%e" % L[0]);
+    model.SetParameter("Ly","%e" % L[1]);
+    model.SetParameter("Lz","%e" % L[2]);
     model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
     model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
     model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
-    model.SetParameter("SmoothingLength","%f" % (1.3*r));
-    model.SetParameter("InitialParticleSeparation","%f" % (r));
+    model.SetParameter("SmoothingLength","%e" % (1.3*r));
+    model.SetParameter("InitialParticleSeparation","%e" % (r));
 
 def SetDefaultParameters(model,L,r,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus):
     model.SetParameter("SmoothingKernelFunc","%d" % smoothingKernelFunc);
@@ -42,9 +42,9 @@ def SetDefaultParameters(model,L,r,smoothingKernelFunc,speedsound, density, shea
     model.SetParameter("ViscEtq","0.1");
     model.SetParameter("ViscAlpha","1.0");
     model.SetParameter("ViscBeta","2.0");
-    model.SetParameter("DTime","%f" % (0.4*((1.3*r)/speedsound)));
-    model.SetParameter("SpeedSound","%f" % speedsound);
-    model.SetParameter("InitialDensity","%f" % density);
+    model.SetParameter("DTime","%e" % (0.4*((1.3*r)/speedsound)));
+    model.SetParameter("SpeedSound","%e" % speedsound);
+    model.SetParameter("InitialDensity","%e" % density);
     model.SetParameter("SmoothingKernelFunc","%d" % smoothingKernelFunc);
     model.SetParameter("Dim","%d" % dim);
     model.SetParameter("AlgorithmSPH","2");
@@ -86,11 +86,11 @@ def SetDefaultParameters(model,L,r,smoothingKernelFunc,speedsound, density, shea
     model.SetParameter("MovingBoundaryShiftX","");
     model.SetParameter("MovingBoundaryShiftY","");
     model.SetParameter("MovingBoundaryShiftZ","");
-    model.SetParameter("ShearModulus","%f" % shearmodulus);
-    model.SetParameter("BulkModulus","%f" % bulkmodulus);
+    model.SetParameter("ShearModulus","%e" % shearmodulus);
+    model.SetParameter("BulkModulus","%e" % bulkmodulus);
     model.SetParameter("PoissonRatio","");
     model.SetParameter("YoungModulus","");
-    model.SetParameter("deltaRmat","%f" % (1e-12 * 1.667e-05));
+    model.SetParameter("deltaRmat","%e" % (1e-12 * 1.667e-05));
     model.SetParameter("yieldTensileStrength","");
     model.SetParameter("KDamage","");
     model.SetParameter("MDamage","");
@@ -145,7 +145,7 @@ def SetDefaultParameters(model,L,r,smoothingKernelFunc,speedsound, density, shea
     model.SetParameter("CheckpointExt",".vtp");
     model.SetParameter("CheckpointDir","./checkpoint");
     model.SetParameter("OutputFormat","binary");
-    model.SetParameter("Cg","%f" % (0.4*speedsound));
+    model.SetParameter("Cg","%e" % (0.4*speedsound));
     model.SetParameter("PlasticityModel","2");
     model.SetParameter("DamageModel","1");
     model.SetParameter("DampingCoef","0.05");
