@@ -5,7 +5,7 @@ import pyck_utils # Utility functions for creating simulation parameters
 
 
 domain = [10.0,10.0,10.0];
-h = 0.1;
+h = 0.02;
 smoothingKernelFunc = 2;
 speedsound = 1;
 density = 1;
@@ -19,7 +19,7 @@ pack = pyck.StructuredPack(cubic)
 # Create some shapes, see shapes directory for options and reference
 # First argument is always a tag for these particles
 # Mapping operations are applied sequentially
-tri = pyck.TriPrism(1,[0.5,3,0],[0,2,0],[1,2,0],5);
+tri = pyck.TriPrism(1,[1.5,3.0,0.0],[3,0,0],[0,0,0],2);
 
 # Map the shapes and generate the pack
 #pack.AddShape(cube); # As with creating the cubic packer, do not create the shapes within the function call here
