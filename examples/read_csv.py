@@ -53,7 +53,8 @@ for row in reader:
 				states.append(int(col));
 				numParticles += 1;
 				test = 1;
-			if(colnum == kernelSum_col and test == 1 and count == 0):
+				count = 1;
+			if(colnum == kernelSum_col and test == 1 and count == 1):
 				kernelSum = float(col);		
 			if(colnum == posX_col and test == 1):
 				positions.append(float(col));
@@ -67,7 +68,6 @@ for row in reader:
 	rownum += 1
 
 ifile.close()
-
 # Creation of the model
 model = pyck.Model(positions,states,50513,dim);
 
