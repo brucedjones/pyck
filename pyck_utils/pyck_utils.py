@@ -502,7 +502,7 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("Movsyz","");
     model.SetParameter("Movsxz","");
     model.SetParameter("Movszz","");
-    model.SetParameter("BoundariesRampTime","%e" % ramptime);
+    model.SetParameter("BoundariesRampTime","%d" % ramptime);
     model.SetParameter("Cracksxx","");
     model.SetParameter("Cracksxy","");
     model.SetParameter("Cracksyy","");
