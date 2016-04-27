@@ -340,6 +340,42 @@ Parameters:
 
 shape:   Shape object ";
 
+%feature("docstring")  CylindricalPacker::Process "void
+CylindricalPacker::Process()
+
+Pack all added shapes and generate positions and states ";
+
+%feature("docstring")  CylindricalPacker::ComputeNumParticles "long
+CylindricalPacker::ComputeNumParticles()
+
+Get the number of particles in this Pack ";
+
+%feature("docstring")  CylindricalPacker::CreatePositions "double *
+CylindricalPacker::CreatePositions(long numParticles_temp)
+
+Create 1D array of particle positions
+
+Parameters:
+-----------
+
+numParticles_temp:  Long representing the number of particles with a
+non-zero value state
+
+1D array of particle positions, format is [x1,y1,x2,y2,...xn,yn] ";
+
+%feature("docstring")  CylindricalPacker::CreateStates "int *
+CylindricalPacker::CreateStates(long numParticles_temp)
+
+Create 1D array of particle positions
+
+Parameters:
+-----------
+
+numParticles_temp:  Long representing the number of particles with a
+non-zero value state
+
+1D array of particle States, format is [x1,y1,x2,y2,...xn,yn] ";
+
 %feature("docstring")  CylindricalPacker::getPositions "double *
 CylindricalPacker::getPositions()
 
@@ -376,6 +412,105 @@ Converts Doxygen generated XML files into a file containing docstrings
 that can be used by SWIG-1.3.x that have support for
 feature(\"docstring\").  Once the data is parsed it is stored in
 self.pieces. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::__init__ "def
+doxy2swig::Doxy2SWIG::__init__ Initialize the instance given a source
+object (file or filename). ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::generate "def
+doxy2swig::Doxy2SWIG::generate Parses the file set in the
+initialization.  The resulting data is stored in `self.pieces`. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::parse "def
+doxy2swig::Doxy2SWIG::parse Parse a given node.  This function in turn
+calls the `parse_<nodeType>` functions which handle the respective
+nodes. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Document "def
+doxy2swig::Doxy2SWIG::parse_Document";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Text "def
+doxy2swig::Doxy2SWIG::parse_Text";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Element "def
+doxy2swig::Doxy2SWIG::parse_Element Parse an `ELEMENT_NODE`.  This
+calls specific `do_<tagName>` handers for different elements.  If no
+handler is available the `generic_parse` method is called.  All
+tagNames specified in `self.ignores` are simply ignored. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::add_text "def
+doxy2swig::Doxy2SWIG::add_text Adds text corresponding to `value` into
+`self.pieces`. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::get_specific_nodes "def
+doxy2swig::Doxy2SWIG::get_specific_nodes Given a node and a sequence
+of strings in `names`, return a dictionary containing the names as
+keys and child `ELEMENT_NODEs`, that have a `tagName` equal to the
+name. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::generic_parse "def
+doxy2swig::Doxy2SWIG::generic_parse A Generic parser for arbitrary
+tags in a node.  Parameters:   - node: A node in the DOM.  - pad:
+`int` (default: 0)     If 0 the node data is not padded with newlines.
+If 1 it    appends a newline after parsing the childNodes.  If 2 it
+pads before and after the nodes are processed.  Defaults to    0. ";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::space_parse "def
+doxy2swig::Doxy2SWIG::space_parse";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_compoundname "def
+doxy2swig::Doxy2SWIG::do_compoundname";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_compounddef "def
+doxy2swig::Doxy2SWIG::do_compounddef";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_includes "def
+doxy2swig::Doxy2SWIG::do_includes";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterlist "def
+doxy2swig::Doxy2SWIG::do_parameterlist";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_para "def
+doxy2swig::Doxy2SWIG::do_para";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_parametername "def
+doxy2swig::Doxy2SWIG::do_parametername";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig::Doxy2SWIG::do_parameterdefinition";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig::Doxy2SWIG::do_detaileddescription";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_briefdescription "def
+doxy2swig::Doxy2SWIG::do_briefdescription";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_memberdef "def
+doxy2swig::Doxy2SWIG::do_memberdef";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_definition "def
+doxy2swig::Doxy2SWIG::do_definition";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_sectiondef "def
+doxy2swig::Doxy2SWIG::do_sectiondef";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_simplesect "def
+doxy2swig::Doxy2SWIG::do_simplesect";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_argsstring "def
+doxy2swig::Doxy2SWIG::do_argsstring";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_member "def
+doxy2swig::Doxy2SWIG::do_member";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_doxygenindex "def
+doxy2swig::Doxy2SWIG::do_doxygenindex";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::write "def
+doxy2swig::Doxy2SWIG::write";
+
+%feature("docstring")  doxy2swig::Doxy2SWIG::clean_pieces "def
+doxy2swig::Doxy2SWIG::clean_pieces Cleans the list of strings given as
+`pieces`.  It replaces multiple newlines by a maximum of 2 and returns
+a new list. It also wraps the paragraphs nicely. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::__init__ "def
 doxy2swig::Doxy2SWIG::__init__ Initialize the instance given a source
@@ -656,6 +791,42 @@ Parameters:
 -----------
 
 shape:   Shape object ";
+
+%feature("docstring")  EllipsoidalPacker::Process "void
+EllipsoidalPacker::Process()
+
+Pack all added shapes and generate positions and states ";
+
+%feature("docstring")  EllipsoidalPacker::ComputeNumParticles "long
+EllipsoidalPacker::ComputeNumParticles()
+
+Get the number of particles in this Pack ";
+
+%feature("docstring")  EllipsoidalPacker::CreatePositions "double *
+EllipsoidalPacker::CreatePositions(long numParticles_temp)
+
+Create 1D array of particle positions
+
+Parameters:
+-----------
+
+numParticles_temp:  Long representing the number of particles with a
+non-zero value state
+
+1D array of particle positions, format is [x1,y1,x2,y2,...xn,yn] ";
+
+%feature("docstring")  EllipsoidalPacker::CreateStates "int *
+EllipsoidalPacker::CreateStates(long numParticles_temp)
+
+Create 1D array of particle positions
+
+Parameters:
+-----------
+
+numParticles_temp:  Long representing the number of particles with a
+non-zero value state
+
+1D array of particle States, format is [x1,y1,x2,y2,...xn,yn] ";
 
 %feature("docstring")  EllipsoidalPacker::getPositions "double *
 EllipsoidalPacker::getPositions()
@@ -1136,6 +1307,11 @@ StructuredPack::Process()
 
 StructuredPack all added shapes and generate positions and states ";
 
+%feature("docstring")  StructuredPack::getNumParticles "long
+StructuredPack::getNumParticles()
+
+Get number of particles ";
+
 
 // File: classWriter.xml
 %feature("docstring") Writer "";
@@ -1165,6 +1341,9 @@ doxy2swig::my_open_write";
 
 
 // File: boundingBox_8h.xml
+
+
+// File: doc_2doxy2swig_8py.xml
 
 
 // File: doxy2swig_8py.xml

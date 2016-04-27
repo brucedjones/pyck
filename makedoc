@@ -1,3 +1,4 @@
 #!/bin/bash
+mkdir doc
 doxygen Doxyfile
-python doc/doxy2swig.py doc/xml/index.xml swig/doc.i
+python doxy2swig.py doc/xml/index.xml swig/doc.i
