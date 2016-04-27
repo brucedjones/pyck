@@ -7,7 +7,6 @@ import pyck_utils # Utility functions for creating simulation parameters
 
 # Geometry 
 r = 0.053/2;
-# r = 0.1;
 h = 0.1;
 length_platens = r/4;
 height_platens = r/4;
