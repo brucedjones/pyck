@@ -57,7 +57,7 @@ model.SetIntField(stateField,3,4);
 
 # Set default simulation parameters for the VTP file
 # SetDefaultParameters computes geometric simulation parameters from pack parameters
-pyck_utils.SetDefaultParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
+pyck_utils.SetParticlePackingParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
 # Overwrite some parameters
 # Arguments are SetParameter(Label,Value)
 model.SetParameter("MaxSteps","100");

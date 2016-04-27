@@ -69,7 +69,7 @@ model.SetDoubleField(densityField,2,1);
 model.SetDoubleField(densityField,3,1);
 model.SetDoubleField(densityField,4,1);
 
-pyck_utils.SetDefaultParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
+pyck_utils.SetParticlePackingParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
 model.SetParameter("Mass","%e" % ((density*(math.pi*1.0*(r+r/4+6*h)*(r+r/4+6*h) )) / float(numParticles)) );
 model.SetParameter("DTime","%e" % (0.00001));
 
