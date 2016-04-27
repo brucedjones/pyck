@@ -81,7 +81,27 @@ public:
      * @param shape Shape object 
      */
   void MapShape(Shape *shape);
+      /**
+     * Pack all added shapes and generate positions and states
+     */
+    void Process();
+    /**
+     * Get the number of particles in this Pack
+     */
+    long ComputeNumParticles();
+        /**
+     * Create 1D array of particle positions
+     * @param numParticles_temp Long representing the number of particles with a non-zero value state
+     * @return 1D array of particle positions, format is [x1,y1,x2,y2,...xn,yn]
+     */
+    double *CreatePositions(long numParticles_temp);
 
+    /**
+     * Create 1D array of particle positions
+     * @param numParticles_temp Long representing the number of particles with a non-zero value state
+     * @return 1D array of particle States, format is [x1,y1,x2,y2,...xn,yn]
+     */
+    int *CreateStates(long numParticles_temp);
     /**
      * Get positions array
      */

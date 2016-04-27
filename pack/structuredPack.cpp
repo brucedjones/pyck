@@ -155,7 +155,10 @@ long StructuredPack::ComputeNumParticles(){
 
   return n;
 }
-
+long StructuredPack::getNumParticles()
+{
+  return numParticles;
+}
 double* StructuredPack::CreatePositions(){
   double *positions = new double[numParticles*3];
 

@@ -23,7 +23,11 @@ class StructuredPack : public Pack {
      * StructuredPack all added shapes and generate positions and states
      */
     void Process();
-
+        /**
+     * Get number of particles
+     */
+     long getNumParticles();
+     
   private:
     // Methods
     /**
