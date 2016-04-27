@@ -6,14 +6,14 @@ import pyck_utils # Utility functions for creating simulation parameters
 # ParticleType {Undefined=0, Liquid=1, Boundary=2, Floating=3, Moving=4, Solid =5};
 
 # Geometry 
-domain = [1.0,1.0,0.0];
-center = [0.5,0.5,0.0];
 r = 0.053/2;
 # r = 0.1;
 h = 0.1;
 length_platens = r/4;
 height_platens = r/4;
 penetration_in_sample = r/8;
+domain = [2*r+4*r/4,2*r+4*r/4,0.0];
+center = [domain[0]/2,domain[1]/2,0.0];
 
 # Material Properties
 smoothingKernelFunc = 2;
@@ -43,7 +43,8 @@ while (numParticles < 50000):
 	pack.Process();
 	
 	numParticles = pack.getNumParticles();
-	h = h - 0.000001;
+	hincrement = 0.000001;
+	h = h - hincrement;
 
 
 # Create a new model from the pack

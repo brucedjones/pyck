@@ -7,14 +7,14 @@ import math
 # ParticleType {Undefined=0, Liquid=1, Boundary=2, Floating=3, Moving=4, Solid =5};
 
 # Geometry 
-domain = [1.0,1.0,0.0];
-center = [0.5,0.5,0.0];
 r = 0.053/2;
 # r = 0.1;
-h = 0.001;
+h = 0.1;
 length_platens = r/4;
 height_platens = r/4;
 penetration_in_sample = r/8;
+domain = [2*r+4*r/4,2*r+4*r/4,0.0];
+center = [domain[0]/2,domain[1]/2,0.0];
 
 # Material Properties
 smoothingKernelFunc = 2;
@@ -25,28 +25,27 @@ bulkmodulus = 1.0;
 numParticles = 0;
 
 
-
-
-
-
-# while (numParticles < 5000):
-# Create a packer, see packers directory for options
-pack = pyck.CylindricalPacker(center, domain[0]*math.sqrt(2)/2, 1.0, h, 0);
-
-sphere = pyck.Sphere(1,center,r);
-
-upper_platen = pyck.Cuboid(2,[-length_platens/2 + center[0],r+center[1]-penetration_in_sample,-1],[length_platens/2 + center[0],r+center[1]+height_platens-penetration_in_sample,1]);
-lower_platen = pyck.Cuboid(3,[-length_platens/2 + center[0],-r+center[1]+penetration_in_sample,-1],[length_platens/2 + center[0],-r+center[1]-height_platens+penetration_in_sample,1]);
-
-# Map the shapes and generate the pack
-pack.AddShape(upper_platen);
-pack.AddShape(lower_platen);
-pack.AddShape(sphere);
-pack.Process();
-
-numParticles = pack.getNumParticles();
-print(str(numParticles));
-	# h = h - 0.000001;
+while (numParticles < 50000):
+	# Create a packer, see packers directory for options
+	pack = pyck.CylindricalPacker(center, domain[0]*math.sqrt(2)/2, 1.0, h, 0);
+	
+	sphere = pyck.Sphere(1,center,r);
+	
+	upper_platen = pyck.Cuboid(2,[-length_platens/2 + center[0],r+center[1]-penetration_in_sample,-1],[length_platens/2 + center[0],r+center[1]+height_platens-penetration_in_sample,1]);
+	lower_platen = pyck.Cuboid(3,[-length_platens/2 + center[0],-r+center[1]+penetration_in_sample,-1],[length_platens/2 + center[0],-r+center[1]-height_platens+penetration_in_sample,1]);
+	
+	# Map the shapes and generate the pack
+	pack.AddShape(upper_platen);
+	pack.AddShape(lower_platen);
+	pack.AddShape(sphere);
+	pack.Process();
+	
+	numParticles = pack.getNumParticles();
+	# if(numParticles<45000):
+	# 	hincrement = 0.0001;
+	# else:
+	hincrement = 0.000001;
+	h = h - hincrement;
 
 
 
@@ -77,5 +76,5 @@ model.SetParameter("Mass","%f" % (density*((math.pi*1.0*r*r)/float(numParticles)
 model.SetParameter("DTime","%f" % (0.00001));
 
 writer = pyck.SparkWriter();
-
+print("dx = "+str(h));
 model.Serialize("Brazilian_Test_"+str(dim)+"D_R_"+str(r)+"_"+str(numParticles)+".vtp",writer);
