@@ -36,31 +36,31 @@ bool TriPrism::IsInside(double *pt)
   double *v0= new double[3];
   double *v1= new double[3];
   double *v2= new double[3];
-  
+
   v0[0] = pt2[0] - pt3[0];
   v0[1] = pt2[1] - pt3[1];
   v0[2] = pt2[2] - pt3[2];
 
-  v1[0] = pt1[0] - pt3[0];  
-  v1[1] = pt1[1] - pt3[1];  
+  v1[0] = pt1[0] - pt3[0];
+  v1[1] = pt1[1] - pt3[1];
   v1[2] = pt1[2] - pt3[2];
 
   v2[0] = pt[0] - pt3[0];
   v2[1] = pt[1] - pt3[1];
   v2[2] = pt[2] - pt3[2];
 
-  
+
   // Compute dot products
   double dot00;
-  dot00 = (v0[0]*v0[0]) + (v0[1]*v0[1]) + (v0[2]*v0[2]); 
+  dot00 = (v0[0]*v0[0]) + (v0[1]*v0[1]) + (v0[2]*v0[2]);
   double dot01;
-  dot01 = (v0[0]*v1[0]) + (v0[1]*v1[1]) + (v0[2]*v1[2]); 
+  dot01 = (v0[0]*v1[0]) + (v0[1]*v1[1]) + (v0[2]*v1[2]);
   double dot02;
-  dot02 = (v0[0]*v2[0]) + (v0[1]*v2[1]) + (v0[2]*v2[2]); 
+  dot02 = (v0[0]*v2[0]) + (v0[1]*v2[1]) + (v0[2]*v2[2]);
   double dot11;
-  dot11 = (v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2]); 
+  dot11 = (v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2]);
   double dot12;
-  dot12 = (v1[0]*v2[0]) + (v1[1]*v2[1]) + (v1[2]*v2[2]); 
+  dot12 = (v1[0]*v2[0]) + (v1[1]*v2[1]) + (v1[2]*v2[2]);
   double u;
   double v;
  // if(((dot00*dot11)-(dot01*dot01))==0)
@@ -76,7 +76,7 @@ bool TriPrism::IsInside(double *pt)
   v = ((dot00*dot12)-(dot01*dot02))*invDenom;
  // std::cout << v << std::endl;
  //}
- if( (u>=0) && (v>=0) && ((u+v)<1))//&& (pt[2]==(pt1[2]+l))) )
+ if( (u>=0) && (v>=0) && ((u+v)<1) && (pt[2]<=(pt1[2]+l)))
   {
     isInside = true;
   }
