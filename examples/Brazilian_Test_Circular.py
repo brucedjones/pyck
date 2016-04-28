@@ -17,10 +17,7 @@ center = [domain[0]/2,domain[1]/2,0.0];
 
 # Material Properties
 smoothingKernelFunc = 2;
-speedsound = 1.0;
-density = 1540;
-shearmodulus = 1.0;
-bulkmodulus = 1.0;
+material = pyck_utils.dummy;
 numParticlesModel = 0;
 
 
@@ -64,13 +61,13 @@ model.SetDoubleField(velocityField,3,[0.0,0.0,0.0]);
 model.SetDoubleField(velocityField,4,[0.0,0.0,0.0]);
 
 densityField = model.CreateDoubleField("Density",1);
-model.SetDoubleField(densityField,1,density);
-model.SetDoubleField(densityField,2,density);
-model.SetDoubleField(densityField,3,density);
-model.SetDoubleField(densityField,4,density);
+model.SetDoubleField(densityField,1,material["density"]);
+model.SetDoubleField(densityField,2,material["density"]);
+model.SetDoubleField(densityField,3,material["density"]);
+model.SetDoubleField(densityField,4,material["density"]);
 
-pyck_utils.SetParticlePackingParameters(model,domain,h,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus);
-model.SetParameter("Mass","%e" % ((density*(math.pi*1.0*(r+r/4+6*h)*(r+r/4+6*h) )) / float(numParticles)) );
+pyck_utils.SetParticlePackingParameters(model,domain,h,material,smoothingKernelFunc);
+model.SetParameter("Mass","%e" % ((material["density"]*(math.pi*1.0*(r+r/4+6*h)*(r+r/4+6*h) )) / float(numParticles)) );
 model.SetParameter("DTime","%e" % (0.00001));
 
 writer = pyck.SparkWriter();

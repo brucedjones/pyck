@@ -1,6 +1,63 @@
 import math
 
-def SetGeometricParameters(model,L,r,smoothingKernelFunc):
+# MATERIAL LIBRARY
+# Gypsum
+gypsum = {};
+gypsum["speedsound"] = 1466.312;
+gypsum["density"] = 1540;
+gypsum["youngmodulus"] = 5.96*pow(10.0,9.0);
+gypsum["poissonratio"] = 0.2;
+gypsum["shearmodulus"] = 2.483333*pow(10.0,9.0);
+gypsum["bulkmodulus"] = 3.31111*pow(10.0,9.0);
+gypsum["yieldtensilestrength"] = 3.2*pow(10.0,6.0);
+gypsum["kdamage"] = 5392570000000000000000000000000000000;
+gypsum["mdamage"] = 9.0;
+gypsum["cohesion"] = 5203840.0;
+gypsum["cohnpt1"] = 2601920.0;
+gypsum["cohnpt2"] = 0.0;
+gypsum["plasstrpt1"] = 0.05;
+gypsum["plasstrpt2"] = 0.1;
+gypsum["frictionangle"] = 55.818340999999997;
+
+# Chromite
+chromite = {};
+chromite["speedsound"] = 2886.5203966;
+chromite["density"] = 2500;
+chromite["youngmodulus"] = 50.0*pow(10.0,9.0);
+chromite["poissonratio"] = 0.1;
+chromite["shearmodulus"] = 22.73*pow(10.0,9.0);
+chromite["bulkmodulus"] = 20.83*pow(10.0,9.0);
+chromite["yieldtensilestrength"] = 16.52*pow(10.0,6.0);
+chromite["kdamage"] = 1.59*pow(10.0,38.0);
+chromite["mdamage"] = 9.5;
+chromite["cohesion"] = 34.94*pow(10.0,6.0);
+chromite["cohnpt1"] = 5.8233*pow(10.0,6.0);
+chromite["cohnpt2"] = 0.3494*pow(10.0,6.0);
+chromite["plasstrpt1"] = 0.1;
+chromite["plasstrpt2"] = 0.5;
+chromite["frictionangle"] = 51.48;
+
+# Particle Packing Dummy Material
+dummy = {};
+dummy["speedsound"] = 1.0;
+dummy["density"] = 1.0;
+dummy["youngmodulus"] = 1.0;
+dummy["poissonratio"] = 1.0;
+dummy["shearmodulus"] = 1.0;
+dummy["bulkmodulus"] = 1.0;
+dummy["yieldtensilestrength"] = 1.0;
+dummy["kdamage"] = 1.0;
+dummy["mdamage"] = 1.0;
+dummy["cohesion"] = 1.0;
+dummy["cohnpt1"] = 1.0;
+dummy["cohnpt2"] = 1.0;
+dummy["plasstrpt1"] = 1.0;
+dummy["plasstrpt2"] = 1.0;
+dummy["frictionangle"] = 1.0;
+# END OF MATERIAL LIBRARY
+
+
+def SetGeometricParameters(model,L,r,smoothingKernelFunc=3):
     smoothingLength = 1.3*r*2;
     
     if smoothingKernelFunc != 3:
@@ -27,7 +84,24 @@ def SetGeometricParameters(model,L,r,smoothingKernelFunc):
     model.SetParameter("SmoothingLength","%e" % (1.3*r));
     model.SetParameter("InitialParticleSeparation","%e" % (r));
 
-def SetDefaultParameters(model,L,r,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus):
+def SetDefaultParameters(model,L,r, material,smoothingKernelFunc=3):
+
+    speedsound = material["speedsound"];
+    density = material["density"];
+    youngmodulus = material["youngmodulus"];
+    poissonratio = material["poissonratio"];
+    shearmodulus = material["shearmodulus"];
+    bulkmodulus = material["bulkmodulus"];
+    yieldtensilestrength = material["yieldtensilestrength"];
+    kdamage = material["kdamage"];
+    mdamage = material["mdamage"];
+    cohesion = material["cohesion"];
+    cohnpt1 = material["cohnpt1"];
+    cohnpt2 = material["cohnpt2"];
+    plasstrpt1 = material["plasstrpt1"];
+    plasstrpt2 = material["plasstrpt2"];
+    frictionangle = material["frictionangle"];
+
     model.SetParameter("SmoothingKernelFunc","%d" % smoothingKernelFunc);
 
     if L[2]==0:
@@ -193,9 +267,14 @@ def SetDefaultParameters(model,L,r,smoothingKernelFunc,speedsound, density, shea
     model.SetParameter("BoundaryForceMaxLimit","");
     model.SetParameter("IntegrationScheme","1");
     model.SetParameter("VerletStep","40");
-def SetParticlePackingParameters(model,L,r,smoothingKernelFunc,speedsound, density, shearmodulus, bulkmodulus):
+def SetParticlePackingParameters(model,L,r,material,smoothingKernelFunc=3):
     model.SetParameter("SmoothingKernelFunc","%d" % smoothingKernelFunc);
-
+    speedsound = material["speedsound"];
+    density = material["density"];
+    youngmodulus = material["youngmodulus"];
+    poissonratio = material["poissonratio"];
+    shearmodulus = material["shearmodulus"];
+    bulkmodulus = material["bulkmodulus"];
     if L[2]==0:
             dim = 2;
     else:
@@ -359,9 +438,23 @@ def SetParticlePackingParameters(model,L,r,smoothingKernelFunc,speedsound, densi
     model.SetParameter("BoundaryForceMaxLimit","");
     model.SetParameter("IntegrationScheme","1");
     model.SetParameter("VerletStep","40");
-def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density,youngmodulus,poissonratio, shearmodulus, bulkmodulus, yieldtensilestrength, kdamage, mdamage, cohesion, cohnpt1,cohnpt2,plasstrpt1,plasstrpt2,frictionangle,appliedstressYY,ramptime):
+def SetBrazilianTestParameters(model,L,r,material,smoothingKernelFunc=3):
     model.SetParameter("SmoothingKernelFunc","%d" % smoothingKernelFunc);
-
+    speedsound = material["speedsound"];
+    density = material["density"];
+    youngmodulus = material["youngmodulus"];
+    poissonratio = material["poissonratio"];
+    shearmodulus = material["shearmodulus"];
+    bulkmodulus = material["bulkmodulus"];
+    yieldtensilestrength = material["yieldtensilestrength"];
+    kdamage = material["kdamage"];
+    mdamage = material["mdamage"];
+    cohesion = material["cohesion"];
+    cohnpt1 = material["cohnpt1"];
+    cohnpt2 = material["cohnpt2"];
+    plasstrpt1 = material["plasstrpt1"];
+    plasstrpt2 = material["plasstrpt2"];
+    frictionangle = material["frictionangle"];
     if L[2]==0:
         dim = 2;
     else:
@@ -508,11 +601,11 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("Movfz","0");
     model.SetParameter("Movsxx","0");
     model.SetParameter("Movsxy","0");
-    model.SetParameter("Movsyy","%e" % appliedstressYY);
+    model.SetParameter("Movsyy","0");
     model.SetParameter("Movsyz","0");
     model.SetParameter("Movsxz","0");
     model.SetParameter("Movszz","0");
-    model.SetParameter("BoundariesRampTime","%d" % ramptime);
+    model.SetParameter("BoundariesRampTime","0");
     model.SetParameter("Cracksxx","0");
     model.SetParameter("Cracksxy","0");
     model.SetParameter("Cracksyy","0");
