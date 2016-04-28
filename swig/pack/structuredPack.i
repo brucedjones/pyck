@@ -10,4 +10,5 @@ class StructuredPack : Pack {
     void AddShape(Shape *shape);
     void Process();
     long getNumParticles();
+    long getNumParticlesByState(int state);
 };

@@ -23,6 +23,7 @@ def SetGeometricParameters(model,L,r,smoothingKernelFunc):
     model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
     model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
     model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
+    model.SetParameter("KappaH","%e" % KappaH);
     model.SetParameter("SmoothingLength","%e" % (1.3*r));
     model.SetParameter("InitialParticleSeparation","%e" % (r));
 
@@ -362,13 +363,13 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("SmoothingKernelFunc","%d" % smoothingKernelFunc);
 
     if L[2]==0:
-            dim = 2;
+        dim = 2;
     else:
-            dim = 3;            
-
+        dim = 3;            
+                    
     SetGeometricParameters(model,L,r,smoothingKernelFunc);
     model.SetParameter("ParticlesPerCell","100");
-    model.SetParameter("MaxSteps","10000");
+    model.SetParameter("MaxSteps","40000");
     model.SetParameter("Mass","1");
     model.SetParameter("Epsilon","0.5");
     model.SetParameter("ViscEtq","0.1");
@@ -385,7 +386,8 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("IsExternalForce","false");
     model.SetParameter("IsAverageVelocity","true");
     model.SetParameter("IsVisc","false");
-    model.SetParameter("IsViscArtificial","false");
+    model.SetParameter("Visc","false");
+    model.SetParameter("IsViscArtificial","true");
     model.SetParameter("IsNoSlip","false");
     model.SetParameter("IsSurfaceTension","false");
     model.SetParameter("IsDeltaSPH","false");
@@ -398,7 +400,7 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("IsPeriodicBoundaryZ","false");
     model.SetParameter("IsLaminarVisc","false");
     model.SetParameter("IsSpsVisc","false");
-    model.SetParameter("EOS","2");
+    model.SetParameter("EOS","1");
     model.SetParameter("MonaghanB","");
     model.SetParameter("MonaghanGamma","");
     model.SetParameter("DensityFunction","");
@@ -433,7 +435,7 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("IsFlags","false");
     model.SetParameter("IsReverseMoving","true");
     model.SetParameter("IsDensityBound","false");
-    model.SetParameter("IsAssociatedFlowRule","false");
+    model.SetParameter("IsAssociatedFlowRule","true");
     model.SetParameter("IsDPbased","true");
     model.SetParameter("IsDamping","false");
     model.SetParameter("IsAlternateViscArtificial","true");
@@ -441,7 +443,7 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("ViscAlphamax","2.5");
     model.SetParameter("IsContactForce","false");
     model.SetParameter("IsForcedBoundaries","false");
-    model.SetParameter("IsStressedBoundaries","true");
+    model.SetParameter("IsStressedBoundaries","false");
     model.SetParameter("IsPlaneStress","false");
     model.SetParameter("IsPlaneStrain","true");
     model.SetParameter("IsPlaneStrain2PlaneStress","true");
@@ -451,7 +453,8 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("DPYieldsurface","1");
     model.SetParameter("IsDPApexCriterion","true");
     model.SetParameter("IsDPTensileCrackingCriterion","false");
-    model.SetParameter("BoundaryNormalTolerance","0.3");
+    model.SetParameter("BoundaryNormalTolerance","0.02");
+    model.SetParameter("DensityTolerance","0.3");
     model.SetParameter("RankineCriticalStress","");
     model.SetParameter("StVenantCriticalStrain","");
     model.SetParameter("Cohesion","%e" % cohesion);
@@ -480,40 +483,47 @@ def SetBrazilianTestParameters(model,L,r,smoothingKernelFunc,speedsound, density
     model.SetParameter("Cg","%e" % (0.4*speedsound));
     model.SetParameter("PlasticityModel","2");
     model.SetParameter("DamageModel","1");
-    model.SetParameter("DampingCoef","0.05");
+    model.SetParameter("DampingCoef","0.02");
     model.SetParameter("IsImposedDisplacement","false");
     model.SetParameter("Impdx","");
     model.SetParameter("Impdy","");
     model.SetParameter("Impdz","");
-    model.SetParameter("IsFloatingObjectRotation","false");
-    model.SetParameter("FloatingObjectAppliedFx","false");
-    model.SetParameter("FloatingObjectAppliedFy","false");
-    model.SetParameter("FloatingObjectAppliedFz","false");
+    model.SetParameter("IsFloatingObjectRotation","true");
+    model.SetParameter("FloatingObjectAppliedFx","0");
+    model.SetParameter("FloatingObjectAppliedFy","0");
+    model.SetParameter("FloatingObjectAppliedFz","0");
+    model.SetParameter("FloatingObjectVelocity","0.0000000000 0.0000000000 0.0000000000");
+    model.SetParameter("FloatingObjectCenterOfMass","0.0000000000 0.0000000000 0.0000000000");
     model.SetParameter("FloatingObjectAppliedForceRampTime","1");
-    model.SetParameter("IsFloatingObjectMotionX","false");
-    model.SetParameter("IsFloatingObjectMotionY","false");
-    model.SetParameter("IsFloatingObjectMotionZ","false");
-    model.SetParameter("Movfx","");
-    model.SetParameter("Movfy","");
-    model.SetParameter("Movfz","");
-    model.SetParameter("Movsxx","");
-    model.SetParameter("Movsxy","");
+    model.SetParameter("FloatingObjectRotationMatrix","1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0");
+    model.SetParameter("FloatingObjectMomentOfInertia","0.0000000000 0.0 0.0 0.0 0.0000000000 0.0 0.0 0.0 0.0000000000");
+    model.SetParameter("FloatingObjectRotationMatrix","0.0 0.0 0.0");
+    model.SetParameter("FloatingObjectAngularVelocity","0.0 0.0 0.0");
+    model.SetParameter("IsFloatingObjectMotionX","true");
+    model.SetParameter("IsFloatingObjectMotionY","true");
+    model.SetParameter("IsFloatingObjectMotionZ","true");
+    model.SetParameter("FloatingObjectMass","0");
+    model.SetParameter("Movfx","0");
+    model.SetParameter("Movfy","0");
+    model.SetParameter("Movfz","0");
+    model.SetParameter("Movsxx","0");
+    model.SetParameter("Movsxy","0");
     model.SetParameter("Movsyy","%e" % appliedstressYY);
-    model.SetParameter("Movsyz","");
-    model.SetParameter("Movsxz","");
-    model.SetParameter("Movszz","");
+    model.SetParameter("Movsyz","0");
+    model.SetParameter("Movsxz","0");
+    model.SetParameter("Movszz","0");
     model.SetParameter("BoundariesRampTime","%d" % ramptime);
-    model.SetParameter("Cracksxx","");
-    model.SetParameter("Cracksxy","");
-    model.SetParameter("Cracksyy","");
-    model.SetParameter("Cracksyz","");
-    model.SetParameter("Cracksxz","");
-    model.SetParameter("Crackszz","");
-    model.SetParameter("CrackLength","");
-    model.SetParameter("CrackThickness","");
-    model.SetParameter("CrackX","");
-    model.SetParameter("CrackY","");
-    model.SetParameter("CrackZ","");
+    model.SetParameter("Cracksxx","0");
+    model.SetParameter("Cracksxy","0");
+    model.SetParameter("Cracksyy","0");
+    model.SetParameter("Cracksyz","0");
+    model.SetParameter("Cracksxz","0");
+    model.SetParameter("Crackszz","0");
+    model.SetParameter("CrackLength","0.2");
+    model.SetParameter("CrackThickness","0.01");
+    model.SetParameter("CrackX","2.6");
+    model.SetParameter("CrackY","2.6");
+    model.SetParameter("CrackZ","2.6");
     model.SetParameter("ReverseMovingX","false");
     model.SetParameter("ReverseMovingY","true");
     model.SetParameter("ReverseMovingZ","false");

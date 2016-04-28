@@ -27,7 +27,11 @@ class StructuredPack : public Pack {
      * Get number of particles
      */
      long getNumParticles();
-     
+                 /**
+     * Get number of particles for a given state
+     * @param state Integer representing the state of the created particles
+     */
+  long getNumParticlesByState(int state);
   private:
     // Methods
     /**
@@ -101,7 +105,6 @@ class StructuredPack : public Pack {
      * @return Number of dimensions
      */
     int GetDim();
-
     //Properties
     Packer *packer;
     long *len; /**< Size of the StructuredPack in ijk system */

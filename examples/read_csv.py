@@ -10,7 +10,7 @@ import csv
 r = 0.053/2;
 domain = [2*r+4*r/4,2*r+4*r/4,0.0];
 h = 0.0002059999999206506; # the one output at the end of the original Python script
-smoothingKernelFunc = 2;
+smoothingKernelFunc = 3;
 speedsound = 1466.312;
 density = 1540;
 youngmodulus = 5.96*pow(10.0,9.0);
@@ -27,7 +27,7 @@ plasstrpt1 = 0.05;
 plasstrpt2 = 0.1;
 frictionangle = 55.818340999999997;
 appliedstressYY = -40000000.0;
-ramptime = 40000;
+ramptime = 10000;
 
 # Reading the csv file
 states = [];
@@ -42,8 +42,7 @@ kernelSum_col = 20-1; # column containing kernel summation
 rownum = 0;
 numParticles = 0;
 dim = 2;
-
-count = 0;
+kernelSum = 0.0;
 for row in reader:
 	if(rownum != 0):
 		test = 0;
@@ -55,7 +54,7 @@ for row in reader:
 				test = 1;
 				count = 1;
 			if(colnum == kernelSum_col and test == 1 and count == 1):
-				kernelSum = float(col);		
+				kernelSum += float(col);		
 			if(colnum == posX_col and test == 1):
 				positions.append(float(col));
 			if(colnum == posY_col and test == 1):
@@ -68,8 +67,10 @@ for row in reader:
 	rownum += 1
 
 ifile.close()
+kernelSum = kernelSum / float(numParticles);
+print(kernelSum);
 # Creation of the model
-model = pyck.Model(positions,states,50513,dim);
+model = pyck.Model(positions,states,numParticles,dim);
 
 # Generating the correct model properties and initial conditions
 stateField = model.CreateIntField("State",1);
@@ -88,7 +89,10 @@ model.SetDoubleField(densityField,4,density);
 
 pyck_utils.SetBrazilianTestParameters(model,domain,h,smoothingKernelFunc,speedsound, density,youngmodulus,poissonratio, shearmodulus, bulkmodulus, yieldtensilestrength, kdamage, mdamage, cohesion, cohnpt1,cohnpt2,plasstrpt1,plasstrpt2,frictionangle,appliedstressYY,ramptime);
 model.SetParameter("Mass","%e" % (density / kernelSum) );
-model.SetParameter("DTime","%e" % (1.0e-6));
+model.SetParameter("DTime","%e" % (1.0e-8));
+model.SetParameter("MovingBoundaryShiftX","%e" % (0.0));
+model.SetParameter("MovingBoundaryShiftY","%e" % (-1.0));
+model.SetParameter("MovingBoundaryShiftZ","%e" % (0.0));
 
 writer = pyck.SparkWriter();
 print("dx = "+str(h));
