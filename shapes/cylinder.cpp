@@ -60,19 +60,20 @@ bool Cylinder::IsInside(double *pt)
   if(l[0] != 0.0 && l[1] == 0.0 && l[2] == 0.0)
   {
      if((pt[1]-c[1])*(pt[1]-c[1])+(pt[2]-c[2])*(pt[2]-c[2]) > (r*r)) isInside = false;
-
-     if(fabs(pt[0]-c[0]) > fabs(l[0])) isInside = false;
-
+     // if(fabs(pt[0]-c[0]) > fabs(l[0])) isInside = false;
+     if( (pt[0] < c[0]) || (pt[0] > (c[0]+l[0])) )  isInside = false;
   }
   else if(l[0] == 0.0 && l[1] != 0.0 && l[2] == 0.0)
   {
     if((pt[0]-c[0])*(pt[0]-c[0])+(pt[2]-c[2])*(pt[2]-c[2]) > (r*r)) isInside = false;
-    if(fabs(pt[1]-c[1]) > fabs(l[1])) isInside = false;
+    // if(fabs(pt[1]-c[1]) > fabs(l[1])) isInside = false;
+ if( (pt[1] < c[1]) || (pt[1] > (c[1]+l[1])) )  isInside = false;    
   }
   else if(l[0] == 0.0 && l[1] == 0.0 && l[2] != 0.0)
   {
      if((pt[0]-c[0])*(pt[0]-c[0])+(pt[1]-c[1])*(pt[1]-c[1]) > (r*r)) isInside = false;
-     if(fabs(pt[2]-c[2]) > fabs(l[2])) isInside = false;
+     // if(fabs(pt[2]-c[2]) > fabs(l[2])) isInside = false;
+      if( (pt[2] < c[2]) || (pt[2] > (c[2]+l[2])) )  isInside = false;
   }
 
   return isInside;

@@ -58,7 +58,7 @@ dummy["frictionangle"] = 1.0;
 
 
 def SetGeometricParameters(model,L,r,smoothingKernelFunc=3):
-    smoothingLength = 1.3*r*2;
+    smoothingLength = 1.3*r;
     
     if smoothingKernelFunc != 3:
         Kappa = 2.0;
@@ -394,7 +394,10 @@ def SetParticlePackingParameters(model,L,r,material,smoothingKernelFunc=3):
     model.SetParameter("Cg","%e" % (0.4*speedsound));
     model.SetParameter("PlasticityModel","2");
     model.SetParameter("DamageModel","1");
-    model.SetParameter("DampingCoef","0.05");
+    model.SetParameter("DampingCoef","0.5");
+    model.SetParameter("InitialPressure","15000");
+    model.SetParameter("ToleranceNormal","-1");
+    model.SetParameter("ToleranceKineticEnergy","0.000001");
     model.SetParameter("IsImposedDisplacement","false");
     model.SetParameter("Impdx","");
     model.SetParameter("Impdy","");
