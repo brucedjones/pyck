@@ -41,6 +41,9 @@ Model::Model(double *positions, int *states, long numParticles, int dim)
 
 Model::~Model()
 {
+  if(positions) delete [] positions;
+  if(states) delete [] states;
+
   for (long i=0; i < intFields.size(); i++)
   {
     IntField *thisField = intFields[i];

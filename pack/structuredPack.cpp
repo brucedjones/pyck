@@ -52,8 +52,8 @@ StructuredPack::~StructuredPack()
 {
   delete [] state;
   delete [] pos;
-  if(!positions) delete [] positions;
-  if(!states) delete [] states;
+  if(positions) delete [] positions;
+  if(states) delete [] states;
 }
 
 long* StructuredPack::GetIntLength()
