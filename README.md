@@ -162,7 +162,7 @@ someIntField = model.CreateIntField(name,dim);
 someDoubleField = model.CreateDoubleField(name,dim);
 ```
 
-In which name is a string specifying the name of the field. `dim` is the dimensionality of the property, typically 1 for scalar properties, 2/3 for vector properties, and 9 for tensor properties.
+In which name is a string specifying the name of the field. `dim` is the dimensionality of the property, typically 1 for scalar properties, 2/3 for vector properties, and 9 for tensor properties. All fields are initialized with zero.
 
 Values for each field are applied to particles by,
 
@@ -188,6 +188,9 @@ Further examples demonstrating the use of pyck may be found in the examples/ dir
 
 ## Functionality Reference
 Pyck functionality is all written in C++ and exposed in python via Swig bindings. All non-abstract classes in the C++ code are exposed in the python library. Inspect the doxygen documentation or source header files to determine functionality and correct arguments. Example scripts are given in the examples/ directory.
+
+# Pyck Utils
+pyck_utils.py contains helper functions primarily used to set sensible default paramters for SPH code used at MIT Geonumerics.
 
 # Pyck Development
 ## Pack
