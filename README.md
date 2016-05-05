@@ -96,7 +96,7 @@ The geometry of a sphere is defined by a centroid, `p1`, and a `radius`.
 sphere = pyck.Spheretag,[p1x,p2x,p3x],radius);
 ```
 
-### Adding a processing
+### Adding and processing
 Once shapes have been created they are added to the pack as,
 
 ```python
