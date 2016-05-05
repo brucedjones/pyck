@@ -391,6 +391,15 @@ CylindricalPacker::getNumParticles()
 
 Get number of particles ";
 
+%feature("docstring")  CylindricalPacker::getNumParticlesByState "long CylindricalPacker::getNumParticlesByState(int state)
+
+Get number of particles for a given state
+
+Parameters:
+-----------
+
+state:  Integer representing the state of the created particles ";
+
 %feature("docstring")  CylindricalPacker::getDim "int
 CylindricalPacker::getDim()
 
@@ -842,6 +851,15 @@ Get states array ";
 EllipsoidalPacker::getNumParticles()
 
 Get number of particles ";
+
+%feature("docstring")  EllipsoidalPacker::getNumParticlesByState "long EllipsoidalPacker::getNumParticlesByState(int state)
+
+Get number of particles for a given state
+
+Parameters:
+-----------
+
+state:  Integer representing the state of the created particles ";
 
 %feature("docstring")  EllipsoidalPacker::getDim "int
 EllipsoidalPacker::getDim()
@@ -1312,6 +1330,60 @@ StructuredPack::getNumParticles()
 
 Get number of particles ";
 
+%feature("docstring")  StructuredPack::getNumParticlesByState "long
+StructuredPack::getNumParticlesByState(int state)
+
+Get number of particles for a given state
+
+Parameters:
+-----------
+
+state:  Integer representing the state of the created particles ";
+
+
+// File: classTriPrism.xml
+%feature("docstring") TriPrism "";
+
+%feature("docstring")  TriPrism::TriPrism "TriPrism::TriPrism(int
+state, double *pt1, double *pt2, double *pt3, double l)
+
+Triangular Prism constructor
+
+Parameters:
+-----------
+
+state:  State to be applied to particles within this shape. state = 0
+will remove particle from output
+
+pt1:  first point to define tripism in cartesian coordinates
+
+pt2:  second point to define tripism in cartesian coordinates
+
+pt3:  third point to define tripism in cartesian coordinates
+
+pt4:  fourth point to define tripism in cartesian coordinates
+
+l:  Length of the cylinder in cartesian coordinates, (0,0,l) or
+(0,l,0) or (l,0,0) indicates the direction
+
+domain:  Domain in which this shape will be mapped pt1
+______length_______ |||| |||| || || || || || || || || || || || ||
+pt3||||||||||||pt2_________|||||||||||| ";
+
+%feature("docstring")  TriPrism::~TriPrism "TriPrism::~TriPrism() ";
+
+%feature("docstring")  TriPrism::IsInside "bool
+TriPrism::IsInside(double *pt)
+
+Check if given coordinate is inside this shape
+
+Parameters:
+-----------
+
+pt:  Coordinates to check
+
+True if coordinate is inside shape, false otherwise ";
+
 
 // File: classWriter.xml
 %feature("docstring") Writer "";
@@ -1510,6 +1582,12 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 
 
 // File: sphere_8h.xml
+
+
+// File: triprism_8cpp.xml
+
+
+// File: triprism_8h.xml
 
 
 // File: writer_8cpp.xml
