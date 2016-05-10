@@ -80,6 +80,7 @@ def SetGeometricParameters(model,L,r,smoothingKernelFunc=3):
     model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
     model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
     model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
+    print("InitialSeparation = "+str(r));
     print("SmoothingLength = "+str(smoothingLength));
     print("KappaH = "+str(KappaH));
     print("Lx = "+str(L[0]));
@@ -115,7 +116,9 @@ def SetGeometricPackingParameters(model,L,r,smoothingKernelFunc=3):
     model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
     model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
     model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
-    print("SmoothingLength = "+str(smoothingLength));
+    print("InitialSeparation = "+str(r));
+    print("PackingSmoothingLength = "+str(smoothingLength));
+    print("SmoothingLength = "+str(1.3*r));
     print("KappaH = "+str(KappaH));
     print("Lx = "+str(L[0]));
     print("Ly = "+str(L[1]));

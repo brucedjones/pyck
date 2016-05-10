@@ -66,10 +66,24 @@ model.SetDoubleField(densityField,2,material["density"]);
 model.SetDoubleField(densityField,3,material["density"]);
 model.SetDoubleField(densityField,4,material["density"]);
 
+pressure_0 = 15000;
+density_0 = material["density"];
+volume_0 = (((math.pi*1.0*(r)*(r))    ) / float(pack.getNumParticlesByState(1)));
+beta = 2*pressure_0 / density_0;
+damping_coef = 0.5;
+dt = math.pow(volume_0,1/dim) / math.sqrt(beta);
+
 pyck_utils.SetParticlePackingParameters(model,domain,h,material,smoothingKernelFunc);
-model.SetParameter("Mass","%e" % ((material["density"]*(math.pi*1.0*(r+r/4+6*h)*(r+r/4+6*h) )) / float(numParticles)) );
-model.SetParameter("DTime","%e" % (0.00001));
+model.SetParameter("Mass","%e" % (material["density"]*volume_0) );
+model.SetParameter("DTime","%e" % (dt));
+model.SetParameter("InitialPressure","%e" % (pressure_0));
+model.SetParameter("IsAverageVelocity","false");
+# model.SetParameter("ToleranceNormal","%e" % (-1.0));
+# model.SetParameter("ToleranceKineticEnergy","%e" % (0.00001));
+model.SetParameter("DampingCoef","%e" % (damping_coef));
 
 writer = pyck.SparkWriter();
-print("dx = "+str(h));
+print("Dimension = "+str(pack.getDim()));
+print("DampingCoef = "+str(damping_coef));
+print("DTime = "+str(dt));
 model.Serialize("Brazilian_Test_"+str(dim)+"D_R_"+str(r)+"_h_"+str(h)+"_"+str(numParticles)+".vtp",writer);
