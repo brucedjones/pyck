@@ -80,9 +80,52 @@ def SetGeometricParameters(model,L,r,smoothingKernelFunc=3):
     model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
     model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
     model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
+    print("SmoothingLength = "+str(smoothingLength));
+    print("KappaH = "+str(KappaH));
+    print("Lx = "+str(L[0]));
+    print("Ly = "+str(L[1]));
+    print("Lz = "+str(L[2]));
+    print("Gx = "+str(math.floor(L[0]/KappaH)));
+    print("Gy = "+str(math.floor(L[1]/KappaH)));
+    print("Gz = "+str(math.floor(L[2]/KappaH)));
     model.SetParameter("KappaH","%e" % KappaH);
     model.SetParameter("SmoothingLength","%e" % (1.3*r));
     model.SetParameter("InitialParticleSeparation","%e" % (r));
+
+def SetGeometricPackingParameters(model,L,r,smoothingKernelFunc=3):
+    smoothingLength = 1.3*r*2;
+    
+    if smoothingKernelFunc != 3:
+        Kappa = 2.0;
+    else:
+        Kappa = 3.0;
+
+    KappaH = smoothingLength*Kappa;
+    
+    if L[0]==0:
+            L[0] = KappaH;
+    if L[1]==0:
+            L[1] = KappaH;
+    if L[2]==0:
+            L[2] = KappaH;
+
+    model.SetParameter("Lx","%e" % L[0]);
+    model.SetParameter("Ly","%e" % L[1]);
+    model.SetParameter("Lz","%e" % L[2]);
+    model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
+    model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
+    model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
+    print("SmoothingLength = "+str(smoothingLength));
+    print("KappaH = "+str(KappaH));
+    print("Lx = "+str(L[0]));
+    print("Ly = "+str(L[1]));
+    print("Lz = "+str(L[2]));
+    print("Gx = "+str(math.floor(L[0]/KappaH)));
+    print("Gy = "+str(math.floor(L[1]/KappaH)));
+    print("Gz = "+str(math.floor(L[2]/KappaH)));
+    model.SetParameter("KappaH","%e" % KappaH);
+    model.SetParameter("SmoothingLength","%e" % (1.3*r));
+    model.SetParameter("InitialParticleSeparation","%e" % (r));    
 
 def SetDefaultParameters(model,L,r, material,smoothingKernelFunc=3):
 
@@ -280,7 +323,7 @@ def SetParticlePackingParameters(model,L,r,material,smoothingKernelFunc=3):
     else:
             dim = 3;            
 
-    SetGeometricParameters(model,L,r,smoothingKernelFunc);
+    SetGeometricPackingParameters(model,L,r,smoothingKernelFunc);
     model.SetParameter("ParticlesPerCell","100");
     model.SetParameter("MaxSteps","10000");
     model.SetParameter("Mass","1");
