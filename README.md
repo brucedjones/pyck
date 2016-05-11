@@ -59,13 +59,13 @@ import pyck       # Pyck library
 To create a domain to packed with a structured packing configuration a packer must first be defined reflecting the desired packing configuration. Options are as follows,
 
 ```python
-cubic               = pyck.CubicPacker([Lx,Ly,Lz],radius);
-faceCenteredCubic   = pyck.FccPacker([Lx,Ly,Lz],radius);
-bodyCenteredCubic   = pyck.BccPacker([Lx,Ly,Lz],radius);
-hexagonalClosePack  = pyck.HcpPacker([Lx,Ly,Lz],radius);
+cubic               = pyck.CubicPacker([Lx,Ly,Lz],minSeparation);
+faceCenteredCubic   = pyck.FccPacker([Lx,Ly,Lz],minSeparation);
+bodyCenteredCubic   = pyck.BccPacker([Lx,Ly,Lz],minSeparation);
+hexagonalClosePack  = pyck.HcpPacker([Lx,Ly,Lz],minSeparation);
 ```
 
-In which `Lx`, `Ly`, and `Lz`, are the domain lengths in the x, y, and z directions respectively. `radius` is the radius of particles to be packed (Half the minimum separation distance). To pack a 2D domain, simply set `Lz` to 0. Note: the only packing configurations that make sense in 2D are Cubic and Hexagonal Close Packing.
+In which `Lx`, `Ly`, and `Lz`, are the domain lengths in the x, y, and z directions respectively. `minSeparation` is the minimum separation distance between particles. To pack a 2D domain, simply set `Lz` to 0. Note: the only packing configurations that make sense in 2D are Cubic and Hexagonal Close Packing.
 
 With a packer defined, the domain is initialized with the following,
 
