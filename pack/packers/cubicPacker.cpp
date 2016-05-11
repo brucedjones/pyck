@@ -7,7 +7,7 @@
 
 CubicPacker::CubicPacker(double *doubleLenIn, double h)
 {
-  dx = 2.0*h;
+  dx = h;
   len[0] = (int)(doubleLenIn[0]/dx);
   len[1] = (int)(doubleLenIn[1]/dx);
   len[2] = (int)(doubleLenIn[2]/dx);

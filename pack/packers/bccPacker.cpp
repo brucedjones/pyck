@@ -6,6 +6,7 @@
 
 BccPacker::BccPacker(double *doubleLenIn, double h)
 {
+  h = h/2.0;
   dx = sqrt((16.0/3.0)*h*h);
   len[0] = (int)(doubleLenIn[0]/dx);
   len[1] = (int)(doubleLenIn[1]/dx);

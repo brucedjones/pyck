@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <omp.h>
 
 #include "structuredPack.h"
@@ -154,10 +155,7 @@ long StructuredPack::ComputeNumParticles(){
 
   return n;
 }
-long StructuredPack::getNumParticles()
-{
-  return numParticles;
-}
+
 double* StructuredPack::CreatePositions(){
   double *positions = new double[numParticles*3];
 
@@ -198,17 +196,78 @@ int* StructuredPack::CreateStates()
   return states;
 }
 
-
 int StructuredPack::GetDim()
 {
   return dim;
 }
-long StructuredPack::getNumParticlesByState(int state)
+
+long StructuredPack::GetNumParticles()
 {
-    long n = 0;
+  return numParticles;
+}
+
+long StructuredPack::GetNumParticlesByState(int state)
+{
+  long n = 0;
   for(long i=0;i<numParticles;i++){
     if(this->states[i]==state) n++;
   }
 
   return n;
+}
+
+std::vector<double> StructuredPack::GetClosestParticlePosition(double *pos)
+{
+  long *p1 = new long[3];
+  long *p2 = new long[3];
+
+  // Get the ijk range to check against the input pos
+  packer->Pos2IDX(pos, p1, true);
+  packer->Pos2IDX(pos, p2, false);
+
+  std::vector<double> output(3,0.);
+
+  double minDist = 10000000000000;
+
+  if(dim>2)
+  {
+    double thisPos[3];
+    for(long k=p1[2]; k<p2[2]; k++){
+      for(long j=p1[1]; j<p2[1]; j++){
+        for(long i=p1[0]; i<p2[0]; i++){
+          packer->IDX2Pos(i,j,k,thisPos);
+          double dist = 0;
+          for(int d=0;d<3;d++)
+          {
+            dist += (thisPos[d]-output[d])*(thisPos[d]-output[d]);
+          }
+
+          if (dist<minDist)
+          {
+            output[0] = thisPos[0]; output[1] = thisPos[1]; output[2] = thisPos[2];
+          }
+        }
+      }
+    }
+  } else {
+    long k = 0;
+    double thisPos[3];
+    for(long j=p1[1]; j<p2[1]; j++){
+      for(long i=p1[0]; i<p2[0]; i++){
+        packer->IDX2Pos(i,j,k,thisPos);
+        double dist = 0;
+        for(int d=0;d<3;d++)
+        {
+          dist += (thisPos[d]-output[d])*(thisPos[d]-output[d]);
+        }
+
+        if (dist<minDist)
+        {
+          output[0] = thisPos[0]; output[1] = thisPos[1]; output[2] = thisPos[2];
+        }
+      }
+    }
+  }
+
+  return output;
 }

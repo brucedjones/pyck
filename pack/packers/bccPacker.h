@@ -10,7 +10,7 @@ class BccPacker: public Packer {
     /**
      * BccPacker constructor.
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
-     * @param h Particle radius
+     * @param h Minimum particle separation
      */
     BccPacker(double *doubleLenIn, double h);
     ~BccPacker();

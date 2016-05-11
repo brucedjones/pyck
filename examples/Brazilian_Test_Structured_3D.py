@@ -8,7 +8,7 @@ import math
 
 # Geometry 
 r = 0.053/2;
-h = 0.1;
+h = 0.03;
 length_platens = r/4;
 height_platens = r/4;
 penetration_in_sample = r/8;
@@ -18,7 +18,7 @@ depth = r;
 depth_sample = [0.0,0.0,depth];
 
 # Material Properties
-smoothingKernelFunc = 3;
+smoothingKernelFunc = 1;
 material = pyck_utils.chromite;
 appliedstressYY = -40000000.0;
 ramptime = 10000;
@@ -67,19 +67,20 @@ model.SetDoubleField(densityField,2,material["density"]);
 model.SetDoubleField(densityField,3,material["density"]);
 
 pyck_utils.SetBrazilianTestParameters(model,domain,h,material);
-model.SetParameter("Mass","%e" % (( material["density"]*(depth_sample[2]*math.pi*1.0*(r+r/4+6*h)*(r+r/4+6*h))    ) / float(pack.getNumParticlesByState(1))) );
+model.SetParameter("Mass","%e" % (( material["density"]*(depth_sample[2]*math.pi*1.0*(r)*(r))    ) / float(pack.getNumParticlesByState(1))) );
 model.SetParameter("DTime","%e" % (1.0e-8));
 model.SetParameter("MovingBoundaryShiftX","%e" % (0.0));
-model.SetParameter("MovingBoundaryShiftY","%e" % (-1.0));
+model.SetParameter("MovingBoundaryShiftY","%e" % (-0.01));
 model.SetParameter("MovingBoundaryShiftZ","%e" % (0.0));
+model.SetParameter("MaxSteps","%d" % (100000));
 # model.SetParameter("Movsyy","%e" % (appliedstressYY));
 # model.SetParameter("BoundariesRampTime","%d" % (ramptime));
 # model.SetParameter("IsStressedBoundaries","false");
 
-
+pyck_utils.SetDamageParameters(model,mass,material);
 # Create a file writer, in this case VTP according to spark format
 writer = pyck.SparkWriter();
 
 # Write the VTP file
-print("dx = "+str(h));
+
 model.Serialize("Brazilian_Test_"+str(dim)+"D_R_"+str(r)+"_h_"+str(h)+"_"+str(numParticles)+".vtp",writer);

@@ -4,6 +4,7 @@
 
 FccPacker::FccPacker(double *doubleLenIn, double h)
 {
+  h = h/2.0;
   dx = sqrt(8*h*h);
   len[0] = (int)(doubleLenIn[0]/dx);
   len[1] = (int)(2*doubleLenIn[1]/dx);

@@ -1,5 +1,7 @@
 #include "sphere.h"
 
+#include <iostream>
+
 Sphere::Sphere(int state, double *c, double r) : Shape(state)
 {
   this->c = new double[3];

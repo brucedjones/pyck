@@ -1,19 +1,19 @@
-#ifndef FCC_PACKER_H
-#define FCC_PACKER_H
+#ifndef HCP_2D_PACKER_H
+#define HCP_2D_PACKER_H
 
 #include "../packer.h"
 
-class FccPacker: public Packer {
+class Hcp2dPacker: public Packer {
 
   public:
 
     /**
-     * FccPacker constructor.
+     * Hcp2dPacker constructor.
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
      * @param h Minimum particle separation
      */
-    FccPacker(double *doubleLenIn, double h);
-    ~FccPacker();
+    Hcp2dPacker(double *doubleLenIn, double h);
+    ~Hcp2dPacker();
 
     /**
      * Converts an ijk index to Cartesian coordinates

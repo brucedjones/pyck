@@ -80,9 +80,80 @@ def SetGeometricParameters(model,L,r,smoothingKernelFunc=3):
     model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
     model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
     model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
+    print("InitialSeparation = "+str(r));
+    print("SmoothingLength = "+str(smoothingLength));
+    print("KappaH = "+str(KappaH));
+    print("Lx = "+str(L[0]));
+    print("Ly = "+str(L[1]));
+    print("Lz = "+str(L[2]));
+    print("Gx = "+str(math.floor(L[0]/KappaH)));
+    print("Gy = "+str(math.floor(L[1]/KappaH)));
+    print("Gz = "+str(math.floor(L[2]/KappaH)));
     model.SetParameter("KappaH","%e" % KappaH);
     model.SetParameter("SmoothingLength","%e" % (1.3*r));
     model.SetParameter("InitialParticleSeparation","%e" % (r));
+
+def SetGeometricPackingParameters(model,L,r,smoothingKernelFunc=3):
+    smoothingLength = 1.3*r*2;
+    
+    if smoothingKernelFunc != 3:
+        Kappa = 2.0;
+    else:
+        Kappa = 3.0;
+
+    KappaH = smoothingLength*Kappa;
+    
+    if L[0]==0:
+            L[0] = KappaH;
+    if L[1]==0:
+            L[1] = KappaH;
+    if L[2]==0:
+            L[2] = KappaH;
+
+    model.SetParameter("Lx","%e" % L[0]);
+    model.SetParameter("Ly","%e" % L[1]);
+    model.SetParameter("Lz","%e" % L[2]);
+    model.SetParameter("GridSizeX","%d" % math.floor(L[0]/KappaH));
+    model.SetParameter("GridSizeY","%d" % math.floor(L[1]/KappaH));
+    model.SetParameter("GridSizeZ","%d" % math.floor(L[2]/KappaH));
+    print("InitialSeparation = "+str(r));
+    print("PackingSmoothingLength = "+str(smoothingLength));
+    print("SmoothingLength = "+str(1.3*r));
+    print("KappaH = "+str(KappaH));
+    print("Lx = "+str(L[0]));
+    print("Ly = "+str(L[1]));
+    print("Lz = "+str(L[2]));
+    print("Gx = "+str(math.floor(L[0]/KappaH)));
+    print("Gy = "+str(math.floor(L[1]/KappaH)));
+    print("Gz = "+str(math.floor(L[2]/KappaH)));
+    model.SetParameter("KappaH","%e" % KappaH);
+    model.SetParameter("SmoothingLength","%e" % (1.3*r));
+    model.SetParameter("InitialParticleSeparation","%e" % (r));    
+
+def SetDamageParameters(model,mass,material):
+    speedsound = material["speedsound"];
+    density = material["density"];
+    youngmodulus = material["youngmodulus"];
+    poissonratio = material["poissonratio"];
+    shearmodulus = material["shearmodulus"];
+    bulkmodulus = material["bulkmodulus"];
+    cohesion = material["cohesion"];
+    frictionangle = (math.pi / 180.0)*material["frictionangle"];
+    cg = 0.4*speedsound;
+    tensilestrength =  (2.0 * cohesion * math.cos(frictionangle)) / (1 + math.sin(frictionangle)); 
+    b = 0.25;
+    m = 3.0* ((1.0/b) -1.0);
+    t1 = ((m+1.0)*(m+2.0)) / (8.0 * (22.0/7.0) * cg*cg*cg);
+    t2 = math.pow((m+3.0)/(m+4.0),m+4.0);
+    temp = math.pow((bulkmodulus + (4.0/3.0)*shearmodulus)/tensilestrength,m) * (density)/(mass*t1*t2);
+    rate = math.log10(math.pow(temp,(1/(m+3.0)))*(tensilestrength/bulkmodulus));
+    A = tensilestrength / math.pow(10.0,rate);
+    t3 = math.pow(bulkmodulus/A,(m+3));
+    k = t1*t2*t3;
+    print('k %15e' % k);
+    print('m %15e' % m);
+    model.SetParameter("KDamage","%e" % (k));
+    model.SetParameter("MDamage","%e" % (m));
 
 def SetDefaultParameters(model,L,r, material,smoothingKernelFunc=3):
 
@@ -280,7 +351,7 @@ def SetParticlePackingParameters(model,L,r,material,smoothingKernelFunc=3):
     else:
             dim = 3;            
 
-    SetGeometricParameters(model,L,r,smoothingKernelFunc);
+    SetGeometricPackingParameters(model,L,r,smoothingKernelFunc);
     model.SetParameter("ParticlesPerCell","100");
     model.SetParameter("MaxSteps","10000");
     model.SetParameter("Mass","1");

@@ -88,6 +88,7 @@
 %include pack/packers/fccPacker.i
 %include pack/packers/bccPacker.i
 %include pack/packers/hcpPacker.i
+%include pack/packers/hcp2dPacker.i
 
 // Add an interface file for each new shape, see existing shapes for reference
 %include shapes/cuboid.i

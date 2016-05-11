@@ -5,6 +5,8 @@
 #include "packer.h"
 #include "../pack.h"
 
+#include <vector>
+
 /**
  * The StructuredPack to be StructuredPacked with particles.
  */
@@ -23,15 +25,27 @@ class StructuredPack : public Pack {
      * StructuredPack all added shapes and generate positions and states
      */
     void Process();
-        /**
-     * Get number of particles
+
+    /**
+    * Get number of particles
+    * @return the number of particles in the model
+    */
+    long GetNumParticles();
+
+    /**
+    * Get number of particles for a given state
+    * @param state Integer representing the state of the created particles
+    * @return The number of particles with corresponding input state
+    */
+    long GetNumParticlesByState(int state);
+
+    /**
+     * Get the position of the closest valid particle to the input coordinate
+     * @param pos Input coordinate
+     * @return The coordinates of the closest valid particle
      */
-     long getNumParticles();
-                 /**
-     * Get number of particles for a given state
-     * @param state Integer representing the state of the created particles
-     */
-  long getNumParticlesByState(int state);
+    std::vector<double> GetClosestParticlePosition(double *pos);
+
   private:
     // Methods
     /**
