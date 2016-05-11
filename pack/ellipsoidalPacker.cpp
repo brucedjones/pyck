@@ -430,11 +430,11 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio, double *
   std::vector<part> p;
   EllipsoidalPacker *pack  = new EllipsoidalPacker(c, r, ratio,h, state,tolerance_angle,tolerance_h,random_startingpoint,adjust_h);
 
-  for(int u = 0; u<pack->getNumParticles();u++)
+  for(int u = 0; u<pack->GetNumParticles();u++)
   {
     p.push_back(make_part(pack->getPositions()[3*u+0],pack->getPositions()[3*u+1],pack->getPositions()[3*u+2],pack->getStates()[u]));
   }
-  long number_of_parts = pack->getNumParticles();
+  long number_of_parts = pack->GetNumParticles();
   delete pack;
 
   double htemp;
@@ -518,11 +518,11 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratioY, double 
     EllipsoidalPacker *pack  = new EllipsoidalPacker(ctemp, current_radius, ratio,h, state,tolerance_angle,tolerance_h,random_startingpoint,adjust_h);
 
 
-    for(int u = 0; u<pack->getNumParticles();u++)
+    for(int u = 0; u<pack->GetNumParticles();u++)
     {
       p.push_back(make_part(pack->getPositions()[3*u+0],pack->getPositions()[3*u+1],pack->getPositions()[3*u+2],pack->getStates()[u]));
     }
-    number_of_parts += pack->getNumParticles();
+    number_of_parts += pack->GetNumParticles();
 
     std::cout << "[Ellipsoid] Packing at z= "<<z<< " finished. "<< number_of_parts << " point(s)" << std::endl;
     delete pack;
@@ -663,11 +663,6 @@ int* EllipsoidalPacker::getStates()
   return states;
 }
 
-long EllipsoidalPacker::getNumParticles()
-{
-  return numParticles;
-}
-
 int EllipsoidalPacker::getDim()
 {
   return dim;
@@ -752,13 +747,4 @@ int* EllipsoidalPacker::CreateStates(long numParticles_temp)
   }
 
   return states;
-}
-long EllipsoidalPacker::getNumParticlesByState(int state)
-{
-    long n = 0;
-  for(long i=0;i<numParticles;i++){
-    if(this->states[i]==state) n++;
-  }
-
-  return n;
 }

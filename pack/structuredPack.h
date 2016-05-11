@@ -27,19 +27,6 @@ class StructuredPack : public Pack {
     void Process();
 
     /**
-    * Get number of particles
-    * @return the number of particles in the model
-    */
-    long GetNumParticles();
-
-    /**
-    * Get number of particles for a given state
-    * @param state Integer representing the state of the created particles
-    * @return The number of particles with corresponding input state
-    */
-    long GetNumParticlesByState(int state);
-
-    /**
      * Get the position of the closest valid particle to the input coordinate
      * @param pos Input coordinate
      * @return The coordinates of the closest valid particle

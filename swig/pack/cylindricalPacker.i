@@ -19,7 +19,7 @@ public:
 
   double *getPositions();
   int *getStates();
-  long getNumParticles();
-  long getNumParticlesByState(int state);
+  long GetNumParticles();
+  long GetNumParticlesByState(int state);
   int getDim();
 };

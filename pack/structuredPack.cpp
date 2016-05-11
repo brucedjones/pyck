@@ -201,21 +201,6 @@ int StructuredPack::GetDim()
   return dim;
 }
 
-long StructuredPack::GetNumParticles()
-{
-  return numParticles;
-}
-
-long StructuredPack::GetNumParticlesByState(int state)
-{
-  long n = 0;
-  for(long i=0;i<numParticles;i++){
-    if(this->states[i]==state) n++;
-  }
-
-  return n;
-}
-
 std::vector<double> StructuredPack::GetClosestParticlePosition(double *pos)
 {
   long *p1 = new long[3];
