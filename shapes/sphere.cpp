@@ -9,8 +9,6 @@ Sphere::Sphere(int state, double *c, double r) : Shape(state)
   this->c[1] = c[1];
   this->c[2] = c[2];
 
-  std::cout << "c[0] = " << c[0] << "c[1] = " << c[1] << "c[2] = " << c[2] << std::endl;
-
   this->r = r;
 
   double *p1 = new double[3];
