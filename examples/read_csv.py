@@ -75,13 +75,15 @@ model.SetDoubleField(densityField,5,material["density"]);
 model.SetDoubleField(densityField,4,material["density"]);
 model.SetDoubleField(densityField,4,material["density"]);
 
+mass = material["density"] / kernelSum;
 pyck_utils.SetBrazilianTestParameters(model,domain,h,material);
-model.SetParameter("Mass","%e" % (material["density"] / kernelSum) );
+model.SetParameter("Mass","%e" % (mass) );
 model.SetParameter("DTime","%e" % (1.0e-8));
 model.SetParameter("MovingBoundaryShiftX","%e" % (0.0));
-model.SetParameter("MovingBoundaryShiftY","%e" % (-0.01));
+model.SetParameter("MovingBoundaryShiftY","%e" % (-0.1));
 model.SetParameter("MovingBoundaryShiftZ","%e" % (0.0));
-model.SetParameter("MaxSteps","%d" % (1000000));
+model.SetParameter("MaxSteps","%d" % (200000));
+model.SetParameter("CohnPt2","10.0");
 # model.SetParameter("Movsyy","%e" % (appliedstressYY));
 # model.SetParameter("BoundariesRampTime","%d" % (ramptime));
 # model.SetParameter("IsStressedBoundaries","false");
