@@ -130,6 +130,31 @@ def SetGeometricPackingParameters(model,L,r,smoothingKernelFunc=3):
     model.SetParameter("SmoothingLength","%e" % (1.3*r));
     model.SetParameter("InitialParticleSeparation","%e" % (r));    
 
+def SetDamageParameters(model,mass,material):
+    speedsound = material["speedsound"];
+    density = material["density"];
+    youngmodulus = material["youngmodulus"];
+    poissonratio = material["poissonratio"];
+    shearmodulus = material["shearmodulus"];
+    bulkmodulus = material["bulkmodulus"];
+    cohesion = material["cohesion"];
+    frictionangle = (math.pi / 180.0)*material["frictionangle"];
+    cg = 0.4*speedsound;
+    tensilestrength =  (2.0 * cohesion * math.cos(frictionangle)) / (1 + math.sin(frictionangle)); 
+    b = 0.25;
+    m = 3.0* ((1.0/b) -1.0);
+    t1 = ((m+1.0)*(m+2.0)) / (8.0 * (22.0/7.0) * cg*cg*cg);
+    t2 = math.pow((m+3.0)/(m+4.0),m+4.0);
+    temp = math.pow((bulkmodulus + (4.0/3.0)*shearmodulus)/tensilestrength,m) * (density)/(mass*t1*t2);
+    rate = math.log10(math.pow(temp,(1/(m+3.0)))*(tensilestrength/bulkmodulus));
+    A = tensilestrength / math.pow(10.0,rate);
+    t3 = math.pow(bulkmodulus/A,(m+3));
+    k = t1*t2*t3;
+    print('k %15e' % k);
+    print('m %15e' % m);
+    model.SetParameter("KDamage","%e" % (k));
+    model.SetParameter("MDamage","%e" % (m));
+
 def SetDefaultParameters(model,L,r, material,smoothingKernelFunc=3):
 
     speedsound = material["speedsound"];

@@ -8,7 +8,7 @@ import math
 
 # Geometry 
 r = 0.053/2;
-h = 0.1;
+h = 0.03;
 length_platens = r/4;
 height_platens = r/4;
 penetration_in_sample = r/8;

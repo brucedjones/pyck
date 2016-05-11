@@ -11,8 +11,8 @@ import csv
 # Geometry (from the original Python script)
 r = 0.053/2;
 domain = [2*r+4*r/4,2*r+4*r/4,0.0];
-h = 0.0002059999999206506; # the one output at the end of the original Python script
-smoothingKernelFunc = 3;
+h = 0.0002069999999206506; # the one output at the end of the original Python script
+smoothingKernelFunc = 1;
 material = pyck_utils.chromite;
 appliedstressYY = -40000000.0;
 ramptime = 10000;
@@ -79,12 +79,13 @@ pyck_utils.SetBrazilianTestParameters(model,domain,h,material);
 model.SetParameter("Mass","%e" % (material["density"] / kernelSum) );
 model.SetParameter("DTime","%e" % (1.0e-8));
 model.SetParameter("MovingBoundaryShiftX","%e" % (0.0));
-model.SetParameter("MovingBoundaryShiftY","%e" % (-1.0));
+model.SetParameter("MovingBoundaryShiftY","%e" % (-0.01));
 model.SetParameter("MovingBoundaryShiftZ","%e" % (0.0));
+model.SetParameter("MaxSteps","%d" % (1000000));
 # model.SetParameter("Movsyy","%e" % (appliedstressYY));
 # model.SetParameter("BoundariesRampTime","%d" % (ramptime));
 # model.SetParameter("IsStressedBoundaries","false");
-
+pyck_utils.SetDamageParameters(model,mass,material);
 writer = pyck.SparkWriter();
 print("dx = "+str(h));
 model.Serialize("Brazilian_Test_"+str(dim)+"D_R_"+str(r)+"_h_"+str(h)+"_"+str(numParticles)+"_relaxed.vtp",writer);
