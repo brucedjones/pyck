@@ -13,7 +13,7 @@ length_platens = r/4;
 height_platens = r/4;
 penetration_in_sample = r/8;
 domain = [2*r+4*r/4,2*r+4*r/4,0.0];
-center = [domain[0]/2,domain[1]/2,0.0];
+center_init = [domain[0]/2,domain[1]/2,0.0];
 
 # Material Properties
 smoothingKernelFunc = 1;
@@ -25,12 +25,13 @@ numParticles = 0;
 
 while (numParticles < 50000):
 	# Create a packer, see packers directory for options
-	cubic = pyck.CubicPacker(domain,h);
+	# cubic = pyck.CubicPacker(domain,h);
 	# cubic = pyck.BccPacker(domain,h);
 	# cubic = pyck.FccPacker(domain,h);
 	# cubic = pyck.HcpPacker(domain,h);
+	cubic = pyck.Hcp2dPacker(domain,h);
 	pack = pyck.StructuredPack(cubic);
-	
+	center = pack.GetClosestParticlePosition(center_init);
 	sphere = pyck.Sphere(1,center,r);
 	
 	upper_platen = pyck.Cuboid(2,[-length_platens/2 + center[0],r+center[1]-penetration_in_sample,-1],[length_platens/2 + center[0],r+center[1]+height_platens-penetration_in_sample,1]);
@@ -42,7 +43,7 @@ while (numParticles < 50000):
 	pack.AddShape(sphere);
 	pack.Process();
 	
-	numParticles = pack.getNumParticles();
+	numParticles = pack.GetNumParticles();
 	hincrement = 0.000001;
 	h = h - hincrement;
 
@@ -50,7 +51,7 @@ while (numParticles < 50000):
 # Create a new model from the pack
 model = pyck.Model(pack);
 dim = 2;
-h =2*h + 2*hincrement;
+h =h + hincrement;
 stateField = model.CreateIntField("State",1);
 model.SetIntField(stateField,1,5);
 model.SetIntField(stateField,2,4);
@@ -64,14 +65,15 @@ model.SetDoubleField(densityField,1,material["density"]);
 model.SetDoubleField(densityField,2,material["density"]);
 model.SetDoubleField(densityField,3,material["density"]);
 
-mass = ( material["density"]*(math.pi*1.0*(r)*(r))    ) / float(pack.getNumParticlesByState(1));
+mass = ( material["density"]*(math.pi*1.0*(r)*(r))    ) / float(pack.GetNumParticlesByState(1));
 pyck_utils.SetBrazilianTestParameters(model,domain,h,material);
 model.SetParameter("Mass","%e" % (mass) );
 model.SetParameter("DTime","%e" % (1.0e-8));
 model.SetParameter("MovingBoundaryShiftX","%e" % (0.0));
-model.SetParameter("MovingBoundaryShiftY","%e" % (-0.01));
+model.SetParameter("MovingBoundaryShiftY","%e" % (-0.1));
 model.SetParameter("MovingBoundaryShiftZ","%e" % (0.0));
-model.SetParameter("MaxSteps","%d" % (100000));
+model.SetParameter("MaxSteps","%d" % (200000));
+model.SetParameter("CohnPt2","10.0");
 # model.SetParameter("Movsyy","%e" % (appliedstressYY));
 # model.SetParameter("BoundariesRampTime","%d" % (ramptime));
 # model.SetParameter("IsStressedBoundaries","false");
