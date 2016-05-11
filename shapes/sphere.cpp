@@ -1,11 +1,15 @@
 #include "sphere.h"
 
+#include <iostream>
+
 Sphere::Sphere(int state, double *c, double r) : Shape(state)
 {
   this->c = new double[3];
   this->c[0] = c[0];
   this->c[1] = c[1];
   this->c[2] = c[2];
+
+  std::cout << "c[0] = " << c[0] << "c[1] = " << c[1] << "c[2] = " << c[2] << std::endl;
 
   this->r = r;
 

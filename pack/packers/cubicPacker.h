@@ -10,7 +10,7 @@ class CubicPacker: public Packer {
     /**
      * CubicPacker constructor.
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
-     * @param h Particle radius
+     * @param h Minimum particle separation
      */
     CubicPacker(double *doubleLenIn, double h);
     ~CubicPacker();

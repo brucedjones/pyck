@@ -10,7 +10,7 @@ class HcpPacker: public Packer {
     /**
      * HcpPacker constructor.
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
-     * @param h Particle radius
+     * @param h Minimum particle separation
      */
     HcpPacker(double *doubleLenIn, double h);
     ~HcpPacker();
