@@ -7,5 +7,5 @@
 class Hcp2dPacker : public Packer {
 
   public:
-    Hcp2dPacker(double *xyz, double h);
+    Hcp2dPacker(double *xyz, double h, bool rotate90=false);
 };

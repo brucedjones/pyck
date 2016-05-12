@@ -5,12 +5,21 @@
 
 #include "hcp2dPacker.h"
 
-Hcp2dPacker::Hcp2dPacker(double *doubleLenIn, double h)
+Hcp2dPacker::Hcp2dPacker(double *doubleLenIn, double h, bool rotate90)
 {
+  this->rotate90 = rotate90;
+
   dx = h;
-  len[0] = (long)(doubleLenIn[0]/dx);
-  len[1] = (long)(doubleLenIn[1]/((dx/2.0)*sqrt(3.0)));
-  len[2] = (long)(doubleLenIn[2]/dx);
+
+  if(!rotate90){
+    len[0] = (long)(doubleLenIn[0]/dx);
+    len[1] = (long)(doubleLenIn[1]/((dx/2.0)*sqrt(3.0)));
+    len[2] = (long)(doubleLenIn[2]/dx);
+  } else {
+    len[0] = (long)(doubleLenIn[0]/((dx/2.0)*sqrt(3.0)));
+    len[1] = (long)(doubleLenIn[1]/dx);;
+    len[2] = (long)(doubleLenIn[2]/dx);
+  }
 
   if(doubleLenIn[2]<0.00000001) len[2] = 1;
 }
@@ -19,17 +28,30 @@ Hcp2dPacker::~Hcp2dPacker(){}
 
 void Hcp2dPacker::IDX2Pos(long i, long j, long k, double *posOut)
 {
-  posOut[0] = (double)i*dx+(double)(j%2)*dx/2.0;
-  posOut[1] = (double)j*dx*sqrt(3)/2.0;
-  posOut[2] = (double)k*dx;
+  if(!rotate90){
+    posOut[0] = (double)i*dx+(double)(j%2)*dx/2.0;
+    posOut[1] = (double)j*dx*sqrt(3)/2.0;
+    posOut[2] = (double)k*dx;
+  } else {
+    posOut[0] = (double)i*dx*sqrt(3)/2.0;
+    posOut[1] = (double)j*dx+(double)(i%2)*dx/2.0;
+    posOut[2] = (double)k*dx;
+  }
 }
 
 void Hcp2dPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
   double i,j,k;
-  i = posIn[0]/dx;
-  j = posIn[1]/(dx*sqrt(3)/2.0);
-  k = posIn[2]/dx;
+
+  if(!rotate90){
+    i = posIn[0]/dx;
+    j = posIn[1]/(dx*sqrt(3)/2.0);
+    k = posIn[2]/dx;
+  } else {
+      i = posIn[0]/(dx*sqrt(3)/2.0);
+      j = posIn[1]/dx;
+      k = posIn[2]/dx;
+  }
 
   if(doFloor) {
     idxOut[0] = floor(i)-1;

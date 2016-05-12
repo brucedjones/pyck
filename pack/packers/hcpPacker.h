@@ -12,7 +12,7 @@ class HcpPacker: public Packer {
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
      * @param h Minimum particle separation
      */
-    HcpPacker(double *doubleLenIn, double h);
+    HcpPacker(double *doubleLenIn, double h, bool rotate90=false);
     ~HcpPacker();
 
     /**
@@ -31,6 +31,9 @@ class HcpPacker: public Packer {
      * @param doFloor Returns the lower-left point in relation to the Cartesian point if true. Returns the upper-right point if false
      */
     void Pos2IDX(double *posIn, long *idxOut, bool doFloor);
+
+  private:
+    bool rotate90;
 };
 
 #endif
