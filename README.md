@@ -77,7 +77,7 @@ Take care to create the packer separately to the StructuredPack object. If the P
 
 ## Packing shapes
 
-All shapes within pyck are specified in two ways, their geometric properties, and an integer `tag` which is applied to all particles packed within that shape. The shapes `tag` is always the first argument in the constructor of a shape. Examples are given here for cuboids and spheres, for reference on other shapes see the doxygen documentation or the shape classes in the shapes/ directory.
+All shapes within pyck are specified in two ways, their geometric properties, and an integer `tag` which is applied to all particles packed within that shape. The shapes `tag` is always the first argument in the constructor of a shape. Examples are given here for cuboids, spheres, and pyShape, for reference on other shapes see the doxygen documentation or the shape classes in the shapes/ directory.
 
 
 ### Cuboid
@@ -92,9 +92,34 @@ cube = pyck.Cuboid(tag,[p1x,p1y,p1z],[p2x,p2y,p2z]);
 
 The geometry of a sphere is defined by a centroid, `p1`, and a `radius`.
 
-```Sphere
-sphere = pyck.Spheretag,[p1x,p2x,p3x],radius);
+```python
+sphere = pyck.Sphere(tag,[p1x,p2x,p3x],radius);
 ```
+
+### PyShape
+
+PyShape is a shape which is defined by a python callback function. PyShape is used as follows.
+
+```python
+pyshape = pyck.PyShape(tag,[p1x,p1y,p1z],[p2x,p2y,p2z],isInside);
+```
+
+Where the `p1` and `p2` arrays are the coordinates of points defining a bounding box in which particles may be inside the shape. `isInside` is a python function used to determine whether a given particle is inside the shape, and must be defined by the user. An example is given here for a sphere.
+
+```python
+def isInside(x,y,z):
+    dx = x-1.0;
+    dy = y-1.0;
+    dz = z-1.0;
+    r = 0.3;
+    if(dx*dx+dy*dy+dz*dz<r*r):
+        return True
+    return False
+```
+
+The isInside callback takes three arguments, `x`, `y`, and `z`, which are the coordinates of a particle. This example specifies a sphere centered at coordinates (1.0,1.0,1.0) with a radius of 0.3. If a particle is inside this sphere the function returns true, if it is outside the function returns false.
+
+Unfortunately, due to the way in which python-c++ interoperability works, python callbacks can only be run in serial. If you find that you need a new shape and PyShape is too slow for your application, consider implementing it as a native c++ class instead.
 
 ### Adding and processing
 Once shapes have been created they are added to the pack as,
