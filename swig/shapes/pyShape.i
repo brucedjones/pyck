@@ -15,5 +15,5 @@
 class PyShape : public Shape {
 
   public:
-    PyShape(double *p1, double *p2, PyObject *PyFunc);
+    PyShape(int state, double *xyz, double *xyz, PyObject *PyFunc);
 };

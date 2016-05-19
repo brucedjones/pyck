@@ -106,11 +106,14 @@ void StructuredPack::MapShape(Shape *shape)
   packer->Pos2IDX(bb->p1, p1, true);
   packer->Pos2IDX(bb->p2, p2, false);
 
+  int numThreads = omp_get_max_threads();
+  if(!shape->parallel) numThreads = 1;
+
   std::cout << "Mapping a shape..." << std::flush;
 
   if(dim>2)
   {
-    #pragma omp parallel for schedule(static)
+    #pragma omp parallel for num_threads(numThreads) schedule(static)
     for(long k=p1[2]; k<p2[2]; k++){
       double thisPos[3];
       for(long j=p1[1]; j<p2[1]; j++){
@@ -127,7 +130,7 @@ void StructuredPack::MapShape(Shape *shape)
     }
   } else {
     long k = 0;
-    #pragma omp parallel for schedule(static)
+    #pragma omp parallel for num_threads(numThreads) schedule(static)
     for(long j=p1[1]; j<p2[1]; j++){
       double thisPos[3];
       for(long i=p1[0]; i<p2[0]; i++){
@@ -141,7 +144,8 @@ void StructuredPack::MapShape(Shape *shape)
       }
     }
   }
-    std::cout << " complete" << std::endl;
+
+  std::cout << " complete" << std::endl;
 }
 
 long StructuredPack::ComputeNumParticles(){

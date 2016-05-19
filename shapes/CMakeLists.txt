@@ -17,4 +17,10 @@ add_library(triprism triprism.cpp)
 target_link_libraries(triprism shape boundingBox)
 list(APPEND pyckLibs "triprism")
 
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+add_library(pyShape pyShape.cpp)
+target_link_libraries(pyShape shape boundingBox)
+list(APPEND pyckLibs "pyShape")
+
 set(pyckLibs "${pyckLibs}" PARENT_SCOPE)

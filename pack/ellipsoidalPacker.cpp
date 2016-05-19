@@ -672,7 +672,10 @@ void EllipsoidalPacker::MapShape(Shape *shape)
 {
   std::cout << "Mapping a shape..." << std::flush;
 
-  #pragma omp parallel for schedule(static)
+  int numThreads = omp_get_max_threads();
+  if(!shape->parallel) numThreads = 1;
+
+  #pragma omp parallel for num_threads(numThreads) schedule(static)
   for(long i=0; i<numParticles; i++){
     double thisPos[3];
     thisPos[0] = positions[i*3];

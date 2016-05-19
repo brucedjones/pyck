@@ -13,7 +13,7 @@ class PyShape: public Shape {
      * @param r Radius of the sphere
      * @param domain Domain in which this shape will be mapped
      */
-    PyShape(double *p1, double *p2, PyObject *PyFunc);
+    PyShape(int state, double *p1, double *p2, PyObject *PyFunc);
     ~PyShape();
 
     /**

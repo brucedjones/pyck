@@ -25,6 +25,7 @@ class Shape {
     BoundingBox *boundingBox; /**< Bounding box which will be iterated over to map the shape */
 
     int state;  /**< State to be applied on a particle when mapping the shape. state = 0 will remove particle from output.*/
+    bool parallel; /**< Toggles whether or not shape can be processed in parallel. */
 };
 
 #endif
