@@ -149,8 +149,6 @@ void StructuredPack::MapShape(Shape *shape)
 }
 
 long StructuredPack::ComputeNumParticles(){
-  if(numParticles != 0) return numParticles;
-
   long n = 0;
   long totalIJK = len[0]*len[1]*len[2];
   for(long i=0;i<totalIJK;i++){
