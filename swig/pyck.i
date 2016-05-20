@@ -95,6 +95,7 @@
 %include shapes/cylinder.i
 %include shapes/sphere.i
 %include shapes/triprism.i
+%include shapes/stlShape.i
 %include shapes/pyShape.i
 
 %include model.i
