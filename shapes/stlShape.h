@@ -14,7 +14,7 @@ class StlShape: public Shape {
      * @param r Radius of the sphere
      * @param domain Domain in which this shape will be mapped
      */
-    StlShape(int state, std::string fname, double *c, double scale);
+    StlShape(int state, std::string fname, double *c, double scale, double *rot_axis, double rot_angle);
     ~StlShape();
 
     /**

@@ -9,5 +9,5 @@
 class StlShape : public Shape {
 
   public:
-    StlShape(int state, std::string fname, double *xyz, double scale);
+    StlShape(int state, std::string fname, double *xyz, double scale, double *xyz, double rot_angle);
 };
