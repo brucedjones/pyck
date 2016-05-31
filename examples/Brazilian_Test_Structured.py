@@ -6,7 +6,7 @@ import math
 # ParticleType {Undefined=0, Liquid=1, Boundary=2, Floating=3, Moving=4, Solid =5};
 # SmoothingKernelFunc {Undefined=0, Cubic kernel function=1, Gaussian kernel function=2, Quintic kernel function=3, Quadratic kernel function=4};
 
-# Geometry 
+# Geometry
 r = 0.053/2;
 h = 0.03;
 length_platens = r/4;
@@ -33,16 +33,16 @@ while (numParticles < 50000):
 	pack = pyck.StructuredPack(cubic);
 	center = pack.GetClosestParticlePosition(center_init);
 	sphere = pyck.Sphere(1,center,r);
-	
+
 	upper_platen = pyck.Cuboid(2,[-length_platens/2 + center[0],r+center[1]-penetration_in_sample,-1],[length_platens/2 + center[0],r+center[1]+height_platens-penetration_in_sample,1]);
 	lower_platen = pyck.Cuboid(3,[-length_platens/2 + center[0],-r+center[1]+penetration_in_sample,-1],[length_platens/2 + center[0],-r+center[1]-height_platens+penetration_in_sample,1]);
-	
+
 	# Map the shapes and generate the pack
 	pack.AddShape(upper_platen);
 	pack.AddShape(lower_platen);
 	pack.AddShape(sphere);
 	pack.Process();
-	
+
 	numParticles = pack.GetNumParticles();
 	hincrement = 0.000001;
 	h = h - hincrement;

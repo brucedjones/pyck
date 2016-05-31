@@ -8,27 +8,35 @@
 
 StlShape::StlShape(int state, std::string fname, double *c, double scale, double *rot_axis, double rot_angle) : Shape(state)
 {
-  this->c = new double[3];
-  this->c[0] = c[0];
-  this->c[1] = c[1];
-  this->c[2] = c[2];
+  bool recenter=false;
+  if(c!=NULL)recenter=true;
 
-  this->scale = scale;
+  bool rescale=false;
+  if(scale!=1.0)rescale=true;
+
+  bool rotation=false;
+  if(rot_axis!=NULL)rotation=true;
+
+  if(recenter){
+    this->c = new double[3];
+    this->c[0] = c[0];
+    this->c[1] = c[1];
+    this->c[2] = c[2];
+  }
+
+  if(rescale) this->scale = scale;
 
   // Normalize the rotation axis
-  double rot_mag;
-  for (size_t i = 0; i < 3; i++) {
-    rot_mag += rot_axis[i]*rot_axis[i];
+  if(rotation){
+    double rot_mag;
+    for (size_t i = 0; i < 3; i++) {
+      rot_mag += rot_axis[i]*rot_axis[i];
+    }
+    rot_mag = sqrt(rot_mag);
+    for (size_t i = 0; i < 3; i++) {
+      rot_axis[i]/=rot_mag;
+    }
   }
-  rot_mag = sqrt(rot_mag);
-  for (size_t i = 0; i < 3; i++) {
-    rot_axis[i]/=rot_mag;
-  }
-
-  double *p1 = new double[3];
-  double *p2 = new double[3];
-  p1[0] = 100000000000000; p1[1] = 100000000000000; p1[2] = 100000000000000;
-  p2[0] = 0; p2[1] = 0; p2[2] = 0;
 
   double center[3];
   center[0] = 0.0; center[1] = 0.0; center[2] = 0.0;
@@ -102,41 +110,60 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
   // Finalize centroid calculation
   for (size_t i = 0; i < 3; i++) {
     center[i] = center[i]/(numFacets*3);
+    if(!recenter)this->c[i] = center[i];
   }
 
   // Rotate, Scale, Translate points
   double *quart = new double[4];
-  quart[0] = cos(rot_angle/2);
-  quart[1] = rot_axis[0]*sin(rot_angle/2);
-  quart[2] = rot_axis[1]*sin(rot_angle/2);
-  quart[3] = rot_axis[2]*sin(rot_angle/2);
+  if(rotation)
+  {
+    quart[0] = cos(rot_angle/2);
+    quart[1] = rot_axis[0]*sin(rot_angle/2);
+    quart[2] = rot_axis[1]*sin(rot_angle/2);
+    quart[3] = rot_axis[2]*sin(rot_angle/2);
+  }
 
-  for (size_t t = 0; t < numFacets; t++) {
-    for (size_t i = 0; i < 3; i++) {
-      v1[t*3+i] -= center[i];
-      v2[t*3+i] -= center[i];
-      v3[t*3+i] -= center[i];
-    }
+  if(recenter || rescale || rotation)
+  {
+    for (size_t t = 0; t < numFacets; t++) {
 
-    rotate(&v1[t*3],quart);
-    rotate(&v2[t*3],quart);
-    rotate(&v3[t*3],quart);
-    rotate(&normal[t*3],quart);
+      for (size_t i = 0; i < 3; i++) {
+        v1[t*3+i] -= center[i];
+        v2[t*3+i] -= center[i];
+        v3[t*3+i] -= center[i];
+      }
 
-    for (size_t i = 0; i < 3; i++) {
-      v1[t*3+i] *= scale;
-      v2[t*3+i] *= scale;
-      v3[t*3+i] *= scale;
-    }
+      if(rotation)
+      {
+        rotate(&v1[t*3],quart);
+        rotate(&v2[t*3],quart);
+        rotate(&v3[t*3],quart);
+        rotate(&normal[t*3],quart);
+      }
 
-    for (size_t i = 0; i < 3; i++) {
-      v1[t*3+i] += c[i];
-      v2[t*3+i] += c[i];
-      v3[t*3+i] += c[i];
+      if(rescale)
+      {
+        for (size_t i = 0; i < 3; i++) {
+          v1[t*3+i] *= scale;
+          v2[t*3+i] *= scale;
+          v3[t*3+i] *= scale;
+        }
+      }
+
+      for (size_t i = 0; i < 3; i++) {
+        v1[t*3+i] += this->c[i];
+        v2[t*3+i] += this->c[i];
+        v3[t*3+i] += this->c[i];
+      }
     }
   }
 
   // Find the bounding box
+  double *p1 = new double[3];
+  double *p2 = new double[3];
+  p1[0] = 100000000000000; p1[1] = 100000000000000; p1[2] = 100000000000000;
+  p2[0] = 0; p2[1] = 0; p2[2] = 0;
+
   for (size_t t = 0; t < numFacets; t++) {
     for (size_t i = 0; i < 3; i++) {
       if(v1[t*3+i]<p1[i]) p1[i] = v1[t*3+i];
