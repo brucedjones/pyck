@@ -9,16 +9,24 @@
 StlShape::StlShape(int state, std::string fname, double *c, double scale, double *rot_axis, double rot_angle) : Shape(state)
 {
   bool recenter=false;
-  if(c!=NULL)recenter=true;
+  if(c!=NULL) recenter=true;
 
   bool rescale=false;
-  if(scale!=1.0)rescale=true;
+  if(scale!=1.0) rescale=true;
 
   bool rotation=false;
-  if(rot_axis!=NULL)rotation=true;
+  if(rot_axis!=NULL) rotation=true;
 
+  //recenter = true;
+  //rescale = true;
+  //rotation = true;
+
+  std::cout << "rotation = " << rotation << std::endl;
+  std::cout << "rescale = " << rescale << std::endl;
+  std::cout << "recenter = " << recenter << std::endl;
+
+  this->c = new double[3];
   if(recenter){
-    this->c = new double[3];
     this->c[0] = c[0];
     this->c[1] = c[1];
     this->c[2] = c[2];
@@ -33,6 +41,7 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
       rot_mag += rot_axis[i]*rot_axis[i];
     }
     rot_mag = sqrt(rot_mag);
+    if(rot_mag<0.00000001) rot_mag = 1;
     for (size_t i = 0; i < 3; i++) {
       rot_axis[i]/=rot_mag;
     }

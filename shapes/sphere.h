@@ -9,7 +9,6 @@ class Sphere: public Shape {
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
      * @param c Center of the sphere in cartesian coordinates
      * @param r Radius of the sphere
-     * @param domain Domain in which this shape will be mapped
      */
     Sphere(int state, double *c, double r);
     ~Sphere();

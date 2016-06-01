@@ -10,9 +10,11 @@ class StlShape: public Shape {
     /**
      * StlShape constructor
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
-     * @param c Center of the sphere in cartesian coordinates
-     * @param r Radius of the sphere
-     * @param domain Domain in which this shape will be mapped
+     * @param fname STL filename
+     * @param c (Optional) Array of length three representing the desired center of the shape in cartesian coordinates
+     * @param scale (Optional) Scaling factor to be applied to the STL geometry
+     * @param rot_axis (Optional) Array of length three representing the axis about which to rotate the STL Geometry
+     * @param rot_angle (Optional) Angle (in radians) by which the shape will be rotated about the rotation axis
      */
     StlShape(int state, std::string fname, double *c=NULL, double scale=1.0, double *rot_axis=NULL, double rot_angle=0.0);
     ~StlShape();

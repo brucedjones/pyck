@@ -12,8 +12,7 @@ class TriPrism: public Shape {
      * @param pt3 third point to define tripism in cartesian coordinates
      * @param pt4 fourth point to define tripism in cartesian coordinates
      * @param l Length of the cylinder in cartesian coordinates, (0,0,l) or (0,l,0) or (l,0,0) indicates the direction
-     * @param domain Domain in which this shape will be mapped
-        //        pt1  ______length_______ 
+        //        pt1  ______length_______
         //        ||||                    ||||
         //       ||  ||                  ||  ||
         //      ||    ||                ||    ||

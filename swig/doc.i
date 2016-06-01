@@ -13,7 +13,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  BccPacker::~BccPacker "BccPacker::~BccPacker()
 ";
@@ -86,7 +86,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  CubicPacker::~CubicPacker "CubicPacker::~CubicPacker() ";
 
@@ -138,9 +138,7 @@ will remove particle from output
 
 p1:  Lower-left corner of cuboid in cartesian coordinates
 
-p2:  Upper-right corner of cuboid in cartesian coordinates
-
-domain:  Domain in which this shape will be mapped ";
+p2:  Upper-right corner of cuboid in cartesian coordinates ";
 
 %feature("docstring")  Cuboid::~Cuboid "Cuboid::~Cuboid() ";
 
@@ -385,20 +383,6 @@ Get positions array ";
 CylindricalPacker::getStates()
 
 Get states array ";
-
-%feature("docstring")  CylindricalPacker::getNumParticles "long
-CylindricalPacker::getNumParticles()
-
-Get number of particles ";
-
-%feature("docstring")  CylindricalPacker::getNumParticlesByState "long CylindricalPacker::getNumParticlesByState(int state)
-
-Get number of particles for a given state
-
-Parameters:
------------
-
-state:  Integer representing the state of the created particles ";
 
 %feature("docstring")  CylindricalPacker::getDim "int
 CylindricalPacker::getDim()
@@ -847,20 +831,6 @@ EllipsoidalPacker::getStates()
 
 Get states array ";
 
-%feature("docstring")  EllipsoidalPacker::getNumParticles "long
-EllipsoidalPacker::getNumParticles()
-
-Get number of particles ";
-
-%feature("docstring")  EllipsoidalPacker::getNumParticlesByState "long EllipsoidalPacker::getNumParticlesByState(int state)
-
-Get number of particles for a given state
-
-Parameters:
------------
-
-state:  Integer representing the state of the created particles ";
-
 %feature("docstring")  EllipsoidalPacker::getDim "int
 EllipsoidalPacker::getDim()
 
@@ -899,7 +869,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  FccPacker::~FccPacker "FccPacker::~FccPacker()
 ";
@@ -936,10 +906,60 @@ doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
 
 
+// File: classHcp2dPacker.xml
+%feature("docstring") Hcp2dPacker "";
+
+%feature("docstring")  Hcp2dPacker::Hcp2dPacker "Hcp2dPacker::Hcp2dPacker(double *doubleLenIn, double h, bool
+rotate90=false)
+
+Hcp2dPacker constructor.
+
+Parameters:
+-----------
+
+doubleLenIn:  Size of the domain in Cartesian coordinate system
+
+h:  Minimum particle separation ";
+
+%feature("docstring")  Hcp2dPacker::~Hcp2dPacker "Hcp2dPacker::~Hcp2dPacker() ";
+
+%feature("docstring")  Hcp2dPacker::IDX2Pos "void
+Hcp2dPacker::IDX2Pos(long i, long j, long k, double *posOut)
+
+Converts an ijk index to Cartesian coordinates
+
+Parameters:
+-----------
+
+i:  i index (along X)
+
+j:  j index (along Y)
+
+k:  k index (along Z)
+
+posOut:  Cartesian coordinate output, array of length 3 ";
+
+%feature("docstring")  Hcp2dPacker::Pos2IDX "void
+Hcp2dPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
+
+Converts a Cartesian coordinate to an IJK position
+
+Parameters:
+-----------
+
+posIn:  Cartesian coordinate input, array of length 3
+
+idxOut:  ijk coordinate output, array of length 3
+
+doFloor:  Returns the lower-left point in relation to the Cartesian
+point if true. Returns the upper-right point if false ";
+
+
 // File: classHcpPacker.xml
 %feature("docstring") HcpPacker "";
 
-%feature("docstring")  HcpPacker::HcpPacker "HcpPacker::HcpPacker(double *doubleLenIn, double h)
+%feature("docstring")  HcpPacker::HcpPacker "HcpPacker::HcpPacker(double *doubleLenIn, double h, bool
+rotate90=false)
 
 HcpPacker constructor.
 
@@ -948,7 +968,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  HcpPacker::~HcpPacker "HcpPacker::~HcpPacker()
 ";
@@ -1168,6 +1188,23 @@ shape:   Shape to be mapped ";
 
 Pack all added shapes and generate positions and states ";
 
+%feature("docstring")  Pack::GetNumParticles "long
+Pack::GetNumParticles()
+
+Get number of particles the number of particles in the model ";
+
+%feature("docstring")  Pack::GetNumParticlesByState "long
+Pack::GetNumParticlesByState(int state)
+
+Get number of particles for a given state
+
+Parameters:
+-----------
+
+state:  Integer representing the state of the created particles
+
+The number of particles with corresponding input state ";
+
 
 // File: classPacker.xml
 %feature("docstring") Packer "";
@@ -1218,6 +1255,45 @@ point if true. Returns the upper-right point if false ";
 
 // File: structparticle.xml
 %feature("docstring") particle "";
+
+
+// File: classPyShape.xml
+%feature("docstring") PyShape "";
+
+%feature("docstring")  PyShape::PyShape "PyShape::PyShape(int state,
+double *p1, double *p2, PyObject *PyFunc)
+
+PyShape constructor
+
+Parameters:
+-----------
+
+state:  State to be applied to particles within this shape. state = 0
+will remove particle from output
+
+p1:  Lower-left corner of the shapes bounding box in cartesian
+coordinates
+
+p2:  Upper-right corner of the shapes bounding box in cartesian
+coordinates
+
+PyFunc:  Python callback defining the shape. Takes 3 arguments, x, y,
+and z, coordinates of a point. Returns true if a particle is inside
+the shape and false otherwsie ";
+
+%feature("docstring")  PyShape::~PyShape "PyShape::~PyShape() ";
+
+%feature("docstring")  PyShape::IsInside "bool
+PyShape::IsInside(double *pt)
+
+Check if given coordinate is inside this shape
+
+Parameters:
+-----------
+
+pt:  Coordinates to check
+
+True if coordinate is inside shape, false otherwise ";
 
 
 // File: classShape.xml
@@ -1282,14 +1358,55 @@ will remove particle from output
 
 c:  Center of the sphere in cartesian coordinates
 
-r:  Radius of the sphere
-
-domain:  Domain in which this shape will be mapped ";
+r:  Radius of the sphere ";
 
 %feature("docstring")  Sphere::~Sphere "Sphere::~Sphere() ";
 
 %feature("docstring")  Sphere::IsInside "bool Sphere::IsInside(double
 *pt)
+
+Check if given coordinate is inside this shape
+
+Parameters:
+-----------
+
+pt:  Coordinates to check
+
+True if coordinate is inside shape, false otherwise ";
+
+
+// File: classStlShape.xml
+%feature("docstring") StlShape "";
+
+%feature("docstring")  StlShape::StlShape "StlShape::StlShape(int
+state, std::string fname, double *c=NULL, double scale=1.0, double
+*rot_axis=NULL, double rot_angle=0.0)
+
+StlShape constructor
+
+Parameters:
+-----------
+
+state:  State to be applied to particles within this shape. state = 0
+will remove particle from output
+
+fname:  STL filename
+
+c:  (Optional) Array of length three representing the desired center
+of the shape in cartesian coordinates
+
+scale:  (Optional) Scaling factor to be applied to the STL geometry
+
+rot_axis:  (Optional) Array of length three representing the axis
+about which to rotate the STL Geometry
+
+rot_angle:  (Optional) Angle (in radians) by which the shape will be
+rotated about the rotation axis ";
+
+%feature("docstring")  StlShape::~StlShape "StlShape::~StlShape() ";
+
+%feature("docstring")  StlShape::IsInside "bool
+StlShape::IsInside(double *pt)
 
 Check if given coordinate is inside this shape
 
@@ -1325,20 +1442,17 @@ StructuredPack::Process()
 
 StructuredPack all added shapes and generate positions and states ";
 
-%feature("docstring")  StructuredPack::getNumParticles "long
-StructuredPack::getNumParticles()
+%feature("docstring")  StructuredPack::GetClosestParticlePosition "std::vector< double >
+StructuredPack::GetClosestParticlePosition(double *pos)
 
-Get number of particles ";
-
-%feature("docstring")  StructuredPack::getNumParticlesByState "long
-StructuredPack::getNumParticlesByState(int state)
-
-Get number of particles for a given state
+Get the position of the closest valid particle to the input coordinate
 
 Parameters:
 -----------
 
-state:  Integer representing the state of the created particles ";
+pos:  Input coordinate
+
+The coordinates of the closest valid particle ";
 
 
 // File: classTriPrism.xml
@@ -1364,10 +1478,8 @@ pt3:  third point to define tripism in cartesian coordinates
 pt4:  fourth point to define tripism in cartesian coordinates
 
 l:  Length of the cylinder in cartesian coordinates, (0,0,l) or
-(0,l,0) or (l,0,0) indicates the direction
-
-domain:  Domain in which this shape will be mapped pt1
-______length_______ |||| |||| || || || || || || || || || || || ||
+(0,l,0) or (l,0,0) indicates the direction pt1 ______length_______
+|||| |||| || || || || || || || || || || || ||
 pt3||||||||||||pt2_________|||||||||||| ";
 
 %feature("docstring")  TriPrism::~TriPrism "TriPrism::~TriPrism() ";
@@ -1541,6 +1653,12 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 // File: fccPacker_8h.xml
 
 
+// File: hcp2dPacker_8cpp.xml
+
+
+// File: hcp2dPacker_8h.xml
+
+
 // File: hcpPacker_8cpp.xml
 
 
@@ -1558,6 +1676,15 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 
 
 // File: pyck_8h.xml
+
+
+// File: quarternionRotation_8h.xml
+%feature("docstring")  hamilton_product "void hamilton_product(double
+*result, double a1, double b1, double c1, double d1, double a2, double
+b2, double c2, double d2) ";
+
+%feature("docstring")  rotate "void rotate(double *pt, double *quart)
+";
 
 
 // File: shape_8cpp.xml
@@ -1578,10 +1705,22 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 // File: cylinder_8h.xml
 
 
+// File: pyShape_8cpp.xml
+
+
+// File: pyShape_8h.xml
+
+
 // File: sphere_8cpp.xml
 
 
 // File: sphere_8h.xml
+
+
+// File: stlShape_8cpp.xml
+
+
+// File: stlShape_8h.xml
 
 
 // File: triprism_8cpp.xml
