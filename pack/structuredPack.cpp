@@ -6,6 +6,7 @@
 #include "packer.h"
 #include "../boundingBox.h"
 #include "../shape.h"
+#include "../progressBar.h"
 
 
 StructuredPack::StructuredPack(Packer *packer)
@@ -109,7 +110,11 @@ void StructuredPack::MapShape(Shape *shape)
   int numThreads = omp_get_max_threads();
   if(!shape->parallel) numThreads = 1;
 
-  std::cout << "Mapping a shape..." << std::flush;
+  //std::cout << "Mapping a shape..." << std::flush;
+  long plx = p2[0]-p1[0];
+  long ply = p2[1]-p1[1];
+  long plz = p2[2]-p1[2];
+  ProgressBar pb(plx*ply*plz);
 
   if(dim>2)
   {
@@ -118,6 +123,7 @@ void StructuredPack::MapShape(Shape *shape)
       double thisPos[3];
       for(long j=p1[1]; j<p2[1]; j++){
         for(long i=p1[0]; i<p2[0]; i++){
+          // Mapping
           packer->IDX2Pos(i,j,k,thisPos);
           if(shape->IsInside(thisPos)){
             state[ID(i,j,k)] = shape->state;
@@ -125,6 +131,13 @@ void StructuredPack::MapShape(Shape *shape)
             pos[DimID(1,i,j,k)] = thisPos[1];
             if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
           }
+        }
+        if(omp_get_thread_num()==0){
+          // Progress reporting
+          long py = j-p1[1];
+          long pz = k-p1[2];
+          long progress = py*plx+pz*plx*ply;
+          pb.UpdateProgress(progress*omp_get_num_threads());
         }
       }
     }
@@ -134,6 +147,7 @@ void StructuredPack::MapShape(Shape *shape)
     for(long j=p1[1]; j<p2[1]; j++){
       double thisPos[3];
       for(long i=p1[0]; i<p2[0]; i++){
+        // Mapping
         packer->IDX2Pos(i,j,k,thisPos);
         if(shape->IsInside(thisPos)){
           state[ID(i,j,k)] = shape->state;
@@ -142,10 +156,17 @@ void StructuredPack::MapShape(Shape *shape)
           if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
         }
       }
+      // Progress reporting
+      if(omp_get_thread_num()==0)
+      {
+        long  py = j-p1[1];
+        long progress = py*plx;
+        pb.UpdateProgress(progress*omp_get_num_threads());
+      }
     }
   }
 
-  std::cout << " complete" << std::endl;
+  std::cout << std::endl;
 }
 
 long StructuredPack::ComputeNumParticles(){

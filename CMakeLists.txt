@@ -34,6 +34,9 @@ list(APPEND pyckLibs "intField")
 add_library(doubleField doubleField.cpp)
 list(APPEND pyckLibs "doubleField")
 
+# Utility libraries
+add_library(progressBar progressBar.cpp)
+
 target_link_libraries(pack shape)
 target_link_libraries(boundingBox shape)
 target_link_libraries(shape boundingBox)
