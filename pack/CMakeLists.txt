@@ -15,11 +15,11 @@ target_link_libraries(structuredPack pack shape boundingBox packer progressBar)
 list(APPEND pyckLibs "structuredPack")
 
 add_library(cylindricalPacker cylindricalPacker.cpp)
-target_link_libraries(cylindricalPacker pack shape)
+target_link_libraries(cylindricalPacker pack shape progressBar)
 list(APPEND pyckLibs "cylindricalPacker")
 
 add_library(ellipsoidalPacker ellipsoidalPacker.cpp)
-target_link_libraries(ellipsoidalPacker pack shape)
+target_link_libraries(ellipsoidalPacker pack shape progressBar)
 list(APPEND pyckLibs "ellipsoidalPacker")
 
 add_subdirectory(packers)

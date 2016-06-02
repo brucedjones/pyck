@@ -8,6 +8,7 @@
 #include "ellipsoidalPacker.h"
 #include "elliptic_integral_secondform.cpp"
 #include "../shape.h"
+#include "../progressBar.h"
 
 struct part
 {
@@ -675,6 +676,9 @@ void EllipsoidalPacker::MapShape(Shape *shape)
   int numThreads = omp_get_max_threads();
   if(!shape->parallel) numThreads = 1;
 
+  long progress = 0;
+  ProgressBar pb(numParticles);
+
   #pragma omp parallel for num_threads(numThreads) schedule(static)
   for(long i=0; i<numParticles; i++){
     double thisPos[3];
@@ -684,8 +688,14 @@ void EllipsoidalPacker::MapShape(Shape *shape)
     if(shape->IsInside(thisPos)){
       states[i] = shape->state;
     }
+
+    // Progress Reporting
+    #pragma omp atomic
+      progress++;
+    if(omp_get_thread_num()==0) pb.UpdateProgress(i);
   }
-    std::cout << " complete" << std::endl;
+
+  pb.UpdateProgress(numParticles);
 }
 void EllipsoidalPacker::Process()
 {

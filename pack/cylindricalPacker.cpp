@@ -7,6 +7,7 @@
 #include <vector>
 #include "cylindricalPacker.h"
 #include "../shape.h"
+#include "../progressBar.h"
 
 struct particle
 {
@@ -318,10 +319,11 @@ int CylindricalPacker::getDim()
 
 void CylindricalPacker::MapShape(Shape *shape)
 {
-  std::cout << "Mapping a shape..." << std::flush;
-
   int numThreads = omp_get_max_threads();
   if(!shape->parallel) numThreads = 1;
+
+  long progress = 0;
+  ProgressBar pb(numParticles);
 
   #pragma omp parallel for num_threads(numThreads) schedule(static)
   for(long i=0; i<numParticles; i++){
@@ -332,8 +334,14 @@ void CylindricalPacker::MapShape(Shape *shape)
     if(shape->IsInside(thisPos)){
       states[i] = shape->state;
     }
+
+    // Progress Reporting
+    #pragma omp atomic
+      progress++;
+    if(omp_get_thread_num()==0) pb.UpdateProgress(i);
   }
-    std::cout << " complete" << std::endl;
+
+  pb.UpdateProgress(numParticles);
 }
 
 void CylindricalPacker::Process()

@@ -114,6 +114,7 @@ void StructuredPack::MapShape(Shape *shape)
   long plx = p2[0]-p1[0];
   long ply = p2[1]-p1[1];
   long plz = p2[2]-p1[2];
+  long progress = 0;
   ProgressBar pb(plx*ply*plz);
 
   if(dim>2)
@@ -131,13 +132,10 @@ void StructuredPack::MapShape(Shape *shape)
             pos[DimID(1,i,j,k)] = thisPos[1];
             if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
           }
-        }
-        if(omp_get_thread_num()==0){
-          // Progress reporting
-          long py = j-p1[1];
-          long pz = k-p1[2];
-          long progress = py*plx+pz*plx*ply;
-          pb.UpdateProgress(progress*omp_get_num_threads());
+          // Progress Reporting
+          #pragma omp atomic
+            progress++;
+          if(omp_get_thread_num()==0) pb.UpdateProgress(progress);
         }
       }
     }
@@ -155,18 +153,15 @@ void StructuredPack::MapShape(Shape *shape)
           pos[DimID(1,i,j,k)] = thisPos[1];
           if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
         }
-      }
-      // Progress reporting
-      if(omp_get_thread_num()==0)
-      {
-        long  py = j-p1[1];
-        long progress = py*plx;
-        pb.UpdateProgress(progress*omp_get_num_threads());
+        // Progress Reporting
+        #pragma omp atomic
+          progress++;
+        if(omp_get_thread_num()==0) pb.UpdateProgress(progress);
       }
     }
   }
 
-  std::cout << std::endl;
+  pb.UpdateProgress(progress);
 }
 
 long StructuredPack::ComputeNumParticles(){
