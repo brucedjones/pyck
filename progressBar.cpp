@@ -3,15 +3,12 @@
 #include <iostream>
 #include <string>
 
-ProgressBar::ProgressBar(long maxVal){
+ProgressBar::ProgressBar(long maxVal, std::string label){
   this->maxVal = maxVal;
   this->numBars = 25;
   this->increment = (float)maxVal/(float)numBars;
   this->prevVal = 0;
-}
-
-ProgressBar::~ProgressBar(){
-  std::cout << std::endl;
+  this->label = label;
 }
 
 void ProgressBar::UpdateProgress(long currVal){
@@ -32,25 +29,34 @@ void ProgressBar::UpdateProgress(long currVal){
       }
     }
 
-    std::cout << "\r" "Mapping Shape: [";
-    std::cout << "\033[32m";
-    std::cout << bar;
-    std::cout << "\033[0m";
-    std::cout << "] ";
-    std::cout.width( 3 );
-    std::cout<< percent*100 << "%     " << std::flush;
-  } else if (currVal >= maxVal) {
+    Draw((int)(percent*100.0));
+  }
+
+  if (currVal >= maxVal) {
 
     for(int i = 0; i < numBars; i++){
       bar.replace(i,1,"|");
     }
 
-    std::cout << "\r" "Mapping Shape: [";
-    std::cout << "\033[32m";
-    std::cout << bar;
-    std::cout << "\033[0m";
-    std::cout << "] ";
-    std::cout.width( 3 );
-    std::cout<< "100" << "%     " << std::flush;
+    Draw((int)(100));
   }
+}
+
+void ProgressBar::Finish()
+{
+  UpdateProgress(maxVal);
+  std::cout << std::endl;
+}
+
+void ProgressBar::Draw(int percent)
+{
+  std::string labelOut = "\r" + label + ":";
+  std::string barOut = "[\033[32m"+bar+"\033[0m] ";
+
+  std::cout.width( 30 );
+  std::cout << std::left << labelOut;
+  std::cout.width(numBars+3);
+  std::cout << std::left << barOut;
+  std::cout.width( 3 );
+  std::cout << std::left << percent << "%" << std::flush;
 }

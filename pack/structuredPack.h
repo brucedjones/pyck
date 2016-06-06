@@ -107,7 +107,7 @@ class StructuredPack : public Pack {
      */
     int GetDim();
     //Properties
-    Packer *packer;
+    Packer *packer; /**< Determines the packing configuration (The relationship between ijk and coordinates)*/
     long *len; /**< Size of the StructuredPack in ijk system */
     int *state; /**< ijk Array of particle states */
     double *pos; /**< ijk Array of particle coordinates (cartesian) */

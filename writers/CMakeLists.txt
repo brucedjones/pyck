@@ -2,7 +2,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
 
 # Do this for each new writer
 add_library(sparkWriter sparkWriter.cpp)
-target_link_libraries(sparkWriter writer)
+target_link_libraries(sparkWriter writer progressBar)
 
 # Section below is only required for SparkWriter
 find_package( ZLIB REQUIRED )

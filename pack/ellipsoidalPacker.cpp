@@ -671,13 +671,11 @@ int EllipsoidalPacker::getDim()
 
 void EllipsoidalPacker::MapShape(Shape *shape)
 {
-  std::cout << "Mapping a shape..." << std::flush;
-
   int numThreads = omp_get_max_threads();
   if(!shape->parallel) numThreads = 1;
 
   long progress = 0;
-  ProgressBar pb(numParticles);
+  ProgressBar pb(numParticles, "Mapping shape");
 
   #pragma omp parallel for num_threads(numThreads) schedule(static)
   for(long i=0; i<numParticles; i++){
@@ -695,7 +693,7 @@ void EllipsoidalPacker::MapShape(Shape *shape)
     if(omp_get_thread_num()==0) pb.UpdateProgress(i);
   }
 
-  pb.UpdateProgress(numParticles);
+  pb.Finish();
 }
 void EllipsoidalPacker::Process()
 {

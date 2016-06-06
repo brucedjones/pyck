@@ -1257,6 +1257,40 @@ point if true. Returns the upper-right point if false ";
 %feature("docstring") particle "";
 
 
+// File: classProgressBar.xml
+%feature("docstring") ProgressBar "";
+
+%feature("docstring")  ProgressBar::ProgressBar "ProgressBar::ProgressBar(long maxVal, std::string label)
+
+ProgressBar Constructor
+
+Parameters:
+-----------
+
+maxVal:  The value (Which would be passed to UpdateProgress) which
+indicates completion
+
+label:  Label to be printed with the progress bar ";
+
+%feature("docstring")  ProgressBar::~ProgressBar "ProgressBar::~ProgressBar() ";
+
+%feature("docstring")  ProgressBar::UpdateProgress "void
+ProgressBar::UpdateProgress(long currVal)
+
+Updates the progress bard
+
+Parameters:
+-----------
+
+currVal:  Current progress value ";
+
+%feature("docstring")  ProgressBar::Finish "void
+ProgressBar::Finish()
+
+Finalizes the progressBar, does a final draw at 100% and flushes cout
+";
+
+
 // File: classPyShape.xml
 %feature("docstring") PyShape "";
 
@@ -1669,6 +1703,12 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 
 
 // File: structuredPack_8h.xml
+
+
+// File: progressBar_8cpp.xml
+
+
+// File: progressBar_8h.xml
 
 
 // File: pyck_8cpp.xml

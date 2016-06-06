@@ -9,6 +9,7 @@
 #include "sparkWriter.h"
 #include "../intField.h"
 #include "../doubleField.h"
+#include "../progressBar.h"
 
 #include <zlib.h>
 #include "base64.h"
@@ -32,6 +33,9 @@ void SparkWriter::Write(std::string fname,
     std::exit(1);
   }
 
+  int progress = 1;
+  ProgressBar pb(intFields.size()+doubleFields.size()+parameters.size()+1,"Writing output");
+
   std::ofstream outfile((char*)fname.c_str(), std::ios::out);
   if(outfile.is_open()) {
     std::cout << "Writing to output file..." << std::flush;
@@ -44,6 +48,8 @@ void SparkWriter::Write(std::string fname,
     for ( it = parameters.begin(); it != parameters.end(); it++ )
     {
       outfile << "<" << it->first << ">" << it->second << "</" << it->first << ">" << std::endl;
+      pb.UpdateProgress(progress);
+      progress++;
     }
 
     outfile << "</SimulationParameters>" << std::endl;
@@ -55,6 +61,8 @@ void SparkWriter::Write(std::string fname,
     outfile << "</DataArray>" << std::endl;
     outfile << "</Points>" << std::endl;
     outfile << "<PointData>" << std::endl;
+    pb.UpdateProgress(progress);
+    progress++;
 
     for (long intf=0; intf < intFields.size(); intf++)
     {
@@ -62,6 +70,8 @@ void SparkWriter::Write(std::string fname,
       outfile << "<DataArray type=\"Int32\" NumberOfComponents=\""<< thisField->dim <<"\" format=\"binary\" Name=\"" << thisField->name << "\">";
       WriteEncodedString((void *)thisField->data,numParticles,thisField->dim,4,&outfile);
       outfile << "</DataArray>" << std::endl;
+      pb.UpdateProgress(progress);
+      progress++;
     }
 
     for (long intf=0; intf < doubleFields.size(); intf++)
@@ -70,6 +80,8 @@ void SparkWriter::Write(std::string fname,
       outfile << "<DataArray type=\"Float64\" NumberOfComponents=\""<< thisField->dim <<"\" format=\"binary\" Name=\"" << thisField->name << "\">";
       WriteEncodedString((void *)thisField->data,numParticles,thisField->dim,8,&outfile);
       outfile << "</DataArray>" << std::endl;
+      pb.UpdateProgress(progress);
+      progress++;
     }
 
     outfile << "</PointData>" << std::endl;
@@ -77,7 +89,7 @@ void SparkWriter::Write(std::string fname,
     outfile << "</PolyData>" << std::endl;
     outfile << "</VTKFile>" << std::endl;
     outfile.close();
-    std::cout << " complete" << std::endl;
+    pb.Finish();
   }
 }
 

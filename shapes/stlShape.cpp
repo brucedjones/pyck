@@ -17,14 +17,6 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
   bool rotation=false;
   if(rot_axis!=NULL) rotation=true;
 
-  //recenter = true;
-  //rescale = true;
-  //rotation = true;
-
-  std::cout << "rotation = " << rotation << std::endl;
-  std::cout << "rescale = " << rescale << std::endl;
-  std::cout << "recenter = " << recenter << std::endl;
-
   this->c = new double[3];
   if(recenter){
     this->c[0] = c[0];

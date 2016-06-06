@@ -9,16 +9,22 @@
 #include "../progressBar.h"
 
 
-StructuredPack::StructuredPack(Packer *packer)
-{
-  std::cout << "Initializing StructuredPack..." << std::flush;
+StructuredPack::StructuredPack(Packer *packer){
   this->packer = packer;
   this->len = packer->len;
+
+  int progress = 0;
+  ProgressBar pb(3,"Initializing StructuredPack");
 
   dim = 3;
   if(len[2] < 2) dim = 2;
 
+  progress++;
+  pb.UpdateProgress(progress);
   state = new int[len[0]*len[1]*len[2]];
+
+  progress++;
+  pb.UpdateProgress(progress);
   pos = new double[len[0]*len[1]*len[2]*dim];
 
   if(dim>2)
@@ -42,12 +48,15 @@ StructuredPack::StructuredPack(Packer *packer)
     }
   }
 
+  progress++;
+  pb.UpdateProgress(progress);
+
   numParticles = 0;
 
   positions = NULL;
   states = NULL;
 
-  std::cout << " complete" << std::endl;
+  pb.Finish();
 }
 
 StructuredPack::~StructuredPack()
@@ -86,11 +95,23 @@ long StructuredPack::DimID(long thisDim,long i, long j, long k)
 void StructuredPack::Process()
 {
   MapShapes();
+
+  int progress;
+  ProgressBar pb(3,"Processing particles");
+
+  progress++;
+  pb.UpdateProgress(progress);
   numParticles = ComputeNumParticles();
+
+  progress++;
+  pb.UpdateProgress(progress);
   positions = CreatePositions();
+
+  progress++;
+  pb.UpdateProgress(progress);
   states = CreateStates();
 
-  std::cout << "Processing StructuredPack...complete (" << numParticles << " particles)" << std::endl;;
+  pb.Finish();
 }
 
 void StructuredPack::MapShape(Shape *shape)
@@ -115,7 +136,7 @@ void StructuredPack::MapShape(Shape *shape)
   long ply = p2[1]-p1[1];
   long plz = p2[2]-p1[2];
   long progress = 0;
-  ProgressBar pb(plx*ply*plz);
+  ProgressBar pb(plx*ply*plz, "Mapping shape");
 
   if(dim>2)
   {
@@ -161,7 +182,7 @@ void StructuredPack::MapShape(Shape *shape)
     }
   }
 
-  pb.UpdateProgress(progress);
+  pb.Finish();
 }
 
 long StructuredPack::ComputeNumParticles(){
