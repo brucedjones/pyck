@@ -6,10 +6,10 @@
 #include <fstream>
 #include <math.h>
 
-StlShape::StlShape(int state, std::string fname, double *c, double scale, double *rot_axis, double rot_angle) : Shape(state)
+StlShape::StlShape(int state, std::string fname, double *translation, double scale, double *rot_axis, double rot_angle) : Shape(state)
 {
-  bool recenter=false;
-  if(c!=NULL) recenter=true;
+  bool translate=false;
+  if(translation!=NULL) translate=true;
 
   bool rescale=false;
   if(scale!=1.0) rescale=true;
@@ -17,11 +17,11 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
   bool rotation=false;
   if(rot_axis!=NULL) rotation=true;
 
-  this->c = new double[3];
-  if(recenter){
-    this->c[0] = c[0];
-    this->c[1] = c[1];
-    this->c[2] = c[2];
+  this->translation = new double[3];
+  if(translate){
+    this->translation[0] = translation[0];
+    this->translation[1] = translation[1];
+    this->translation[2] = translation[2];
   }
 
   if(rescale) this->scale = scale;
@@ -109,9 +109,10 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
   stlFile.close();
 
   // Finalize centroid calculation
+  this->c = new double[3];
   for (size_t i = 0; i < 3; i++) {
     center[i] = center[i]/(numFacets*3);
-    if(!recenter)this->c[i] = center[i];
+    this->c[i] = center[i];
   }
 
   // Rotate, Scale, Translate points
@@ -124,14 +125,14 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
     quart[3] = rot_axis[2]*sin(rot_angle/2);
   }
 
-  if(recenter || rescale || rotation)
+  if(translate || rescale || rotation)
   {
     for (size_t t = 0; t < numFacets; t++) {
 
       for (size_t i = 0; i < 3; i++) {
-        v1[t*3+i] -= center[i];
-        v2[t*3+i] -= center[i];
-        v3[t*3+i] -= center[i];
+        v1[t*3+i] -= this->c[i];
+        v2[t*3+i] -= this->c[i];
+        v3[t*3+i] -= this->c[i];
       }
 
       if(rotation)
@@ -155,6 +156,15 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
         v1[t*3+i] += this->c[i];
         v2[t*3+i] += this->c[i];
         v3[t*3+i] += this->c[i];
+      }
+
+      if(translate)
+      {
+        for (size_t i = 0; i < 3; i++) {
+            v1[t*3+i] += this->translation[i];
+            v2[t*3+i] += this->translation[i];
+            v3[t*3+i] += this->translation[i];
+        }
       }
     }
   }
@@ -186,6 +196,7 @@ StlShape::StlShape(int state, std::string fname, double *c, double scale, double
 
 StlShape::~StlShape(){
   delete [] c;
+  delete [] translation;
   delete [] normal;
   delete [] v1;
   delete [] v2;

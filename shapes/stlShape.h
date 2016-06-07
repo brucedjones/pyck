@@ -11,12 +11,12 @@ class StlShape: public Shape {
      * StlShape constructor
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
      * @param fname STL filename
-     * @param c (Optional) Array of length three representing the desired center of the shape in cartesian coordinates
+     * @param translation (Optional) Array of length three representing a translation to be applied to the shape
      * @param scale (Optional) Scaling factor to be applied to the STL geometry
      * @param rot_axis (Optional) Array of length three representing the axis about which to rotate the STL Geometry
      * @param rot_angle (Optional) Angle (in radians) by which the shape will be rotated about the rotation axis
      */
-    StlShape(int state, std::string fname, double *c=NULL, double scale=1.0, double *rot_axis=NULL, double rot_angle=0.0);
+    StlShape(int state, std::string fname, double *translation=NULL, double scale=1.0, double *rot_axis=NULL, double rot_angle=0.0);
     ~StlShape();
 
     /**
@@ -28,6 +28,7 @@ class StlShape: public Shape {
 
   private:
     double *c; /**< Center of the stl in cartesian coordinates */
+    double *translation;
     double scale; /**< Scaling factor to be applied to the stl */
     double *v1;
     double *v2;
