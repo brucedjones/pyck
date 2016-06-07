@@ -28,13 +28,13 @@ class StlShape: public Shape {
 
   private:
     double *c; /**< Center of the stl in cartesian coordinates */
-    double *translation;
+    double *translation; /**< Translation to apply to the STL */
     double scale; /**< Scaling factor to be applied to the stl */
-    double *v1;
-    double *v2;
-    double *v3;
-    double *normal;
-    long numFacets;
+    double *v1; /**< Array of vertex coordinates for vertex 1 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
+    double *v2; /**< Array of vertex coordinates for vertex 2 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
+    double *v3; /**< Array of vertex coordinates for vertex 3 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
+    double *normal; /**< Array of face normals*/
+    long numFacets; /**< Number of triangles*/
 
     /**
      * Check if ray cast from point along Z direction intersects with a facet
