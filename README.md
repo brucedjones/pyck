@@ -64,10 +64,10 @@ import pyck       # Pyck library
 To create a domain to packed with a structured packing configuration a packer must first be defined reflecting the desired packing configuration. Options are as follows,
 
 ```python
-cubic               = pyck.CubicPacker([Lx,Ly,Lz],minSeparation);
-faceCenteredCubic   = pyck.FccPacker([Lx,Ly,Lz],minSeparation);
-bodyCenteredCubic   = pyck.BccPacker([Lx,Ly,Lz],minSeparation);
-hexagonalClosePack  = pyck.HcpPacker([Lx,Ly,Lz],minSeparation);
+cubic                 = pyck.CubicPacker([Lx,Ly,Lz],minSeparation);
+faceCenteredCubic     = pyck.FccPacker([Lx,Ly,Lz],minSeparation);
+bodyCenteredCubic     = pyck.BccPacker([Lx,Ly,Lz],minSeparation);
+hexagonalClosePack    = pyck.HcpPacker([Lx,Ly,Lz],minSeparation);
 hexagonalClosePack2d  = pyck.Hcp2dPacker([Lx,Ly,0],minSeparation);
 ```
 
