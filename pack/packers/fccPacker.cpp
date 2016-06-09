@@ -2,6 +2,8 @@
 
 #include "fccPacker.h"
 
+#include <vector>
+
 FccPacker::FccPacker(double *doubleLenIn, double h)
 {
   h = h/2.0;
@@ -10,6 +12,8 @@ FccPacker::FccPacker(double *doubleLenIn, double h)
   len[1] = (int)(2*doubleLenIn[1]/dx);
   len[2] = (int)(2*doubleLenIn[2]/dx);
 
+  if(len[1]%2!=0) len[1]++; // ensure pack is periodic in Y direction
+  if(len[2]%2!=0) len[2]++; // ensure pack is periodic in Z direction
   if(doubleLenIn[2]<0.00000001) len[2] = 1;
 }
 
@@ -51,4 +55,20 @@ void FccPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
     if(idxOut[i] < 0) idxOut[i] = 0;
     if(idxOut[i] >= len[i]) idxOut[i] = len[i];
   }
+}
+
+std::vector<double> FccPacker::GetPeriodicExtent()
+{
+  std::vector<double> output(3,0.);
+
+  output[0] = (len[0]-1)*(dx)+(dx/2);
+  output[1] = (len[1]-1)*(dx/2);
+  output[2] = (len[2]-1)*(dx/2);
+
+  // Add periodic offset
+  output[0] += dx/2;
+  output[1] += dx/2;
+  output[2] += dx/2;
+
+  return output;
 }

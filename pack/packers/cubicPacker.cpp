@@ -1,6 +1,7 @@
 #define M_PI 3.14159265358979323846264338327
 
 #include <math.h>
+#include <vector>
 
 #include "cubicPacker.h"
 #include "../packer.h"
@@ -45,4 +46,12 @@ void CubicPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
     if(idxOut[i] < 0) idxOut[i] = 0;
     if(idxOut[i] >= len[i]) idxOut[i] = len[i];
   }
+}
+
+std::vector<double> CubicPacker::GetPeriodicExtent()
+{
+  std::vector<double> output(3,0.);
+  IDX2Pos(len[0],len[1],len[2],&output[0]);
+
+  return output;
 }

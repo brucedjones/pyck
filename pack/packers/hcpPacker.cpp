@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 #include "hcpPacker.h"
 
@@ -15,10 +16,15 @@ HcpPacker::HcpPacker(double *doubleLenIn, double h, bool rotate90)
     len[0] = (int)(doubleLenIn[0]/((dx/2.0)*(2.0*sqrt(6.0)/3.0)));
     len[1] = (int)(doubleLenIn[1]/((dx/2.0)*sqrt(3.0)));
     len[2] = (int)(doubleLenIn[2]/dx);
+
+    if(len[0]%2!=0) len[0]++; // ensure pack is periodic in X direction
+    if(len[1]%2!=0) len[1]++; // ensure pack is periodic in X direction
   } else {
     len[0] = (int)(doubleLenIn[0]/((dx/2.0)*sqrt(3.0)));
     len[1] = (int)(doubleLenIn[1]/((dx/2.0)*(2.0*sqrt(6.0)/3.0)));
     len[2] = (int)(doubleLenIn[2]/dx);
+
+    if(len[1]%2!=0) len[1]++; // ensure pack is periodic in Y direction
   }
 
   if(doubleLenIn[2]<0.00000001) len[2] = 1;
@@ -67,4 +73,33 @@ void HcpPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
     if(idxOut[i] < 0) idxOut[i] = 0;
     if(idxOut[i] >= len[i]) idxOut[i] = len[i];
   }
+}
+
+std::vector<double> HcpPacker::GetPeriodicExtent()
+{
+  std::vector<double> output(3,0.);
+
+  if(!rotate90)
+  {
+    output[0] = (dx/2.0)*2.0*sqrt(6.0)*(double)(len[0]-1)/3.0;
+    output[1] = (dx/2.0)*sqrt(3.0)*((double)(len[1]-1)+(1.0/3.0));
+    output[2] = (dx/2.0)*2.0*(double)(len[2]-1+1);
+
+    // Add periodic offset
+    output[0] += (dx/2.0)*2.0*sqrt(6.0)/3.0;
+    output[1] += (dx/2.0)*sqrt(3.0)*(1+(1.0/3.0))/2.0;
+    output[2] += 0.0;
+  } else {
+    output[0] = (dx/2.0)*sqrt(3.0)*((double)(len[0]-1)+(1.0/3.0));
+    output[1] = (dx/2.0)*2.0*sqrt(6.0)*(double)(len[1]-1)/3.0;
+    output[2] = (dx/2.0)*2.0*(double)(len[2]-1+1);
+
+    // Add periodic offset
+    output[0] += (dx/2.0)*sqrt(3.0)*(1+(1.0/3.0))/2.0;
+    output[1] += (dx/2.0)*2.0*sqrt(6.0)/3.0;
+    output[2] += 0.0;
+
+  }
+
+  return output;
 }

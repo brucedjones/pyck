@@ -3,6 +3,8 @@
 
 #include "../packer.h"
 
+#include <vector>
+
 class Hcp2dPacker: public Packer {
 
   public:
@@ -31,6 +33,13 @@ class Hcp2dPacker: public Packer {
      * @param doFloor Returns the lower-left point in relation to the Cartesian point if true. Returns the upper-right point if false
      */
     void Pos2IDX(double *posIn, long *idxOut, bool doFloor);
+
+    /**
+     * Get a domain extent which represents a periodic domain. For a domain boundary to be periodic, particles must be packed all the way to the boundary.
+     * @return Periodic domain extent
+     */
+    std::vector<double> GetPeriodicExtent();
+
   private:
     bool rotate90;
 };

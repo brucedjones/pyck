@@ -1,6 +1,8 @@
 #ifndef PACKER_H
 #define PACKER_H
 
+#include <vector>
+
 class Packer {
 
   public:
@@ -26,6 +28,12 @@ class Packer {
      * @param doFloor Returns the lower-left point in relation to the Cartesian point if true. Returns the upper-right point if false
      */
     virtual void Pos2IDX(double *posIn, long *idxOut, bool doFloor)=0;
+
+    /**
+     * Get a domain extent which represents a periodic domain. For a domain boundary to be periodic, particles must be packed all the way to the boundary.
+     * @return Periodic domain extent
+     */
+    virtual std::vector<double> GetPeriodicExtent()=0;
 
     double dx; /**< Offset between particle */
     long len[3]; /**< Size of the domain in ijk system */
