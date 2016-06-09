@@ -1,5 +1,5 @@
 # About
-Pyck is a preprocessing utillity developed by [MIT Geonumerics](https://geonumerics.mit.edu). Pyck has a python frontend, with a C++ backend, where all packing operations are parallelized using OpenMP. Designed to be method and code agnostic, Pyck is written in a general way such that it would be suitable for any any typical particle method (SPH, DEM, etc).
+Pyck is a preprocessing utillity developed by [MIT Geonumerics](http://geonumerics.mit.edu). Pyck has a python frontend, with a C++ backend, where all packing operations are parallelized using OpenMP. Designed to be method and code agnostic, Pyck is written in a general way such that it would be suitable for any any typical particle method (SPH, DEM, etc).
 
 Pyck is licensed under the MIT license
 
