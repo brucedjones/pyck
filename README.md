@@ -1,6 +1,11 @@
+# About
+Pyck is a preprocessing utillity developed by [MIT Geonumerics](https://geonumerics.mit.edu). Pyck has a python frontend, with a C++ backend, where all packing operations are parallelized using OpenMP. Designed to be method and code agnostic, Pyck is written in a general way such that it would be suitable for any any typical particle method (SPH, DEM, etc).
+
+Pyck is licensed under the MIT license
+
 # Build
 ## Prerequisites:
-Cmake, Python, Swig, Visual Studio, zlib
+Cmake, Python, Swig, Visual Studio (On Windows), zlib
 
 ## Linux
 1. Navigate to the source directory in a terminal then execute,
@@ -63,6 +68,7 @@ cubic               = pyck.CubicPacker([Lx,Ly,Lz],minSeparation);
 faceCenteredCubic   = pyck.FccPacker([Lx,Ly,Lz],minSeparation);
 bodyCenteredCubic   = pyck.BccPacker([Lx,Ly,Lz],minSeparation);
 hexagonalClosePack  = pyck.HcpPacker([Lx,Ly,Lz],minSeparation);
+hexagonalClosePack2d  = pyck.Hcp2dPacker([Lx,Ly,0],minSeparation);
 ```
 
 In which `Lx`, `Ly`, and `Lz`, are the domain lengths in the x, y, and z directions respectively. `minSeparation` is the minimum separation distance between particles. To pack a 2D domain, simply set `Lz` to 0. Note: the only packing configurations that make sense in 2D are Cubic and Hexagonal Close Packing.
@@ -75,9 +81,18 @@ pack = pyck.StructuredPack(cubic);
 
 Take care to create the packer separately to the StructuredPack object. If the Packer is dynamically created within the constructor argument of structed pack (eg. `StructuredPack(pyck.CubicPacker([Lx,Ly,Lz],radius)`) pyck will crash. This is because the python garbage collects the CubicPacker as soon as the StructuredPack constructor returns.
 
+### Periodic Domains
+All packers pack in a periodic fashion. That is, if the domain is fully filled with particles, the domain boundaries will be periodic. However to ensure periodicity in a model, the domain extent must be correctly specified so that the distance between particles accross the boundary is correct. For a packer created for a domain of size, `L`, the periodic domain size, `Lp` is returned by the `GetPeriodicExtent()` function so that,
+
+```python
+hexagonalClosePack  = pyck.HcpPacker(L,minSeparation);
+Lp = hexagonalClosePack.GetPeriodicExtent();
+```
+Where `Lp` is a vector of length 3.
+
 ## Packing shapes
 
-All shapes within pyck are specified in two ways, their geometric properties, and an integer `tag` which is applied to all particles packed within that shape. The shapes `tag` is always the first argument in the constructor of a shape. Examples are given here for cuboids, spheres, and pyShape, for reference on other shapes see the doxygen documentation or the shape classes in the shapes/ directory.
+All shapes within pyck are specified in two ways, their geometric properties, and an integer `tag` which is applied to all particles packed within that shape. The shapes `tag` is always the first argument in the constructor of a shape. Examples are given here for cuboids, spheres, StlShape, and PyShape, for reference on other shapes see the doxygen documentation or the shape classes in the shapes/ directory.
 
 
 ### Cuboid
@@ -95,6 +110,24 @@ The geometry of a sphere is defined by a centroid, `p1`, and a `radius`.
 ```python
 sphere = pyck.Sphere(tag,[p1x,p2x,p3x],radius);
 ```
+
+### StlShape
+
+Using an StlShape, it is possible to pack CAD geometries with pyck. An StlShape packs a boundary surface mesh and determines if a particle is within the CAD geometry by applying the boundary intersection counting technique. This technique is very robust with regard to the quality of the mesh, and will work for both convex and concave shapes. For best results ensure that there is no duplication of facets, and that the boundary surface mesh is watertight.
+
+An StlShape is defined as,
+
+```python
+stlShape = pyck.StlShape(tag,filename,translation,scale,rotation_axis,rotation_angle);
+```
+
+Where,
+
+* `filename` (required) The STL filename
+* `translation` (optional) Length 3 vector specifying a translation to move the STL file
+* `scale` (optional) Scalar used to scale the geometry
+* `rotation_axis` (optional) Length 3 vector specifying the axis of rotation about which to rotate the geometry
+* `rotation_angle` (optional, rquired if rotation_axis specified) Angle in radians by which the geometry is rotated about the rotation axis
 
 ### PyShape
 
@@ -175,7 +208,7 @@ model.SetParameter('key','value');
 model.SetParameters({'key1':'value1','key2':'value2'});
 ```
 
-Parameters are often reused between models. It may be convenient to set up a python function for yourself that sets sensible defaults for all model parameters first using the syntax shown. Once defaults have been set, they can be over-written by simply called `model.SetParameter('key','value')` using the key you wish to over-write.
+Parameters are often reused between models. It may be convenient to set up a python function for yourself that sets sensible defaults for all model parameters first using the syntax shown. Once defaults have been set, they can be over-written by calling `model.SetParameter('key','value')` using the key you wish to over-write.
 
 ### Fields
 In pyck, a field is an n-dimensional property attached to every particle, and may be either an Int or Double field. Where in this case Integer and Double refer to the c++ datatype used to represent the field.
