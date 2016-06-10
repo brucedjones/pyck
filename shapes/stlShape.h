@@ -4,6 +4,28 @@
 #include "../shape.h"
 
 #include <string>
+#include <vector>
+
+class FacetBins {
+  public:
+    FacetBins(float minX, float minY, float maxX, float maxY, double *v1, double *v2, double *v3, long numFacets);
+    ~FacetBins();
+
+    std::vector<long> *GetBin(double *pt);
+
+  private:
+    float dx,dy,minX,minY;
+    int nx,ny;
+    std::vector<long> **bins;
+};
+
+class Geom {
+  public:
+    static bool PointInsideTriangle(double *p, double *p0, double *p1, double *p2);
+    static bool PointInsideSquare(double *p, double *p0, double *p1);
+    static bool TriSqIntersection(double *v1, double *v2, double *v3, double *p1, double *p2);
+    static bool LineLineIntersection(double *a1, double *a2, double *b1, double *b2);
+};
 
 class StlShape: public Shape {
   public:
@@ -35,6 +57,7 @@ class StlShape: public Shape {
     double *v3; /**< Array of vertex coordinates for vertex 3 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
     double *normal; /**< Array of face normals*/
     long numFacets; /**< Number of triangles*/
+    FacetBins *bins;
 
     /**
      * Check if ray cast from point along Z direction intersects with a facet
