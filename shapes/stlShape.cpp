@@ -6,6 +6,7 @@
 #include <fstream>
 #include <math.h>
 #include <omp.h>
+#include <algorithm>
 
 StlShape::StlShape(int state, std::string fname, double *translation, double scale, double *rot_axis, double rot_angle) : Shape(state)
 {
@@ -212,7 +213,6 @@ bool StlShape::IsInside(double *pt)
   bool isInside = false;
 
   std::vector<long> *bin = bins->GetBin(pt);
-  //std::vector<long> *bin = new std::vector<long>(4,4);
   long *facets = bin->data();
 
   int numIntersections = 0;
@@ -278,10 +278,16 @@ FacetBins::FacetBins(float minX, float minY, float maxX, float maxY,  double *v1
       }
     }
   }
+  for (size_t idx = 0; idx < nx*ny; idx++) {
+    std::sort(bins[idx]->begin(), bins[idx]->end());
+  }
 }
 
 FacetBins::~FacetBins()
 {
+  for (size_t i = 0; i < nx*ny; i++) {
+    delete bins[i];
+  }
   delete [] bins;
 }
 
@@ -376,9 +382,8 @@ bool Geom::PointInsideTriangle(double *p, double *p0, double *p1, double *p2)
 
 bool Geom::PointInsideSquare(double *p, double *p0, double *p1)
 {
-  bool inside = false;
-  if(p[0]<=p0[0] || p[0]>p1[0] || p[1] <= p0[1] || p[1]>p1[1]) inside = true;
-  return inside;
+  if(p[0]<=p0[0] || p[0]>p1[0] || p[1] <= p0[1] || p[1]>p1[1]) return false;
+  return true;
 }
 
 bool Geom::LineLineIntersection(double *a1, double *a2, double *b1, double *b2)
@@ -391,8 +396,8 @@ bool Geom::LineLineIntersection(double *a1, double *a2, double *b1, double *b2)
   if(determinant<0.0000001) return false; // lines are parallel
 
   float s, t;
-  s = (-s1_y * (a1[0] - a2[0]) + s1_x * (a1[1] - a2[1])) / (-s2_x * s1_y + s1_x * s2_y);
-  t = ( s2_x * (a1[1] - a2[1]) - s2_y * (a1[0] - a2[0])) / (-s2_x * s1_y + s1_x * s2_y);
+  s = (-s1_y * (a1[0] - b1[0]) + s1_x * (a1[1] - b1[1])) / (-s2_x * s1_y + s1_x * s2_y);
+  t = ( s2_x * (a1[1] - b1[1]) - s2_y * (a1[0] - b1[0])) / (-s2_x * s1_y + s1_x * s2_y);
 
   if (s >= 0 && s <= 1 && t >= 0 && t <= 1) return true;
 
