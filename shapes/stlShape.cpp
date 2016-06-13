@@ -267,10 +267,10 @@ FacetBins::FacetBins(float minX, float minY, float maxX, float maxY,  double *v1
     int i = idx-j*nx;
 
     double p1[2],p2[2];
-    p1[0] = i*dx;
-    p2[0] = (i+1)*dx;
-    p1[1] = j*dy;
-    p2[1] = (j+1)*dy;
+    p1[0] = i*dx+minX;
+    p2[0] = (i+1)*dx+minX;
+    p1[1] = j*dy+minY;
+    p2[1] = (j+1)*dy+minY;
 
     for (size_t facet = 0; facet < numFacets; facet++) {
       if(Geom::TriSqIntersection(&v1[facet*3],&v2[facet*3],&v3[facet*3],&p1[0],&p2[0])){
@@ -299,7 +299,7 @@ std::vector<long> *FacetBins::GetBin(double *pt)
   if(i<0) i=0;
   if(i>=nx) i=nx-1;
   if(j<0) j=0;
-  if(j>=nx) j=ny-1;
+  if(j>=ny) j=ny-1;
 
   int idx = i + j*nx;
 
@@ -330,22 +330,26 @@ bool Geom::TriSqIntersection(double *v1, double *v2, double *v3, double *p1, dou
 
   // Check if triangle edges intersect square edges
   double *v[4];
-  v[0] = v1; v[1] = v2; v[2] = v3; v[3]=v[1];
+  v[0] = v1; v[1] = v2; v[2] = v3; v[3]=v1;
 
   double sp1[2], sp2[2];
 
   for (size_t i = 0; i < 3; i++) {
     // Left-edge
-    sp1[0] = p1[0]; sp1[1] = p1[1]; sp2[0] = p1[0]; sp2[1] = p2[1];
+    sp1[0] = p1[0]; sp1[1] = p1[1];
+    sp2[0] = p1[0]; sp2[1] = p2[1];
     if(Geom::LineLineIntersection(v[i],v[i+1],sp1,sp2)) return true;
     // Upper-edge
-    sp1[0] = p1[0]; sp1[1] = p2[1]; sp2[0] = p2[0]; sp2[1] = p2[1];
+    sp1[0] = p1[0]; sp1[1] = p2[1];
+    sp2[0] = p2[0]; sp2[1] = p2[1];
     if(Geom::LineLineIntersection(v[i],v[i+1],sp1,sp2)) return true;
     // Right-edge
-    sp1[0] = p2[0]; sp1[1] = p2[1]; sp2[0] = p2[0]; sp2[1] = p1[1];
+    sp1[0] = p2[0]; sp1[1] = p2[1];
+    sp2[0] = p2[0]; sp2[1] = p1[1];
     if(Geom::LineLineIntersection(v[i],v[i+1],sp1,sp2)) return true;
     // Lower-edge
-    sp1[0] = p1[0]; sp1[1] = p1[1]; sp2[0] = p2[0]; sp2[1] = p1[1];
+    sp1[0] = p1[0]; sp1[1] = p1[1];
+    sp2[0] = p2[0]; sp2[1] = p1[1];
     if(Geom::LineLineIntersection(v[i],v[i+1],sp1,sp2)) return true;
   }
 
