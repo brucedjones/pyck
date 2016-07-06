@@ -13,7 +13,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  BccPacker::~BccPacker "BccPacker::~BccPacker()
 ";
@@ -86,7 +86,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  CubicPacker::~CubicPacker "CubicPacker::~CubicPacker() ";
 
@@ -386,20 +386,6 @@ CylindricalPacker::getStates()
 
 Get states array ";
 
-%feature("docstring")  CylindricalPacker::getNumParticles "long
-CylindricalPacker::getNumParticles()
-
-Get number of particles ";
-
-%feature("docstring")  CylindricalPacker::getNumParticlesByState "long CylindricalPacker::getNumParticlesByState(int state)
-
-Get number of particles for a given state
-
-Parameters:
------------
-
-state:  Integer representing the state of the created particles ";
-
 %feature("docstring")  CylindricalPacker::getDim "int
 CylindricalPacker::getDim()
 
@@ -423,200 +409,100 @@ feature(\"docstring\").  Once the data is parsed it is stored in
 self.pieces. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::__init__ "def
-doxy2swig::Doxy2SWIG::__init__ Initialize the instance given a source
+doxy2swig.Doxy2SWIG.__init__ Initialize the instance given a source
 object (file or filename). ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::generate "def
-doxy2swig::Doxy2SWIG::generate Parses the file set in the
+doxy2swig.Doxy2SWIG.generate Parses the file set in the
 initialization.  The resulting data is stored in `self.pieces`. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse "def
-doxy2swig::Doxy2SWIG::parse Parse a given node.  This function in turn
+doxy2swig.Doxy2SWIG.parse Parse a given node.  This function in turn
 calls the `parse_<nodeType>` functions which handle the respective
 nodes. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse_Document "def
-doxy2swig::Doxy2SWIG::parse_Document";
+doxy2swig.Doxy2SWIG.parse_Document";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse_Text "def
-doxy2swig::Doxy2SWIG::parse_Text";
+doxy2swig.Doxy2SWIG.parse_Text";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse_Element "def
-doxy2swig::Doxy2SWIG::parse_Element Parse an `ELEMENT_NODE`.  This
-calls specific `do_<tagName>` handers for different elements.  If no
-handler is available the `generic_parse` method is called.  All
-tagNames specified in `self.ignores` are simply ignored. ";
+doxy2swig.Doxy2SWIG.parse_Element Parse an `ELEMENT_NODE`.  This calls
+specific `do_<tagName>` handers for different elements.  If no handler
+is available the `generic_parse` method is called.  All tagNames
+specified in `self.ignores` are simply ignored. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::add_text "def
-doxy2swig::Doxy2SWIG::add_text Adds text corresponding to `value` into
+doxy2swig.Doxy2SWIG.add_text Adds text corresponding to `value` into
 `self.pieces`. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::get_specific_nodes "def
-doxy2swig::Doxy2SWIG::get_specific_nodes Given a node and a sequence
-of strings in `names`, return a dictionary containing the names as
-keys and child `ELEMENT_NODEs`, that have a `tagName` equal to the
-name. ";
+doxy2swig.Doxy2SWIG.get_specific_nodes Given a node and a sequence of
+strings in `names`, return a dictionary containing the names as keys
+and child `ELEMENT_NODEs`, that have a `tagName` equal to the name. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::generic_parse "def
-doxy2swig::Doxy2SWIG::generic_parse A Generic parser for arbitrary
-tags in a node.  Parameters:   - node: A node in the DOM.  - pad:
-`int` (default: 0)     If 0 the node data is not padded with newlines.
-If 1 it    appends a newline after parsing the childNodes.  If 2 it
-pads before and after the nodes are processed.  Defaults to    0. ";
+doxy2swig.Doxy2SWIG.generic_parse A Generic parser for arbitrary tags
+in a node.  Parameters:   - node: A node in the DOM.  - pad: `int`
+(default: 0)     If 0 the node data is not padded with newlines.  If 1
+it    appends a newline after parsing the childNodes.  If 2 it    pads
+before and after the nodes are processed.  Defaults to    0. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::space_parse "def
-doxy2swig::Doxy2SWIG::space_parse";
+doxy2swig.Doxy2SWIG.space_parse";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_compoundname "def
-doxy2swig::Doxy2SWIG::do_compoundname";
+doxy2swig.Doxy2SWIG.do_compoundname";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_compounddef "def
-doxy2swig::Doxy2SWIG::do_compounddef";
+doxy2swig.Doxy2SWIG.do_compounddef";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_includes "def
-doxy2swig::Doxy2SWIG::do_includes";
+doxy2swig.Doxy2SWIG.do_includes";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterlist "def
-doxy2swig::Doxy2SWIG::do_parameterlist";
+doxy2swig.Doxy2SWIG.do_parameterlist";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_para "def
-doxy2swig::Doxy2SWIG::do_para";
+doxy2swig.Doxy2SWIG.do_para";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_parametername "def
-doxy2swig::Doxy2SWIG::do_parametername";
+doxy2swig.Doxy2SWIG.do_parametername";
 
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig::Doxy2SWIG::do_parameterdefinition";
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig.Doxy2SWIG.do_parameterdefinition";
 
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig::Doxy2SWIG::do_detaileddescription";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_briefdescription "def
-doxy2swig::Doxy2SWIG::do_briefdescription";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_memberdef "def
-doxy2swig::Doxy2SWIG::do_memberdef";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_definition "def
-doxy2swig::Doxy2SWIG::do_definition";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_sectiondef "def
-doxy2swig::Doxy2SWIG::do_sectiondef";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_simplesect "def
-doxy2swig::Doxy2SWIG::do_simplesect";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_argsstring "def
-doxy2swig::Doxy2SWIG::do_argsstring";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_member "def
-doxy2swig::Doxy2SWIG::do_member";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_doxygenindex "def
-doxy2swig::Doxy2SWIG::do_doxygenindex";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::write "def
-doxy2swig::Doxy2SWIG::write";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::clean_pieces "def
-doxy2swig::Doxy2SWIG::clean_pieces Cleans the list of strings given as
-`pieces`.  It replaces multiple newlines by a maximum of 2 and returns
-a new list. It also wraps the paragraphs nicely. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::__init__ "def
-doxy2swig::Doxy2SWIG::__init__ Initialize the instance given a source
-object (file or filename). ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::generate "def
-doxy2swig::Doxy2SWIG::generate Parses the file set in the
-initialization.  The resulting data is stored in `self.pieces`. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse "def
-doxy2swig::Doxy2SWIG::parse Parse a given node.  This function in turn
-calls the `parse_<nodeType>` functions which handle the respective
-nodes. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Document "def
-doxy2swig::Doxy2SWIG::parse_Document";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Text "def
-doxy2swig::Doxy2SWIG::parse_Text";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Element "def
-doxy2swig::Doxy2SWIG::parse_Element Parse an `ELEMENT_NODE`.  This
-calls specific `do_<tagName>` handers for different elements.  If no
-handler is available the `generic_parse` method is called.  All
-tagNames specified in `self.ignores` are simply ignored. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::add_text "def
-doxy2swig::Doxy2SWIG::add_text Adds text corresponding to `value` into
-`self.pieces`. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::get_specific_nodes "def
-doxy2swig::Doxy2SWIG::get_specific_nodes Given a node and a sequence
-of strings in `names`, return a dictionary containing the names as
-keys and child `ELEMENT_NODEs`, that have a `tagName` equal to the
-name. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::generic_parse "def
-doxy2swig::Doxy2SWIG::generic_parse A Generic parser for arbitrary
-tags in a node.  Parameters:   - node: A node in the DOM.  - pad:
-`int` (default: 0)     If 0 the node data is not padded with newlines.
-If 1 it    appends a newline after parsing the childNodes.  If 2 it
-pads before and after the nodes are processed.  Defaults to    0. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::space_parse "def
-doxy2swig::Doxy2SWIG::space_parse";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_compoundname "def
-doxy2swig::Doxy2SWIG::do_compoundname";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_compounddef "def
-doxy2swig::Doxy2SWIG::do_compounddef";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_includes "def
-doxy2swig::Doxy2SWIG::do_includes";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterlist "def
-doxy2swig::Doxy2SWIG::do_parameterlist";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_para "def
-doxy2swig::Doxy2SWIG::do_para";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parametername "def
-doxy2swig::Doxy2SWIG::do_parametername";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig::Doxy2SWIG::do_parameterdefinition";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig::Doxy2SWIG::do_detaileddescription";
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig.Doxy2SWIG.do_detaileddescription";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_briefdescription "def
-doxy2swig::Doxy2SWIG::do_briefdescription";
+doxy2swig.Doxy2SWIG.do_briefdescription";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_memberdef "def
-doxy2swig::Doxy2SWIG::do_memberdef";
+doxy2swig.Doxy2SWIG.do_memberdef";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_definition "def
-doxy2swig::Doxy2SWIG::do_definition";
+doxy2swig.Doxy2SWIG.do_definition";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_sectiondef "def
-doxy2swig::Doxy2SWIG::do_sectiondef";
+doxy2swig.Doxy2SWIG.do_sectiondef";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_simplesect "def
-doxy2swig::Doxy2SWIG::do_simplesect";
+doxy2swig.Doxy2SWIG.do_simplesect";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_argsstring "def
-doxy2swig::Doxy2SWIG::do_argsstring";
+doxy2swig.Doxy2SWIG.do_argsstring";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_member "def
-doxy2swig::Doxy2SWIG::do_member";
+doxy2swig.Doxy2SWIG.do_member";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_doxygenindex "def
-doxy2swig::Doxy2SWIG::do_doxygenindex";
+doxy2swig.Doxy2SWIG.do_doxygenindex";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::write "def
-doxy2swig::Doxy2SWIG::write";
+doxy2swig.Doxy2SWIG.write";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::clean_pieces "def
-doxy2swig::Doxy2SWIG::clean_pieces Cleans the list of strings given as
+doxy2swig.Doxy2SWIG.clean_pieces Cleans the list of strings given as
 `pieces`.  It replaces multiple newlines by a maximum of 2 and returns
 a new list. It also wraps the paragraphs nicely. ";
 
@@ -847,20 +733,6 @@ EllipsoidalPacker::getStates()
 
 Get states array ";
 
-%feature("docstring")  EllipsoidalPacker::getNumParticles "long
-EllipsoidalPacker::getNumParticles()
-
-Get number of particles ";
-
-%feature("docstring")  EllipsoidalPacker::getNumParticlesByState "long EllipsoidalPacker::getNumParticlesByState(int state)
-
-Get number of particles for a given state
-
-Parameters:
------------
-
-state:  Integer representing the state of the created particles ";
-
 %feature("docstring")  EllipsoidalPacker::getDim "int
 EllipsoidalPacker::getDim()
 
@@ -899,7 +771,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  FccPacker::~FccPacker "FccPacker::~FccPacker()
 ";
@@ -936,10 +808,60 @@ doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
 
 
+// File: classHcp2dPacker.xml
+%feature("docstring") Hcp2dPacker "";
+
+%feature("docstring")  Hcp2dPacker::Hcp2dPacker "Hcp2dPacker::Hcp2dPacker(double *doubleLenIn, double h, bool
+rotate90=false)
+
+Hcp2dPacker constructor.
+
+Parameters:
+-----------
+
+doubleLenIn:  Size of the domain in Cartesian coordinate system
+
+h:  Minimum particle separation ";
+
+%feature("docstring")  Hcp2dPacker::~Hcp2dPacker "Hcp2dPacker::~Hcp2dPacker() ";
+
+%feature("docstring")  Hcp2dPacker::IDX2Pos "void
+Hcp2dPacker::IDX2Pos(long i, long j, long k, double *posOut)
+
+Converts an ijk index to Cartesian coordinates
+
+Parameters:
+-----------
+
+i:  i index (along X)
+
+j:  j index (along Y)
+
+k:  k index (along Z)
+
+posOut:  Cartesian coordinate output, array of length 3 ";
+
+%feature("docstring")  Hcp2dPacker::Pos2IDX "void
+Hcp2dPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
+
+Converts a Cartesian coordinate to an IJK position
+
+Parameters:
+-----------
+
+posIn:  Cartesian coordinate input, array of length 3
+
+idxOut:  ijk coordinate output, array of length 3
+
+doFloor:  Returns the lower-left point in relation to the Cartesian
+point if true. Returns the upper-right point if false ";
+
+
 // File: classHcpPacker.xml
 %feature("docstring") HcpPacker "";
 
-%feature("docstring")  HcpPacker::HcpPacker "HcpPacker::HcpPacker(double *doubleLenIn, double h)
+%feature("docstring")  HcpPacker::HcpPacker "HcpPacker::HcpPacker(double *doubleLenIn, double h, bool
+rotate90=false)
 
 HcpPacker constructor.
 
@@ -948,7 +870,7 @@ Parameters:
 
 doubleLenIn:  Size of the domain in Cartesian coordinate system
 
-h:  Particle radius ";
+h:  Minimum particle separation ";
 
 %feature("docstring")  HcpPacker::~HcpPacker "HcpPacker::~HcpPacker()
 ";
@@ -1090,7 +1012,7 @@ Parameters:
 
 handle:  Handle of the field to be set
 
-state:   particle state for which these values will be applioed
+state:  particle state for which these values will be applioed
 
 val:  Array of length equal to the dimensionality of the field ";
 
@@ -1104,7 +1026,7 @@ Parameters:
 
 handle:  Handle of the field to be set
 
-state:   particle state for which these values will be applioed
+state:  particle state for which these values will be applioed
 
 val:  Array of length equal to the dimensionality of the field ";
 
@@ -1167,6 +1089,23 @@ shape:   Shape to be mapped ";
 %feature("docstring")  Pack::MapShapes "void Pack::MapShapes()
 
 Pack all added shapes and generate positions and states ";
+
+%feature("docstring")  Pack::GetNumParticles "long
+Pack::GetNumParticles()
+
+Get number of particles the number of particles in the model ";
+
+%feature("docstring")  Pack::GetNumParticlesByState "long
+Pack::GetNumParticlesByState(int state)
+
+Get number of particles for a given state
+
+Parameters:
+-----------
+
+state:  Integer representing the state of the created particles
+
+The number of particles with corresponding input state ";
 
 
 // File: classPacker.xml
@@ -1325,20 +1264,17 @@ StructuredPack::Process()
 
 StructuredPack all added shapes and generate positions and states ";
 
-%feature("docstring")  StructuredPack::getNumParticles "long
-StructuredPack::getNumParticles()
+%feature("docstring")  StructuredPack::GetClosestParticlePosition "std::vector< double >
+StructuredPack::GetClosestParticlePosition(double *pos)
 
-Get number of particles ";
-
-%feature("docstring")  StructuredPack::getNumParticlesByState "long
-StructuredPack::getNumParticlesByState(int state)
-
-Get number of particles for a given state
+Get the position of the closest valid particle to the input coordinate
 
 Parameters:
 -----------
 
-state:  Integer representing the state of the created particles ";
+pos:  Input coordinate
+
+The coordinates of the closest valid particle ";
 
 
 // File: classTriPrism.xml
@@ -1347,27 +1283,17 @@ state:  Integer representing the state of the created particles ";
 %feature("docstring")  TriPrism::TriPrism "TriPrism::TriPrism(int
 state, double *pt1, double *pt2, double *pt3, double l)
 
-Triangular Prism constructor
+Triangular Prism constructor    @param state State to be applied to
+particles within this shape. state = 0 will remove particle from
+output    @param pt1 first point to define tripism in cartesian
+coordinates    @param pt2 second point to define tripism in cartesian
+coordinates    @param pt3 third point to define tripism in cartesian
+coordinates    @param pt4 fourth point to define tripism in cartesian
+coordinates    @param l Length of the cylinder in cartesian
+coordinates, (0,0,l) or (0,l,0) or (l,0,0) indicates the direction
+@param domain Domain in which this shape will be mapped pt1
+______length_______
 
-Parameters:
------------
-
-state:  State to be applied to particles within this shape. state = 0
-will remove particle from output
-
-pt1:  first point to define tripism in cartesian coordinates
-
-pt2:  second point to define tripism in cartesian coordinates
-
-pt3:  third point to define tripism in cartesian coordinates
-
-pt4:  fourth point to define tripism in cartesian coordinates
-
-l:  Length of the cylinder in cartesian coordinates, (0,0,l) or
-(0,l,0) or (l,0,0) indicates the direction
-
-domain:  Domain in which this shape will be mapped pt1
-______length_______ |||| |||| || || || || || || || || || || || ||
 pt3||||||||||||pt2_________|||||||||||| ";
 
 %feature("docstring")  TriPrism::~TriPrism "TriPrism::~TriPrism() ";
@@ -1401,12 +1327,12 @@ numParticles)=0 ";
 
 // File: namespacedoxy2swig.xml
 %feature("docstring")  doxy2swig::my_open_read "def
-doxy2swig::my_open_read";
+doxy2swig.my_open_read";
 
 %feature("docstring")  doxy2swig::my_open_write "def
-doxy2swig::my_open_write";
+doxy2swig.my_open_write";
 
-%feature("docstring")  doxy2swig::main "def doxy2swig::main";
+%feature("docstring")  doxy2swig::main "def doxy2swig.main";
 
 
 // File: boundingBox_8cpp.xml
@@ -1415,22 +1341,22 @@ doxy2swig::my_open_write";
 // File: boundingBox_8h.xml
 
 
-// File: doc_2doxy2swig_8py.xml
-
-
-// File: doxy2swig_8py.xml
-
-
 // File: doubleField_8cpp.xml
 
 
 // File: doubleField_8h.xml
 
 
+// File: doxy2swig_8py.xml
+
+
 // File: intField_8cpp.xml
 
 
 // File: intField_8h.xml
+
+
+// File: license_8md.xml
 
 
 // File: model_8cpp.xml
@@ -1541,6 +1467,12 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 // File: fccPacker_8h.xml
 
 
+// File: hcp2dPacker_8cpp.xml
+
+
+// File: hcp2dPacker_8h.xml
+
+
 // File: hcpPacker_8cpp.xml
 
 
@@ -1558,6 +1490,9 @@ double c, double angle, long stepsA, long stepsB, double h, int state)
 
 
 // File: pyck_8h.xml
+
+
+// File: README_8md.xml
 
 
 // File: shape_8cpp.xml
@@ -1618,17 +1553,20 @@ size_t inLen, unsigned char *out, size_t *outLen) ";
 // File: sparkWriter_8h.xml
 
 
-// File: dir_4699ad3df0ca2385ac6f5b73c70216ce.xml
+// File: md_license.xml
 
 
-// File: dir_092f0d59b32c5c74559c105fc9b15544.xml
+// File: md_README.xml
 
 
-// File: dir_9b03ec41c112422cb096d06b602a3667.xml
+// File: dir_b0f3ce5d214b5eae6ea436fe79173b6c.xml
 
 
-// File: dir_52ef77e189de5fda808669e8c78dfd40.xml
+// File: dir_13eaa3e42b8c4ece99db3649232153a5.xml
 
 
-// File: dir_225cc56f8c787233b05a4a99f07b5250.xml
+// File: dir_b89c2a9ae890e4bed7d20c515eb3b07e.xml
+
+
+// File: dir_8fb2b35c89bce0887811d5a7bdd15d05.xml
 

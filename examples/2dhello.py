@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '/f/bruce/pyck/bin'); # Set this to the path where pyck is compiled
+sys.path.insert(0, '/f/ranjan/packing/pyck/bin'); # Set this to the path where pyck is compiled
 import pyck
 import pyck_utils # Utility functions for creating simulation parameters
 
