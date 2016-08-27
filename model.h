@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <vector>
 
 #include "pack.h"
 #include "writer.h"
@@ -91,6 +92,10 @@ class Model {
      * @param parameters   Map of parameters to add
      */
     void SetParameters(std::map<std::string, std::string> &parameters);
+    
+    int ReadSingleIntegerParameter(std::string key);
+    
+    std::vector<double> ReadMultipleDoubleParameter(std::string key, int n);
 
     /**
      * Write domain to CSV file
