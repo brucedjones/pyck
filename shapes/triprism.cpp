@@ -16,8 +16,8 @@ TriPrism::TriPrism(int state, double *pt1, double *pt2, double *pt3, double l) :
   double *p1 = new double[3];
   double *p2 = new double[3];
 
-  p1[0] = pt3[0]; p1[1]=pt3[1]; p1[2]=pt3[2];
-  p2[0] = pt2[0]; p2[1]=pt1[1]; p2[2]=pt2[2]+l;
+  p1[0] = std::min(pt1[0],std::min(pt2[0],pt3[0])); p1[1]=std::min(pt1[1],std::min(pt2[1],pt3[1])); p1[2]=std::min(pt1[2],std::min(pt2[2],pt3[2]));
+  p2[0] = std::max(pt1[0],std::max(pt2[0],pt3[0])); p2[1]=std::max(pt1[1],std::max(pt2[1],pt3[1])); p2[2]=p1[2]+l;
 
   this->boundingBox = new BoundingBox(p1,p2);
 }
@@ -30,12 +30,11 @@ TriPrism::~TriPrism(){
 
 bool TriPrism::IsInside(double *pt)
 {
-  // Different to the "same side" methof from the c# code, should be faster this way
-  bool isInside = false;
+  // barycentric method http://www.blackpawn.com/texts/pointinpoly/
   // Create vectors
-  double *v0= new double[3];
-  double *v1= new double[3];
-  double *v2= new double[3];
+  double v0[3];
+  double v1[3];
+  double v2[3];
 
   v0[0] = pt2[0] - pt3[0];
   v0[1] = pt2[1] - pt3[1];
@@ -63,29 +62,9 @@ bool TriPrism::IsInside(double *pt)
   dot12 = (v1[0]*v2[0]) + (v1[1]*v2[1]) + (v1[2]*v2[2]);
   double u;
   double v;
- // if(((dot00*dot11)-(dot01*dot01))==0)
-  //  {
-  //    u=-1;
-  //    v=-1;
-  //  }
-  //else{
   double invDenom = 1 / ( (dot00*dot11)-(dot01*dot01) );
-  //std::cout << invDenom << std::endl;
   u = ((dot11*dot02)-(dot01*dot12))*invDenom;
- // std::cout << u << std::endl;
   v = ((dot00*dot12)-(dot01*dot02))*invDenom;
- // std::cout << v << std::endl;
- //}
- if( (u>=0) && (v>=0) && ((u+v)<1) && (pt[2]<=(pt1[2]+l)))
-  {
-    isInside = true;
-  }
 
- delete [] v0;
- delete [] v1;
- delete [] v2;
-//delete v0,v1,v2,dot00,dot01,dot01,dot11,dot12,invDenom,u,v;
-
-
-  return isInside;
+  return ( (u>=0) && (v>=0) && ((u+v)<1) && (pt[2]<=(pt1[2]+l)));
 }
