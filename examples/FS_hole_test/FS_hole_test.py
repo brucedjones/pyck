@@ -8,7 +8,7 @@ def sum(XX, YY):
 	return map (add, XX,YY) 
 
 L = [1,1,0.0]
-r = 0.002;
+r = 0.01;
 dim = 2;
 
 # Create a packer, see packers directory for options
@@ -34,6 +34,7 @@ pack = pyck.StructuredPack(cubic); # do not create the cubic packer in this func
 # solidBottom = pyck.Cuboid(12,[0.045,0.002,0],[0.1935,0.0035,0])
 
 center = pack.GetClosestParticlePosition([0.5,0.5,0]);
+print center;
 # shiftX = center[0] - 0.05;
 # shiftY = center[1] - 0.052;
 # shiftZ = center[2] - 0;
@@ -105,15 +106,19 @@ velocityField = model.CreateDoubleField("Velocity",3);
 
 pyck_utils.Set_HFhole_Parameters(model,L,r);
 
-numPhase = model.ReadSingleIntegerParameter("NumberOfPhases");
-print numPhase;
+# numPhase = model.ReadSingleIntegerParameter("NumberOfPhases");
+# print numPhase;
+# initialDensity = model.ReadMultipleDoubleParameter("InitialDensity", 2);
+# print initialDensity[0];
 
-#computeMass_utils.CalcMass(model, r)
+computeMass_utils.CalcMass(model, r);
 #mass = 0.005303513149097;
 #model.SetParameter("Mass", "%e %e" % (mass, mass/1.54));
 
+mass = model.ReadMultipleDoubleParameter("Mass", 2);
+
 material = pyck_utils.gypsum;
-pyck_utils.SetDamageParameters(model,mass,material);
+pyck_utils.SetDamageParameters(model,mass[0],material);
 speedsound = material["speedsound"];
 model.SetParameter("DTime", "%e" % (0.2*r/speedsound));
 

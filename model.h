@@ -93,10 +93,20 @@ class Model {
      */
     void SetParameters(std::map<std::string, std::string> &parameters);
     
+    /**
+     * Read a parameter of integer type
+     * @param key   Parameter name
+     */
     int ReadSingleIntegerParameter(std::string key);
-    
+  
+   /**
+     * Read a parameter of double type or a double array
+     * Note: n can be as large as 3, but cannot be larger than 3 due to vector interface in swig.
+     * @param key: parameter name
+     * @param n: number of elements
+     */
     std::vector<double> ReadMultipleDoubleParameter(std::string key, int n);
-
+    
     /**
      * Write domain to CSV file
      * @param fname Output filename

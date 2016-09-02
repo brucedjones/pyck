@@ -36,6 +36,10 @@ class Model {
     void SetParameter(std::string key, std::string value);
 
     void SetParameters(std::map<std::string, std::string> &parameters);
+    
+    int ReadSingleIntegerParameter(std::string key);
+
+    std::vector<double> Model::ReadMultipleDoubleParameter(std::string key, int n);
 
     void Serialize(std::string fname, Writer *writer);
 

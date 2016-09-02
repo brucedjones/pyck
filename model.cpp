@@ -199,21 +199,15 @@ void Model::SetParameters(std::map<std::string, std::string> &parameters)
 
 int Model::ReadSingleIntegerParameter(std::string key)
 {
-  std:string str = parameters[key];
-  cout<<str<<endl;
-  int a = atoi(str.c_str());
-  cout<<a<<endl;
-  return atoi(str.c_str());
-  
+  return atoi(parameters[key].c_str());
 }
 
 std::vector<double> Model::ReadMultipleDoubleParameter(std::string key, int n)
 {
-    std::vector<double> values;
+    std::vector<double> values(n,0.0);
     double a;
     stringstream stream(parameters[key]);
-    for (int i=0; i<n; i++)
-    {stream>>a; values.push_back(a);}
+    for (int i=0; i<n; i++) {stream>>values[i];}
     
     return values;
 }

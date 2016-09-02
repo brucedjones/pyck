@@ -1274,4 +1274,5 @@ def Set_HFhole_Parameters(model,L,r,smoothingKernelFunc=1):
     #model.SetParameter("GridSizeY","84");
     #model.SetParameter("GridSizeZ","1");
     model.SetParameter("IsFScoupling","1");
+    model.SetParameter("IsFSboreHole","1");
     SetGeometricParameters(model,L,r,smoothingKernelFunc=1);

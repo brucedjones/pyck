@@ -33,6 +33,7 @@ pack = pyck.StructuredPack(cubic); # do not create the cubic packer in this func
 # solidBottom = pyck.Cuboid(12,[0.045,0.002,0],[0.1935,0.0035,0])
 
 center = pack.GetClosestParticlePosition([0.5,0.5,0]);
+print center;
 # shiftX = center[0] - 0.05;
 # shiftY = center[1] - 0.052;
 # shiftZ = center[2] - 0;
