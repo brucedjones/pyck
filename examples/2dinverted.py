@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '/f/ranjan/packing/pyck/bin'); # Set this to the path where pyck is compiled
+sys.path.insert(0, '/f/bruce/pyck/bin'); # Set this to the path where pyck is compiled
 import pyck
 import pyck_utils # Utility functions for creating simulation parameters
 
@@ -13,7 +13,7 @@ pack = pyck.StructuredPack(cubic); # do not create the cubic packer in this func
 # Create some shapes, see shapes directory for options and reference
 # First argument is always a tag for these particles
 # Mapping operations are applied sequentially
-sphere = pyck.Sphere(1,[2,2,2],5, True);
+sphere = pyck.Sphere(1,[2,2,2],5);
 
 # Map the shapes and generate the pack
 pack.AddShape(sphere); # As with creating the cubic packer, do not create the shapes within the function call here
@@ -51,4 +51,4 @@ model.SetParameters(parameters);
 writer = pyck.SparkWriter();
 
 # Write the VTP file
-model.Serialize("hello.vtp",writer);
+model.Serialize("2dinverted.vtp",writer);
