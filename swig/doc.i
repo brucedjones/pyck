@@ -49,6 +49,13 @@ idxOut:  ijk coordinate output, array of length 3
 doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
 
+%feature("docstring")  BccPacker::GetPeriodicExtent "std::vector<
+double > BccPacker::GetPeriodicExtent()
+
+Get a domain extent which represents a periodic domain. For a domain
+boundary to be periodic, particles must be packed all the way to the
+boundary. Periodic domain extent ";
+
 
 // File: classBoundingBox.xml
 %feature("docstring") BoundingBox "
@@ -120,6 +127,13 @@ idxOut:  ijk coordinate output, array of length 3
 
 doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
+
+%feature("docstring")  CubicPacker::GetPeriodicExtent "std::vector<
+double > CubicPacker::GetPeriodicExtent()
+
+Get a domain extent which represents a periodic domain. For a domain
+boundary to be periodic, particles must be packed all the way to the
+boundary. Periodic domain extent ";
 
 
 // File: classCuboid.xml
@@ -407,200 +421,100 @@ feature(\"docstring\").  Once the data is parsed it is stored in
 self.pieces. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::__init__ "def
-doxy2swig::Doxy2SWIG::__init__ Initialize the instance given a source
+doxy2swig.Doxy2SWIG.__init__ Initialize the instance given a source
 object (file or filename). ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::generate "def
-doxy2swig::Doxy2SWIG::generate Parses the file set in the
+doxy2swig.Doxy2SWIG.generate Parses the file set in the
 initialization.  The resulting data is stored in `self.pieces`. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse "def
-doxy2swig::Doxy2SWIG::parse Parse a given node.  This function in turn
+doxy2swig.Doxy2SWIG.parse Parse a given node.  This function in turn
 calls the `parse_<nodeType>` functions which handle the respective
 nodes. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse_Document "def
-doxy2swig::Doxy2SWIG::parse_Document";
+doxy2swig.Doxy2SWIG.parse_Document";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse_Text "def
-doxy2swig::Doxy2SWIG::parse_Text";
+doxy2swig.Doxy2SWIG.parse_Text";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::parse_Element "def
-doxy2swig::Doxy2SWIG::parse_Element Parse an `ELEMENT_NODE`.  This
-calls specific `do_<tagName>` handers for different elements.  If no
-handler is available the `generic_parse` method is called.  All
-tagNames specified in `self.ignores` are simply ignored. ";
+doxy2swig.Doxy2SWIG.parse_Element Parse an `ELEMENT_NODE`.  This calls
+specific `do_<tagName>` handers for different elements.  If no handler
+is available the `generic_parse` method is called.  All tagNames
+specified in `self.ignores` are simply ignored. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::add_text "def
-doxy2swig::Doxy2SWIG::add_text Adds text corresponding to `value` into
+doxy2swig.Doxy2SWIG.add_text Adds text corresponding to `value` into
 `self.pieces`. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::get_specific_nodes "def
-doxy2swig::Doxy2SWIG::get_specific_nodes Given a node and a sequence
-of strings in `names`, return a dictionary containing the names as
-keys and child `ELEMENT_NODEs`, that have a `tagName` equal to the
-name. ";
+doxy2swig.Doxy2SWIG.get_specific_nodes Given a node and a sequence of
+strings in `names`, return a dictionary containing the names as keys
+and child `ELEMENT_NODEs`, that have a `tagName` equal to the name. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::generic_parse "def
-doxy2swig::Doxy2SWIG::generic_parse A Generic parser for arbitrary
-tags in a node.  Parameters:   - node: A node in the DOM.  - pad:
-`int` (default: 0)     If 0 the node data is not padded with newlines.
-If 1 it    appends a newline after parsing the childNodes.  If 2 it
-pads before and after the nodes are processed.  Defaults to    0. ";
+doxy2swig.Doxy2SWIG.generic_parse A Generic parser for arbitrary tags
+in a node.  Parameters:   - node: A node in the DOM.  - pad: `int`
+(default: 0)     If 0 the node data is not padded with newlines.  If 1
+it    appends a newline after parsing the childNodes.  If 2 it    pads
+before and after the nodes are processed.  Defaults to    0. ";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::space_parse "def
-doxy2swig::Doxy2SWIG::space_parse";
+doxy2swig.Doxy2SWIG.space_parse";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_compoundname "def
-doxy2swig::Doxy2SWIG::do_compoundname";
+doxy2swig.Doxy2SWIG.do_compoundname";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_compounddef "def
-doxy2swig::Doxy2SWIG::do_compounddef";
+doxy2swig.Doxy2SWIG.do_compounddef";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_includes "def
-doxy2swig::Doxy2SWIG::do_includes";
+doxy2swig.Doxy2SWIG.do_includes";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterlist "def
-doxy2swig::Doxy2SWIG::do_parameterlist";
+doxy2swig.Doxy2SWIG.do_parameterlist";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_para "def
-doxy2swig::Doxy2SWIG::do_para";
+doxy2swig.Doxy2SWIG.do_para";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_parametername "def
-doxy2swig::Doxy2SWIG::do_parametername";
+doxy2swig.Doxy2SWIG.do_parametername";
 
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig::Doxy2SWIG::do_parameterdefinition";
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig.Doxy2SWIG.do_parameterdefinition";
 
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig::Doxy2SWIG::do_detaileddescription";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_briefdescription "def
-doxy2swig::Doxy2SWIG::do_briefdescription";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_memberdef "def
-doxy2swig::Doxy2SWIG::do_memberdef";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_definition "def
-doxy2swig::Doxy2SWIG::do_definition";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_sectiondef "def
-doxy2swig::Doxy2SWIG::do_sectiondef";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_simplesect "def
-doxy2swig::Doxy2SWIG::do_simplesect";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_argsstring "def
-doxy2swig::Doxy2SWIG::do_argsstring";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_member "def
-doxy2swig::Doxy2SWIG::do_member";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_doxygenindex "def
-doxy2swig::Doxy2SWIG::do_doxygenindex";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::write "def
-doxy2swig::Doxy2SWIG::write";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::clean_pieces "def
-doxy2swig::Doxy2SWIG::clean_pieces Cleans the list of strings given as
-`pieces`.  It replaces multiple newlines by a maximum of 2 and returns
-a new list. It also wraps the paragraphs nicely. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::__init__ "def
-doxy2swig::Doxy2SWIG::__init__ Initialize the instance given a source
-object (file or filename). ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::generate "def
-doxy2swig::Doxy2SWIG::generate Parses the file set in the
-initialization.  The resulting data is stored in `self.pieces`. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse "def
-doxy2swig::Doxy2SWIG::parse Parse a given node.  This function in turn
-calls the `parse_<nodeType>` functions which handle the respective
-nodes. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Document "def
-doxy2swig::Doxy2SWIG::parse_Document";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Text "def
-doxy2swig::Doxy2SWIG::parse_Text";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::parse_Element "def
-doxy2swig::Doxy2SWIG::parse_Element Parse an `ELEMENT_NODE`.  This
-calls specific `do_<tagName>` handers for different elements.  If no
-handler is available the `generic_parse` method is called.  All
-tagNames specified in `self.ignores` are simply ignored. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::add_text "def
-doxy2swig::Doxy2SWIG::add_text Adds text corresponding to `value` into
-`self.pieces`. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::get_specific_nodes "def
-doxy2swig::Doxy2SWIG::get_specific_nodes Given a node and a sequence
-of strings in `names`, return a dictionary containing the names as
-keys and child `ELEMENT_NODEs`, that have a `tagName` equal to the
-name. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::generic_parse "def
-doxy2swig::Doxy2SWIG::generic_parse A Generic parser for arbitrary
-tags in a node.  Parameters:   - node: A node in the DOM.  - pad:
-`int` (default: 0)     If 0 the node data is not padded with newlines.
-If 1 it    appends a newline after parsing the childNodes.  If 2 it
-pads before and after the nodes are processed.  Defaults to    0. ";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::space_parse "def
-doxy2swig::Doxy2SWIG::space_parse";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_compoundname "def
-doxy2swig::Doxy2SWIG::do_compoundname";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_compounddef "def
-doxy2swig::Doxy2SWIG::do_compounddef";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_includes "def
-doxy2swig::Doxy2SWIG::do_includes";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterlist "def
-doxy2swig::Doxy2SWIG::do_parameterlist";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_para "def
-doxy2swig::Doxy2SWIG::do_para";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parametername "def
-doxy2swig::Doxy2SWIG::do_parametername";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_parameterdefinition "def doxy2swig::Doxy2SWIG::do_parameterdefinition";
-
-%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig::Doxy2SWIG::do_detaileddescription";
+%feature("docstring")  doxy2swig::Doxy2SWIG::do_detaileddescription "def doxy2swig.Doxy2SWIG.do_detaileddescription";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_briefdescription "def
-doxy2swig::Doxy2SWIG::do_briefdescription";
+doxy2swig.Doxy2SWIG.do_briefdescription";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_memberdef "def
-doxy2swig::Doxy2SWIG::do_memberdef";
+doxy2swig.Doxy2SWIG.do_memberdef";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_definition "def
-doxy2swig::Doxy2SWIG::do_definition";
+doxy2swig.Doxy2SWIG.do_definition";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_sectiondef "def
-doxy2swig::Doxy2SWIG::do_sectiondef";
+doxy2swig.Doxy2SWIG.do_sectiondef";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_simplesect "def
-doxy2swig::Doxy2SWIG::do_simplesect";
+doxy2swig.Doxy2SWIG.do_simplesect";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_argsstring "def
-doxy2swig::Doxy2SWIG::do_argsstring";
+doxy2swig.Doxy2SWIG.do_argsstring";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_member "def
-doxy2swig::Doxy2SWIG::do_member";
+doxy2swig.Doxy2SWIG.do_member";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::do_doxygenindex "def
-doxy2swig::Doxy2SWIG::do_doxygenindex";
+doxy2swig.Doxy2SWIG.do_doxygenindex";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::write "def
-doxy2swig::Doxy2SWIG::write";
+doxy2swig.Doxy2SWIG.write";
 
 %feature("docstring")  doxy2swig::Doxy2SWIG::clean_pieces "def
-doxy2swig::Doxy2SWIG::clean_pieces Cleans the list of strings given as
+doxy2swig.Doxy2SWIG.clean_pieces Cleans the list of strings given as
 `pieces`.  It replaces multiple newlines by a maximum of 2 and returns
 a new list. It also wraps the paragraphs nicely. ";
 
@@ -857,6 +771,19 @@ EllipsoidalPacker::getNumParticles() ";
 EllipsoidalPacker::getDim() ";
 
 
+// File: classFacetBins.xml
+%feature("docstring") FacetBins "";
+
+%feature("docstring")  FacetBins::FacetBins "FacetBins::FacetBins(float minX, float minY, float maxX, float maxY,
+double *v1, double *v2, double *v3, long numFacets) ";
+
+%feature("docstring")  FacetBins::~FacetBins "FacetBins::~FacetBins()
+";
+
+%feature("docstring")  FacetBins::GetBin "std::vector< long > *
+FacetBins::GetBin(double *pt) ";
+
+
 // File: classFccPacker.xml
 %feature("docstring") FccPacker "";
 
@@ -904,6 +831,17 @@ idxOut:  ijk coordinate output, array of length 3
 
 doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
+
+%feature("docstring")  FccPacker::GetPeriodicExtent "std::vector<
+double > FccPacker::GetPeriodicExtent()
+
+Get a domain extent which represents a periodic domain. For a domain
+boundary to be periodic, particles must be packed all the way to the
+boundary. Periodic domain extent ";
+
+
+// File: classGeom.xml
+%feature("docstring") Geom "";
 
 
 // File: classHcp2dPacker.xml
@@ -954,6 +892,13 @@ idxOut:  ijk coordinate output, array of length 3
 doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
 
+%feature("docstring")  Hcp2dPacker::GetPeriodicExtent "std::vector<
+double > Hcp2dPacker::GetPeriodicExtent()
+
+Get a domain extent which represents a periodic domain. For a domain
+boundary to be periodic, particles must be packed all the way to the
+boundary. Periodic domain extent ";
+
 
 // File: classHcpPacker.xml
 %feature("docstring") HcpPacker "";
@@ -1003,6 +948,13 @@ idxOut:  ijk coordinate output, array of length 3
 
 doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
+
+%feature("docstring")  HcpPacker::GetPeriodicExtent "std::vector<
+double > HcpPacker::GetPeriodicExtent()
+
+Get a domain extent which represents a periodic domain. For a domain
+boundary to be periodic, particles must be packed all the way to the
+boundary. Periodic domain extent ";
 
 
 // File: classIntField.xml
@@ -1110,7 +1062,7 @@ Parameters:
 
 handle:  Handle of the field to be set
 
-state:   particle state for which these values will be applioed
+state:  particle state for which these values will be applioed
 
 val:  Array of length equal to the dimensionality of the field ";
 
@@ -1124,7 +1076,7 @@ Parameters:
 
 handle:  Handle of the field to be set
 
-state:   particle state for which these values will be applioed
+state:  particle state for which these values will be applioed
 
 val:  Array of length equal to the dimensionality of the field ";
 
@@ -1247,6 +1199,13 @@ idxOut:  ijk coordinate output, array of length 3
 
 doFloor:  Returns the lower-left point in relation to the Cartesian
 point if true. Returns the upper-right point if false ";
+
+%feature("docstring")  Packer::GetPeriodicExtent "virtual
+std::vector<double> Packer::GetPeriodicExtent()=0
+
+Get a domain extent which represents a periodic domain. For a domain
+boundary to be periodic, particles must be packed all the way to the
+boundary. Periodic domain extent ";
 
 
 // File: structpart.xml
@@ -1413,8 +1372,8 @@ True if coordinate is inside shape, false otherwise ";
 %feature("docstring") StlShape "";
 
 %feature("docstring")  StlShape::StlShape "StlShape::StlShape(int
-state, std::string fname, double *c=NULL, double scale=1.0, double
-*rot_axis=NULL, double rot_angle=0.0)
+state, std::string fname, double *translation=NULL, double scale=1.0,
+double *rot_axis=NULL, double rot_angle=0.0)
 
 StlShape constructor
 
@@ -1426,8 +1385,8 @@ will remove particle from output
 
 fname:  STL filename
 
-c:  (Optional) Array of length three representing the desired center
-of the shape in cartesian coordinates
+translation:  (Optional) Array of length three representing a
+translation to be applied to the shape
 
 scale:  (Optional) Scaling factor to be applied to the STL geometry
 
@@ -1495,25 +1454,16 @@ The coordinates of the closest valid particle ";
 %feature("docstring")  TriPrism::TriPrism "TriPrism::TriPrism(int
 state, double *pt1, double *pt2, double *pt3, double l)
 
-Triangular Prism constructor
+Triangular Prism constructor    @param state State to be applied to
+particles within this shape. state = 0 will remove particle from
+output    @param pt1 first point to define tripism in cartesian
+coordinates    @param pt2 second point to define tripism in cartesian
+coordinates    @param pt3 third point to define tripism in cartesian
+coordinates    @param pt4 fourth point to define tripism in cartesian
+coordinates    @param l Length of the cylinder in cartesian
+coordinates, (0,0,l) or (0,l,0) or (l,0,0) indicates the direction pt1
+______length_______
 
-Parameters:
------------
-
-state:  State to be applied to particles within this shape. state = 0
-will remove particle from output
-
-pt1:  first point to define tripism in cartesian coordinates
-
-pt2:  second point to define tripism in cartesian coordinates
-
-pt3:  third point to define tripism in cartesian coordinates
-
-pt4:  fourth point to define tripism in cartesian coordinates
-
-l:  Length of the cylinder in cartesian coordinates, (0,0,l) or
-(0,l,0) or (l,0,0) indicates the direction pt1 ______length_______
-|||| |||| || || || || || || || || || || || ||
 pt3||||||||||||pt2_________|||||||||||| ";
 
 %feature("docstring")  TriPrism::~TriPrism "TriPrism::~TriPrism() ";
@@ -1545,14 +1495,17 @@ std::vector< DoubleField * > doubleFields, int dim, long
 numParticles)=0 ";
 
 
+// File: namespaceBrazilian__Test__Structured.xml
+
+
 // File: namespacedoxy2swig.xml
 %feature("docstring")  doxy2swig::my_open_read "def
-doxy2swig::my_open_read";
+doxy2swig.my_open_read";
 
 %feature("docstring")  doxy2swig::my_open_write "def
-doxy2swig::my_open_write";
+doxy2swig.my_open_write";
 
-%feature("docstring")  doxy2swig::main "def doxy2swig::main";
+%feature("docstring")  doxy2swig::main "def doxy2swig.main";
 
 
 // File: boundingBox_8cpp.xml
@@ -1561,10 +1514,7 @@ doxy2swig::my_open_write";
 // File: boundingBox_8h.xml
 
 
-// File: doc_2doxy2swig_8py.xml
-
-
-// File: doxy2swig_8py.xml
+// File: Brazilian__Test__Structured_8py.xml
 
 
 // File: doubleField_8cpp.xml
@@ -1573,10 +1523,16 @@ doxy2swig::my_open_write";
 // File: doubleField_8h.xml
 
 
+// File: doxy2swig_8py.xml
+
+
 // File: intField_8cpp.xml
 
 
 // File: intField_8h.xml
+
+
+// File: license_8md.xml
 
 
 // File: model_8cpp.xml
@@ -1727,6 +1683,9 @@ b2, double c2, double d2) ";
 ";
 
 
+// File: README_8md.xml
+
+
 // File: shape_8cpp.xml
 
 
@@ -1797,17 +1756,20 @@ size_t inLen, unsigned char *out, size_t *outLen) ";
 // File: sparkWriter_8h.xml
 
 
-// File: dir_4699ad3df0ca2385ac6f5b73c70216ce.xml
+// File: md_license.xml
 
 
-// File: dir_092f0d59b32c5c74559c105fc9b15544.xml
+// File: md_README.xml
 
 
-// File: dir_9b03ec41c112422cb096d06b602a3667.xml
+// File: dir_b0f3ce5d214b5eae6ea436fe79173b6c.xml
 
 
-// File: dir_52ef77e189de5fda808669e8c78dfd40.xml
+// File: dir_13eaa3e42b8c4ece99db3649232153a5.xml
 
 
-// File: dir_225cc56f8c787233b05a4a99f07b5250.xml
+// File: dir_b89c2a9ae890e4bed7d20c515eb3b07e.xml
+
+
+// File: dir_8fb2b35c89bce0887811d5a7bdd15d05.xml
 
