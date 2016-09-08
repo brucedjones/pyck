@@ -8,7 +8,7 @@
 #include <omp.h>
 #include <algorithm>
 
-StlShape::StlShape(int state, std::string fname, double *translation, double scale, double *rot_axis, double rot_angle) : Shape(state)
+StlShape::StlShape(int state, std::string fname, double *translation, double scale, double *rot_axis, double rot_angle, bool invert) : Shape(state,invert)
 {
   bool translate=false;
   if(translation!=NULL) translate=true;

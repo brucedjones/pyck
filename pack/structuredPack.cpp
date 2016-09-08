@@ -116,6 +116,12 @@ void StructuredPack::Process()
 
 void StructuredPack::MapShape(Shape *shape)
 {
+  if(!shape->inverted) MapNormalShape(shape);
+  else MapInvertedShape(shape);
+}
+
+void StructuredPack::MapNormalShape(Shape *shape)
+{
   BoundingBox *bb = shape->boundingBox;
 
   // Convert to StructuredPack indexes
@@ -169,6 +175,82 @@ void StructuredPack::MapShape(Shape *shape)
         // Mapping
         packer->IDX2Pos(i,j,k,thisPos);
         if(shape->IsInside(thisPos)){
+          state[ID(i,j,k)] = shape->state;
+          pos[DimID(0,i,j,k)] = thisPos[0];
+          pos[DimID(1,i,j,k)] = thisPos[1];
+          if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
+        }
+        // Progress Reporting
+        #pragma omp atomic
+          progress++;
+        if(omp_get_thread_num()==0) pb.UpdateProgress(progress);
+      }
+    }
+  }
+
+  pb.Finish();
+}
+
+void StructuredPack::MapInvertedShape(Shape *shape)
+{
+  BoundingBox *bb = shape->boundingBox;
+
+  // Convert to StructuredPack indexes
+  long *p1 = new long[3];
+  long *p2 = new long[3];
+
+  // Get the ijk extent
+  // Third argument "floors" the ijk indexes (lower left corner) if true
+  // "ceils" the ijk indexes (upper right corner) if false
+  packer->Pos2IDX(bb->p1, p1, true);
+  packer->Pos2IDX(bb->p2, p2, false);
+
+  int numThreads = omp_get_max_threads();
+  if(!shape->parallel) numThreads = 1;
+
+  //std::cout << "Mapping a shape..." << std::flush;
+  long plx = p2[0]-p1[0];
+  long ply = p2[1]-p1[1];
+  long plz = p2[2]-p1[2];
+  long progress = 0;
+  ProgressBar pb(len[0]*len[1]*len[3], "Mapping shape");
+
+  if(dim>2)
+  {
+    #pragma omp parallel for num_threads(numThreads) schedule(static)
+    for(long k=0; k<len[2]; k++){
+      double thisPos[3];
+      for(long j=0; j<len[1]; j++){
+        for(long i=0; i<len[0]; i++){
+          // Mapping
+          packer->IDX2Pos(i,j,k,thisPos);
+          if( (k<p1[2] || k>=p2[2])
+           || (j<p1[1] || j>=p2[1])
+           || (i<p1[0] || i>=p2[0])
+           || !shape->IsInside(thisPos)){
+            state[ID(i,j,k)] = shape->state;
+            pos[DimID(0,i,j,k)] = thisPos[0];
+            pos[DimID(1,i,j,k)] = thisPos[1];
+            if(dim>2) pos[DimID(2,i,j,k)] = thisPos[2];
+          }
+          // Progress Reporting
+          #pragma omp atomic
+            progress++;
+          if(omp_get_thread_num()==0) pb.UpdateProgress(progress);
+        }
+      }
+    }
+  } else {
+    long k = 0;
+    #pragma omp parallel for num_threads(numThreads) schedule(static)
+    for(long j=0; j<len[1]; j++){
+      double thisPos[3];
+      for(long i=0; i<len[0]; i++){
+        // Mapping
+        packer->IDX2Pos(i,j,k,thisPos);
+        if( (j<p1[1] || j>=p2[1])
+         || (i<p1[0] || i>=p2[0])
+         || !shape->IsInside(thisPos)){
           state[ID(i,j,k)] = shape->state;
           pos[DimID(0,i,j,k)] = thisPos[0];
           pos[DimID(1,i,j,k)] = thisPos[1];

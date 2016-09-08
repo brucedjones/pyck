@@ -11,8 +11,9 @@ class Shape {
     /**
      * Shape base constructor
      * @param state The state which will be assigned to particles contained in this shape. state = 0 will remove any previously assigned particles
+     * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    Shape(int state);
+    Shape(int state, bool invert);
     ~Shape();
 
     /**
@@ -26,6 +27,7 @@ class Shape {
 
     int state;  /**< State to be applied on a particle when mapping the shape. state = 0 will remove particle from output.*/
     bool parallel; /**< Toggles whether or not shape can be processed in parallel. */
+    bool inverted; /**< Toggles whether the shape is inverted, particles are tagged if they are outside the shape. */
 };
 
 #endif

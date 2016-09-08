@@ -7,5 +7,5 @@
 class Cylinder : public Shape {
 
   public:
-    Cylinder(int state, double *xyz, double r, double *xyz);
+    Cylinder(int state, double *xyz, double r, double *xyz, bool invert=false);
 };

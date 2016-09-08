@@ -7,5 +7,5 @@
 class Sphere : public Shape {
 
   public:
-    Sphere(int state, double *xyz, double r);
+    Sphere(int state, double *xyz, double r, bool invert=false);
 };

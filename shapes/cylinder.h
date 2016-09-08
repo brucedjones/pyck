@@ -11,8 +11,9 @@ class Cylinder: public Shape {
      * @param r Radius of the cylinder
      * @param l Length of the cylinder in cartesian coordinates, (0,0,l) or (0,l,0) or (l,0,0) indicates the direction
      * @param domain Domain in which this shape will be mapped
+     * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    Cylinder(int state, double *c, double r, double *l);
+    Cylinder(int state, double *c, double r, double *l, bool invert=false);
     ~Cylinder();
 
     /**

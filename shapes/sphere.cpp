@@ -1,6 +1,6 @@
 #include "sphere.h"
 
-Sphere::Sphere(int state, double *c, double r) : Shape(state)
+Sphere::Sphere(int state, double *c, double r, bool invert) : Shape(state,invert)
 {
   this->c = new double[3];
   this->c[0] = c[0];

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <math.h>
 
-Cylinder::Cylinder(int state, double *c, double r, double *l) : Shape(state)
+Cylinder::Cylinder(int state, double *c, double r, double *l, bool invert) : Shape(state,invert)
 {
   this->c = new double[3];
   this->l = new double[3];
@@ -67,7 +67,7 @@ bool Cylinder::IsInside(double *pt)
   {
     if((pt[0]-c[0])*(pt[0]-c[0])+(pt[2]-c[2])*(pt[2]-c[2]) > (r*r)) isInside = false;
     // if(fabs(pt[1]-c[1]) > fabs(l[1])) isInside = false;
- if( (pt[1] < c[1]) || (pt[1] > (c[1]+l[1])) )  isInside = false;    
+ if( (pt[1] < c[1]) || (pt[1] > (c[1]+l[1])) )  isInside = false;
   }
   else if(l[0] == 0.0 && l[1] == 0.0 && l[2] != 0.0)
   {

@@ -2,7 +2,7 @@
 
 #include "cuboid.h"
 
-Cuboid::Cuboid(int state, double *p1, double *p2) : Shape(state)
+Cuboid::Cuboid(int state, double *p1, double *p2, bool invert) : Shape(state,invert)
 {
   this->p1 = new double[3];
   this->p2 = new double[3];

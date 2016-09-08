@@ -42,6 +42,18 @@ class StructuredPack : public Pack {
     void MapShape(Shape *shape);
 
     /**
+     * Map a shape to the StructuredPack
+     * @param shape Shape to be mapped
+     */
+    void MapNormalShape(Shape *shape);
+
+    /**
+     * Map an inverted shape to the StructuredPack
+     * @param shape Shape to be mapped
+     */
+    void MapInvertedShape(Shape *shape);
+
+    /**
      * Create 1D array of particle positions
      * @return 1D array of particle positions, format is [x1,y1,x2,y2,...xn,yn]
      */

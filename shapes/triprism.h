@@ -12,6 +12,7 @@ class TriPrism: public Shape {
      * @param pt3 third point to define tripism in cartesian coordinates
      * @param pt4 fourth point to define tripism in cartesian coordinates
      * @param l Length of the cylinder in cartesian coordinates, (0,0,l) or (0,l,0) or (l,0,0) indicates the direction
+     * @param invert Inverts the shape to tag particles outside the shape instead of inside
         //        pt1  ______length_______
         //        ||||                    ||||
         //       ||  ||                  ||  ||
@@ -19,7 +20,7 @@ class TriPrism: public Shape {
         //     ||      ||              ||      ||
         // pt3||||||||||||pt2_________||||||||||||
      */
-    TriPrism(int state, double *pt1, double *pt2, double *pt3, double l);
+    TriPrism(int state, double *pt1, double *pt2, double *pt3, double l, bool invert=false);
     ~TriPrism();
 
     /**

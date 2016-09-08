@@ -2,7 +2,7 @@
 
 #include <Python.h>
 
-PyShape::PyShape(int state, double *p1, double *p2, PyObject *PyFunc) : Shape(state)
+PyShape::PyShape(int state, double *p1, double *p2, PyObject *PyFunc, bool invert) : Shape(state,invert)
 {
   this->parallel = false;
   this->boundingBox = new BoundingBox(p1,p2);

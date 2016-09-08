@@ -7,5 +7,5 @@
 class Cuboid : public Shape {
 
   public:
-    Cuboid(int state, double *xyz, double *xyz);
+    Cuboid(int state, double *xyz, double *xyz, bool invert=false);
 };

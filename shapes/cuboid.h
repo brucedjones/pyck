@@ -9,8 +9,9 @@ class Cuboid: public Shape {
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
      * @param p1 Lower-left corner of cuboid in cartesian coordinates
      * @param p2 Upper-right corner of cuboid in cartesian coordinates
+     * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    Cuboid(int state, double *p1, double *p2);
+    Cuboid(int state, double *p1, double *p2, bool invert = false);
     ~Cuboid();
 
     /**

@@ -37,8 +37,9 @@ class StlShape: public Shape {
      * @param scale (Optional) Scaling factor to be applied to the STL geometry
      * @param rot_axis (Optional) Array of length three representing the axis about which to rotate the STL Geometry
      * @param rot_angle (Optional) Angle (in radians) by which the shape will be rotated about the rotation axis
+     * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    StlShape(int state, std::string fname, double *translation=NULL, double scale=1.0, double *rot_axis=NULL, double rot_angle=0.0);
+    StlShape(int state, std::string fname, double *translation=NULL, double scale=1.0, double *rot_axis=NULL, double rot_angle=0.0, bool invert=false);
     ~StlShape();
 
     /**

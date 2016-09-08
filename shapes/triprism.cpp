@@ -2,7 +2,7 @@
 #include <iostream>
 #include <math.h>
 
-TriPrism::TriPrism(int state, double *pt1, double *pt2, double *pt3, double l) : Shape(state)
+TriPrism::TriPrism(int state, double *pt1, double *pt2, double *pt3, double l, bool invert) : Shape(state,invert)
 {
 
   this->l   = l;

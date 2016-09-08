@@ -11,9 +11,10 @@ class PyShape: public Shape {
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
      * @param p1 Lower-left corner of the shapes bounding box in cartesian coordinates
      * @param p2 Upper-right corner of the shapes bounding box in cartesian coordinates
-     * @param PyFunc Python callback defining the shape. Takes 3 arguments, x, y, and z, coordinates of a point. Returns true if a particle is inside the shape and false otherwsie
+     * @param PyFunc Python callback defining the shape. Takes 3 arguments, x, y, and z, coordinates of a point. Returns true if a particle is inside the shape and false otherwise
+     * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    PyShape(int state, double *p1, double *p2, PyObject *PyFunc);
+    PyShape(int state, double *p1, double *p2, PyObject *PyFunc, bool invert=false);
     ~PyShape();
 
     /**
