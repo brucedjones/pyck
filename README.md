@@ -154,6 +154,15 @@ The isInside callback takes three arguments, `x`, `y`, and `z`, which are the co
 
 Unfortunately, due to the way in which python-c++ interoperability works, python callbacks can only be run in serial. If you find that you need a new shape and PyShape is too slow for your application, consider implementing it as a native c++ class instead.
 
+### Inverted shapes
+All shapes have an optional final argument which will invert the shape. This inversion dictates that particles *outside* the shape are mapped, rather than the default case where particles *inside* the shape are mapped. The optional argument defaults to `False`, set it to `True` to invert the shape. For example,
+
+```python
+sphere = pyck.Sphere(tag,[p1x,p2x,p3x],radius, True);
+```
+
+This will map all particles in the domain that are outside the sphere.
+
 ### Adding and processing
 Once shapes have been created they are added to the pack as,
 
