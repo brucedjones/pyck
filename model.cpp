@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <stdlib.h> 
+#include <stdlib.h>
 
 #include "model.h"
 #include "writer.h"
@@ -165,6 +165,11 @@ void Model::SetIntField(int handle, int state, int *val)
   }
 }
 
+IntField *Model::GetIntField(int handle)
+{
+  return intFields[handle];
+}
+
 void Model::SetDoubleField(int handle, int state, double *val)
 {
   DoubleField *thisField = doubleFields[handle];
@@ -181,6 +186,12 @@ void Model::SetDoubleField(int handle, int state, double *val)
       }
     }
   }
+}
+
+
+DoubleField *Model::GetDoubleField(int handle)
+{
+  return doubleFields[handle];
 }
 
 void Model::SetParameter(std::string key, std::string value)
@@ -208,6 +219,6 @@ std::vector<double> Model::ReadMultipleDoubleParameter(std::string key, int n)
     double a;
     stringstream stream(parameters[key]);
     for (int i=0; i<n; i++) {stream>>values[i];}
-    
+
     return values;
 }

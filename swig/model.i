@@ -31,12 +31,16 @@ class Model {
 
     void SetIntField(int handle, int state, int *iprop);
 
+    IntField *GetIntField(int handle);
+
     void SetDoubleField(int handle, int state, double *dprop);
+
+    DoubleField *GetDoubleField(int handle);
 
     void SetParameter(std::string key, std::string value);
 
     void SetParameters(std::map<std::string, std::string> &parameters);
-    
+
     int ReadSingleIntegerParameter(std::string key);
 
     std::vector<double> Model::ReadMultipleDoubleParameter(std::string key, int n);

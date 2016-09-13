@@ -73,12 +73,24 @@ class Model {
     void SetIntField(int handle, int state, int *val);
 
     /**
+     * Get a pointer to a DoubleField
+     * @param handle Handle of the field
+     */
+    IntField *GetIntField(int handle);
+
+    /**
      * Set the values of an float field
      * @param handle Handle of the field to be set
      * @param state  particle state for which these values will be applioed
      * @param val    Array of length equal to the dimensionality of the field
      */
     void SetDoubleField(int handle, int state, double *val);
+
+    /**
+     * Get a pointer to a DoubleField
+     * @param handle Handle of the field
+     */
+    DoubleField *GetDoubleField(int handle);
 
     /**
      * Add a parameter to the domain
@@ -92,13 +104,13 @@ class Model {
      * @param parameters   Map of parameters to add
      */
     void SetParameters(std::map<std::string, std::string> &parameters);
-    
+
     /**
      * Read a parameter of integer type
      * @param key   Parameter name
      */
     int ReadSingleIntegerParameter(std::string key);
-  
+
    /**
      * Read a parameter of double type or a double array
      * Note: n can be as large as 3, but cannot be larger than 3 due to vector interface in swig.
@@ -106,7 +118,7 @@ class Model {
      * @param n: number of elements
      */
     std::vector<double> ReadMultipleDoubleParameter(std::string key, int n);
-    
+
     /**
      * Write domain to CSV file
      * @param fname Output filename
