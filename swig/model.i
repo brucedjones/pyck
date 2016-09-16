@@ -2,6 +2,8 @@
 
 %{
 #include "../model.h"
+#include "../intField.h"
+#include "../doubleField.h"
 %}
 
 %include "std_string.i"

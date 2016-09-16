@@ -381,7 +381,7 @@ bool Geom::PointInsideTriangle(double *p, double *p0, double *p1, double *p2)
   double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
   double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
-  return (u >= 0) && (v >= 0) && (u + v < 1);
+  return (u > 0) && (v > 0) && (u + v <= 1);
 }
 
 bool Geom::PointInsideSquare(double *p, double *p0, double *p1)
