@@ -1,6 +1,7 @@
 #include "triprism.h"
 #include <iostream>
 #include <math.h>
+#include <algorithm>
 
 TriPrism::TriPrism(int state, double *pt1, double *pt2, double *pt3, double l, bool invert) : Shape(state,invert)
 {
