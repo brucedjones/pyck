@@ -27,4 +27,8 @@ add_library(pyShape pyShape.cpp)
 target_link_libraries(pyShape shape boundingBox)
 list(APPEND pyckLibs "pyShape")
 
+add_library(compositeShape compositeShape.cpp)
+target_link_libraries(compositeShape shape boundingBox)
+list(APPEND pyckLibs "compositeShape")
+
 set(pyckLibs "${pyckLibs}" PARENT_SCOPE)

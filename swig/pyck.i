@@ -109,6 +109,7 @@
 %include shapes/triprism.i
 %include shapes/stlShape.i
 %include shapes/pyShape.i
+%include shapes/compositeShape.i
 
 %include model.i
 
