@@ -73,6 +73,14 @@ hexagonalClosePack2d  = pyck.Hcp2dPacker([Lx,Ly,0],minSeparation);
 
 In which `Lx`, `Ly`, and `Lz`, are the domain lengths in the x, y, and z directions respectively. `minSeparation` is the minimum separation distance between particles. To pack a 2D domain, simply set `Lz` to 0. Note: the only packing configurations that make sense in 2D are Cubic and Hexagonal Close Packing.
 
+Packers can be used to compute an approximate particle volume, for example,
+
+```python
+particleVolume = cubic.GetParticleVolume();
+```
+
+This approximation is computed as the domain volume / number of particles.
+
 With a packer defined, the domain is initialized with the following,
 
 ```python

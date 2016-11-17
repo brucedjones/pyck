@@ -6,7 +6,7 @@
 
 #include "hcpPacker.h"
 
-HcpPacker::HcpPacker(double *doubleLenIn, double h, bool rotate90)
+HcpPacker::HcpPacker(double *doubleLenIn, double h, bool rotate90) : Packer(doubleLenIn)
 {
   this->rotate90 = rotate90;
 

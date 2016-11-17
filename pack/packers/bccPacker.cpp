@@ -5,7 +5,7 @@
 
 #include "bccPacker.h"
 
-BccPacker::BccPacker(double *doubleLenIn, double h)
+BccPacker::BccPacker(double *doubleLenIn, double h) : Packer(doubleLenIn)
 {
   h = h/2.0;
   dx = sqrt((16.0/3.0)*h*h);

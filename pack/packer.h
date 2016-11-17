@@ -8,8 +8,9 @@ class Packer {
   public:
     /**
      * Packer constructor. A new constructor should be implemented by the deriving class which sets the length of the domain in ijk and the spacing between particles.
+     * @param len Size of the domain in Cartesian coordinate system
      */
-    Packer();
+    Packer(double *len);
     ~Packer();
 
     /**
@@ -35,8 +36,15 @@ class Packer {
      */
     virtual std::vector<double> GetPeriodicExtent()=0;
 
+    /**
+     * Get particle volume
+     * @return The approximate volume of a single particle, computed as domain volume / number of particles.
+     */
+     double GetParticleVolume();
+
     double dx; /**< Offset between particle */
     long len[3]; /**< Size of the domain in ijk system */
+    double lend[3];
 };
 
 #endif

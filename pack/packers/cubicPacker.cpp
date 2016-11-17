@@ -6,7 +6,7 @@
 #include "cubicPacker.h"
 #include "../packer.h"
 
-CubicPacker::CubicPacker(double *doubleLenIn, double h)
+CubicPacker::CubicPacker(double *doubleLenIn, double h) : Packer(doubleLenIn)
 {
   dx = h;
   len[0] = (int)(doubleLenIn[0]/dx);
