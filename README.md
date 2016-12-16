@@ -5,15 +5,26 @@ Pyck is licensed under the MIT license
 
 # Build
 ## Prerequisites:
-Cmake, Python, Swig, Visual Studio (On Windows), zlib
+* [zlib](https://github.com/madler/zlib)
+* [swig](http://www.swig.org/)
+* [CUDA](https://developer.nvidia.com/cuda-downloads)
+* [cmake](https://cmake.org/)
+* [Python](http://www.python.org)
+* Visual Studio (Windows only)
 
 ## Linux
-1. Navigate to the source directory in a terminal then execute,
-2. ```./makedoc```
-3. ```cmake . ```
+1. Clone the repository
+2. Create a build repository, eg. pyck-build
+2. ```./path/to/src/makedoc```
+3. Navigate to build directory
+3. ```cmake /path/to/src ```
 4. ```make```
-5. Build files with be placed in bin/
-
+5. To run either,
+    * Add this directory to PATH
+    * Copy these files in to the directory where you want to run your script
+    * Add the build directory to path in your script (See below)
+6. If using pyck utils either copy it to the pyck binary folder or to the same folder as your script
+    
 Note: The 'makedoc' script builds documentation and should be carried out prior to building to ensure python docstrings are up-to-date.
 
 ## Mac
@@ -21,25 +32,41 @@ If Swig is installed using MacPorts, install Python 3.x in order to compile and 
 
 ## Windows
 
-1. Set the following environment variables, Example using Python 2.1.1:
+In the steps that follow, ensure that the cmake generator is set for your desired version of visual studio, and is the same for both zlib and pyrite. For example "Visual Studio 14 2015 Win64".
 
-    PYTHON_INCLUDE: D:\python21\include
-    
-    PYTHON_LIB: D:\python21\libs\python21.lib
+### Build zlib
 
-2. Open CMake-gui and set source and build directories, hit configure.
+1. Download [source](https://github.com/madler/zlib)
+2. Create zlib-build directory
+3. Open cmake-gui
+4. Select source directory and zlib-build directory
+5. Click configure until configuration done
+6. Click generate
+7. Open zlib.sln in visual studio
+8. Select "Release" build and build
+9. Built lib will be in zlib-build/Release
+10. Copy zlib-build/zconf.h into source directory
+11. zlib include directory will be the source directory
 
-3. CMake will not automatically find swigwin, so set the SWIG_EXECUTEABLE variable to the location of the swigwin executeable.
+### Build pyck
 
-4. Repeatedly press configure until no more configuration is required, then click generate.
+1. Open CMake-gui and set source and build directories (These should be separate directories), hit configure.
 
-5. Navigate to the build directory and open the pyck.sln file with visual studio.
+2. Click configure, cmake will require information for SWIG_EXECUTEABLE, ZLIB_INCLUDE_DIR, ZLIB_LIBRARY_RELEASE (zlib.lib)
+    * You may need to click configure a number of times, adding this information as you go. You may also need to check the "Advanced" box in cmake-gui
 
-6. Set the build mode to Release, then build.
+3. Generate
 
-7. Built files will be placed in the source_directory/bin. Note: currently _pyck.pyd is placed in an incorrect directory, you will find it in bin/Release, copy it to bin/
+4. Open build_directory/pyck.sln
 
-8. To run the examples set the path on line 2 to the directory where pyck was built.
+5. Set the build mode to Release, then build.
+
+6. Built files will be placed in build_directory/swig/Release/. Note: currently pyck.py is placed in build_directory/swig/ and should be copied in to build_directory/swig/Release/
+
+7. To run either,
+    * Add build_directory/swig/Release/ to PATH
+    * Copy these files in to the directory where you want to run your script
+    * Add the build directory to path in your script (See below)
 
 Build and run errors: Assuming CMake worked correctly, the most likely error is that you are attempting to build for 32bit against 64bit libs or vice versa.
 
