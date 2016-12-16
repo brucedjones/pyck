@@ -20,9 +20,9 @@ Pyck is licensed under the MIT license
 3. ```cmake /path/to/src ```
 4. ```make```
 5. To run either,
-    * Add this directory to PATH
-    * Copy these files in to the directory where you want to run your script
-    * Add the build directory to path in your script (See below)
+    * Add build_directory/swig to PATH
+    * Copy the contents of build_directory/swig the directory where you want to run your script
+    * Add build_directory/swig to path in your script (See below)
 6. If using pyck utils either copy it to the pyck binary folder or to the same folder as your script
     
 Note: The 'makedoc' script builds documentation and should be carried out prior to building to ensure python docstrings are up-to-date.
