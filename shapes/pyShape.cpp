@@ -27,9 +27,11 @@ bool PyShape::IsInside(double *pt)
   arglist = Py_BuildValue("(ddd)",pt[0],pt[1],pt[2]);
   result =  PyEval_CallObject(func, arglist);
 
-  if(PyObject_Compare(result,Py_False)){
-    isInside = true;
-  }
+  #if PY_MAJOR_VERSION < 3
+    if(PyObject_Compare(result,Py_False)) isInside = true;
+  #else
+    if(PyObject_RichCompareBool(result,Py_True,Py_EQ)) isInside = true;
+  #endif
 
   Py_DECREF(arglist);
   Py_XDECREF(result);
