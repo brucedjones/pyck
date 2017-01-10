@@ -1,7 +1,7 @@
 import sys
-sys.path.insert(0, '/f/pkpan/pyck/bin'); # Set this to the path where pyck is compiled
+sys.path.insert(0, '/mnt/c/ubuntu/packing/git_pyck/pyck/bin'); # Set this to the path where pyck is compiled
 import pyck
-import pyck_utils # Utility functions for creating simulation parameters
+import FS_hole_utils # Utility functions for creating simulation parameters
 from operator import add
 def sum(XX, YY):
 	return map (add, XX,YY) 
@@ -32,16 +32,16 @@ pack = pyck.StructuredPack(cubic); # do not create the cubic packer in this func
 # solidRight = pyck.Cuboid(11,[0.1935,0.0035,0],[0.195,0.1005,0])
 # solidBottom = pyck.Cuboid(12,[0.045,0.002,0],[0.1935,0.0035,0])
 
-center = pack.GetClosestParticlePosition([0.5,0.5,0]);
-print center;
+center = [0.501,0.500563,0.0];#pack.GetClosestParticlePosition([0.501,0.501,0]);#
 # shiftX = center[0] - 0.05;
 # shiftY = center[1] - 0.052;
 # shiftZ = center[2] - 0;
 CoShift=[0 , 0 , 0];
+print center
 
 #print "ShitX %r ShitY %r ShiftZ %r: " %(shiftX, CoShift[1], shiftZ)
 solid     = pyck.Cuboid(1, [0, 0, 0] , [1, 1, 0]);
-fluid     = pyck.Sphere(2, center, 0.02);
+fluid     = pyck.Sphere(2, center, 0.0195);
 solidTop  = pyck.Cuboid(3, [0, 1-4*r, 0], [1, 1, 0]);
 solidBottome = pyck.Cuboid(4, [0, 0, 0], [1, 4*r, 0]);
 solidLeft = pyck.Cuboid(5, [0, 0, 0], [4*r, 1, 0]);
@@ -103,13 +103,13 @@ model.SetDoubleField(densityField,2,1000);
 velocityField = model.CreateDoubleField("Velocity",3);
 # model.SetDoubleField(velocityField,7,[2.0,0,0]);
 
-pyck_utils.Set_HFhole_Parameters(model,L,r);
+FS_hole_utils.Set_HFhole_Parameters(model,L,r);
 
 mass = 0.005303513149097;
 model.SetParameter("Mass", "%e %e" % (mass, mass/1.54));
 
-material = pyck_utils.gypsum;
-pyck_utils.SetDamageParameters(model,mass,material);
+material = FS_hole_utils.gypsum;
+FS_hole_utils.SetDamageParameters(model,mass,material);
 speedsound = material["speedsound"];
 model.SetParameter("DTime", "%e" % (0.2*r/speedsound));
 
