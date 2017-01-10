@@ -1,10 +1,21 @@
 import sys
-sys.path.insert(0, '/f/ranjan/packing/pyck/bin'); # Set this to the path where pyck is compiled
+sys.path.insert(0, '/mnt/c/ubuntu/packing/git_mod_notch/pyck/bin'); # Set this to the path where pyck is compiled
 import pyck
 import pyck_utils # Utility functions for creating simulation parameters
 
+
+from operator import add
+def sum(XX, YY):
+	return map (add, XX,YY) 
+import numpy as np
+import math
+
 L = [10.0,10.0,0.0]
 r = 0.1;
+
+xx=[[-1, 0], [2,4], [1,15]]
+
+print max(xx, key=lambda item: item[1])
 
 # Create a packer, see packers directory for options
 cubic = pyck.CubicPacker(L,r);

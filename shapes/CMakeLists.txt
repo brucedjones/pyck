@@ -31,4 +31,8 @@ add_library(compositeShape compositeShape.cpp)
 target_link_libraries(compositeShape shape boundingBox)
 list(APPEND pyckLibs "compositeShape")
 
+add_library(convexhull2D convexhull2D.cpp)
+target_link_libraries(convexhull2D shape boundingBox)
+list(APPEND pyckLibs "convexhull2D")
+
 set(pyckLibs "${pyckLibs}" PARENT_SCOPE)

@@ -80,16 +80,8 @@
 }
 
 %include "std_vector.i"
-
-%typemap(out) std::vector<double> {
-  int i;
-  $result = PyList_New(3);
-  for (i = 0; i < 3; i++) {
-    std::vector<double> res = (std::vector<double>)$1;
-    PyObject *o = PyFloat_FromDouble(res[i]);
-    PyList_SetItem($result,i,o);
-  }
-}
+%template(vectord) std::vector<double>;
+%template(vectordd) std::vector< std::vector<double> >;
 
 %include pack/cylindricalPacker.i
 %include pack/ellipsoidalPacker.i
@@ -110,6 +102,7 @@
 %include shapes/stlShape.i
 %include shapes/pyShape.i
 %include shapes/compositeShape.i
+%include shapes/convexhull2D.i
 
 %include model.i
 

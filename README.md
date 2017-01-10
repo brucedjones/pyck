@@ -118,6 +118,13 @@ The geometry of a sphere is defined by a centroid, `p1`, and a `radius`.
 ```python
 sphere = pyck.Sphere(tag,[p1x,p2x,p3x],radius);
 ```
+### Convex hull in 2D
+
+The geometry of a convex polygon is defined by n-number (n>2) of vertices in counter-clockwise order.
+
+```python
+convexh = pyck.ConvexHull2D(tag,[[p1x,p1y,p1z],[p2x,p2y,p2z],.....,[pnx,pny,pnz]]);
+```
 
 ### StlShape
 
