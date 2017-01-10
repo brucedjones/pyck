@@ -7,10 +7,9 @@
 class ConvexHull2D: public Shape {
   public:
     /**
-     * Sphere constructor
+     * ConvexHull2D constructor
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
-     * @param c Center of the sphere in cartesian coordinates
-     * @param r Radius of the sphere
+     * @param vp Vertices of the convex hull, a vector of n points each with an x y z coordinate, listed in either clockwise or counter-clockwise order.
      * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
     ConvexHull2D(int state, std::vector<std::vector<double> > vp, bool invert = false);
@@ -24,8 +23,8 @@ class ConvexHull2D: public Shape {
     bool IsInside(double *pt);
 
   private:
-    std::vector<std::vector<double> > vp ;
-    double convexArea;
+    std::vector<std::vector<double> > vp; /**< Vertices which define the convex hull */
+    double convexArea; /**< Area of the convex hull */
    
 };
 

@@ -2,10 +2,8 @@
 #include <vector>
 #include <cmath>
 #include <cstdio>
-//#include <conio.h>
 #include "convexhull2D.h"
 
-//ConvexHull::ConvexHull(int state, double *p1, double *p2, bool invert) : Shape(state,invert)
 ConvexHull2D::ConvexHull2D(int state, std::vector<std::vector<double> > vp, bool invert) : Shape(state, invert)
 {
   this->vp=vp;
@@ -34,12 +32,7 @@ ConvexHull2D::ConvexHull2D(int state, std::vector<std::vector<double> > vp, bool
   
   delete [] p1;
   delete [] p2;
-//  this->boundingBox = new BoundingBox(this->p1,this->p2);
 }
-
-//ConvexHull::~ConvexHull(){
-//  delete [][] this->vp;
-//}
 
 bool ConvexHull2D::IsInside(double *pt)
 {
@@ -47,7 +40,12 @@ bool ConvexHull2D::IsInside(double *pt)
 
   double  TriSum =0.0;
   int j = vp.size() - 1;
-  for (int i=0; i<vp.size(); i++){TriSum += 0.5* fabs((vp[j][0] - pt[0])*(vp[i][1] - vp[j][1]) - (vp[j][0]- vp[i][0])*(pt[1] - vp[j][1])); j=i;}
+  
+  for (int i=0; i<vp.size(); i++){
+    TriSum += 0.5* fabs((vp[j][0] - pt[0])*(vp[i][1] - vp[j][1]) - (vp[j][0]- vp[i][0])*(pt[1] - vp[j][1])); 
+    j=i;
+  }
+
   if(fabs(TriSum - convexArea) > convexArea*1e-15) isInside = false;
 
   return isInside;
