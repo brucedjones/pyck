@@ -61,7 +61,7 @@ In the steps that follow, ensure that the cmake generator is set for your desire
 
 5. Set the build mode to Release, then build.
 
-6. Built files will be placed in build_directory/swig/Release/. Note: currently pyck.py is placed in build_directory/swig/ and should be copied in to build_directory/swig/Release/
+6. Built files will be+ placed in build_directory/swig/Release/. Note: currently pyck.py is placed in build_directory/swig/ and should be copied in to build_directory/swig/Release/
 
 7. To run either,
     * Add build_directory/swig/Release/ to PATH
@@ -79,11 +79,19 @@ In order to use pyck you must import the compiled library. If your python script
 import pyck
 ```
 
-To run a script in a different directory add the correct path manually within the script before importing pyck.
+To run a script in a different directory  you need to add pyck to your python path. This can be done in two ways, noting that pycks python interface is actually compiled in to the swig/ subdirectory.
+
+Option 1 (Preferred), add the path to pyck to the PYTHONPATH environment variable,
+
+```bash
+$ export PYTHONPATH=${PTHONPATH}:/path/to/pyck/swig
+```
+
+Option 2, add the path to pyck within the script before importing pyck.
 
 ```python
 import sys
-sys.path.insert(0, '/path/to/src/bin'); # Set this to the path where pyck is compiled
+sys.path.insert(0, '/path/to/pyck/swig'); # Set this to the path where pyck is compiled
 import pyck       # Pyck library
 ```
 
