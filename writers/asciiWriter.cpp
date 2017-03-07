@@ -27,6 +27,7 @@ void AsciiWriter::Write(std::string fname,
   std::map<std::string, std::string>::iterator it;
   int progress = 1;
   int j = 0;
+  int k = 0;
 
   if(numParticles == 0)
   {
@@ -77,13 +78,21 @@ void AsciiWriter::Write(std::string fname,
     for (long intf=0; intf < intFields.size(); intf++)
     {
       IntField *thisField = intFields[intf];
-      outfile << " " << thisField->data[i];
+      k= thisField->dim * i;
+      for( int l=0; l<thisField->dim; l++)
+      {
+        outfile << " " << thisField->data[k+l];
+      }
     }
 
     for (long intf=0; intf < doubleFields.size(); intf++)
     {
       DoubleField *thisField = doubleFields[intf];
-      outfile << " " << thisField->data[i];
+      k= thisField->dim * i;
+      for( int l=0; l<thisField->dim; l++)
+      {
+        outfile << " " << thisField->data[k+l];
+      }
     }
 
     outfile << std::endl;
