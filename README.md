@@ -28,13 +28,14 @@ Pyck is licensed under the MIT license
 Note: The 'makedoc' script builds documentation and should be carried out prior to building to ensure python docstrings are up-to-date.
 
 ## Mac
-Make uses the default Apple’s C/C++ compiler clang to compile pyck but it does not support OpenMP.
-It is needed to manually modify the CMake script by entering ```ccmake .``` and to eprform the following changes (assuming the gcc version installed is gcc 4.9) :
-CMAKE_C_COMPILER = gcc-mp-4.9
-CMAKE_CXX_COMPILER = g++-mp-4.9
-Swig should be installed either using MacPorts or Homebrew.
-For Macports, the following packages are need : ```swig```, ```swig-python```
-If Swig is installed using MacPorts, install Python 3.x in order to compile and run pyck.
+Instructions are similar to Linux but :
+1. CMake uses the default Apple’s C/C++ compiler clang to compile pyck but it does not support OpenMP.
+	* It is needed to manually modify the CMake script by entering ```ccmake .``` and to perform the following changes (assuming the gcc version installed is gcc 4.9) :
+		* CMAKE_C_COMPILER = gcc-mp-4.9
+		* CMAKE_CXX_COMPILER = g++-mp-4.9
+2. Swig should be installed either using MacPorts or Homebrew.
+	* For Macports, the following packages are need : ```swig```, ```swig-python```
+3. If Swig is installed using MacPorts, install Python 3.x in order to compile and run pyck.
 
 ## Windows
 
