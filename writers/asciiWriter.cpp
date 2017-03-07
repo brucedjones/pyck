@@ -40,6 +40,7 @@ void AsciiWriter::Write(std::string fname,
   if(outfile.is_open()) {
     std::cout << "Writing to output file..." << std::flush;
 
+    outfile <<  "numParticles" << std::endl;
     outfile <<  numParticles << std::endl; // Number of particles
 
     for ( it = parameters.begin(); it != parameters.end(); it++ ) // All the parameters defined int he python script
