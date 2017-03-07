@@ -1334,6 +1334,19 @@ std::string > parameters, double *positions, std::vector< IntField * >
 intFields, std::vector< DoubleField * > doubleFields, int dim, long
 numParticles) ";
 
+// File: classAsciiWriter.xml
+%feature("docstring") AsciiWriter "";
+
+%feature("docstring")  AsciiWriter::AsciiWriter "AsciiWriter::AsciiWriter() ";
+
+%feature("docstring")  AsciiWriter::~AsciiWriter "AsciiWriter::~AsciiWriter() ";
+
+%feature("docstring")  AsciiWriter::Write "void
+AsciiWriter::Write(std::string fname, std::map< std::string,
+std::string > parameters, double *positions, std::vector< IntField * >
+intFields, std::vector< DoubleField * > doubleFields, int dim, long
+numParticles) ";
+
 
 // File: classSphere.xml
 %feature("docstring") Sphere "";
@@ -1754,6 +1767,12 @@ size_t inLen, unsigned char *out, size_t *outLen) ";
 
 
 // File: sparkWriter_8h.xml
+
+
+// File: asciiWriter_8cpp.xml
+
+
+// File: asciiWriter_8h.xml
 
 
 // File: md_license.xml

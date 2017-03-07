@@ -3,6 +3,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
 # Do this for each new writer
 add_library(sparkWriter sparkWriter.cpp)
 target_link_libraries(sparkWriter writer progressBar)
+add_library(asciiWriter asciiWriter.cpp)
+target_link_libraries(asciiWriter writer progressBar)
 
 # Section below is only required for SparkWriter
 find_package( ZLIB REQUIRED )
@@ -13,5 +15,6 @@ if ( ZLIB_FOUND )
     target_link_libraries( sparkWriter ${ZLIB_LIBRARIES} )
 endif( ZLIB_FOUND )
 list(APPEND pyckLibs "sparkWriter")
+list(APPEND pyckLibs "asciiWriter")
 
 set(pyckLibs "${pyckLibs}" PARENT_SCOPE)
