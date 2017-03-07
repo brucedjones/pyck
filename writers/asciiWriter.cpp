@@ -24,7 +24,6 @@ void AsciiWriter::Write(std::string fname,
   long numParticles
   )
 {
-  IntField *state = intFields[0];
   std::map<std::string, std::string>::iterator it;
   int progress = 1;
   int j = 0;
@@ -45,13 +44,48 @@ void AsciiWriter::Write(std::string fname,
 
     for ( it = parameters.begin(); it != parameters.end(); it++ ) // All the parameters defined int he python script
     {
-     outfile <<  it->second << std::endl;
-   }
+      outfile <<  it->first << std::endl;
+      outfile <<  it->second << std::endl;
+    }
+
+    outfile <<  "Position0" << " " << "Position1" << " " << "Position2";
+    for (long intf=0; intf < intFields.size(); intf++)
+    {
+      IntField *thisField = intFields[intf];
+      for( int i=0; i<thisField->dim; i++)
+      {
+        outfile << " " << thisField->name << i;
+      }
+    }
+
+    for (long intf=0; intf < doubleFields.size(); intf++)
+    {
+      DoubleField *thisField = doubleFields[intf];
+      for( int i=0; i<thisField->dim; i++)
+      {
+        outfile << " " << thisField->name << i;
+      }
+    }
+    outfile << std::endl;
 
    for ( int i = 0; i<numParticles; i++ ) // All positions, duplicate this loop to write extra arrays
    {
     j = 3*i;
-    outfile <<  positions[j] << " " << positions[j+1] << " " << positions[j+2] << " " << state->data[i] << std::endl;
+    outfile <<  positions[j] << " " << positions[j+1] << " " << positions[j+2];
+
+    for (long intf=0; intf < intFields.size(); intf++)
+    {
+      IntField *thisField = intFields[intf];
+      outfile << " " << thisField->data[i];
+    }
+
+    for (long intf=0; intf < doubleFields.size(); intf++)
+    {
+      DoubleField *thisField = doubleFields[intf];
+      outfile << " " << thisField->data[i];
+    }
+
+    outfile << std::endl;
   }
 
   outfile.close();
