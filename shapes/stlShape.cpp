@@ -188,16 +188,7 @@ StlShape::StlShape(int state, std::string fname, double *translation, double sca
       if(v3[t*3+i]>p2[i]) p2[i] = v3[t*3+i];
     }
   }
-  std::cout << "this->c[0] = " << this->c[0] <<std::endl;
-  std::cout << "this->c[1] = " << this->c[1] <<std::endl;
-  std::cout << "this->c[2] = " << this->c[2] <<std::endl;
 
-  std::cout << "p1[0] = " << p1[0] <<std::endl;
-  std::cout << "p1[1] = " << p1[1] <<std::endl;
-  std::cout << "p1[2] = " << p1[2] <<std::endl;
-  std::cout << "p2[0] = " << p2[0] <<std::endl;
-  std::cout << "p2[1] = " << p2[1] <<std::endl;
-  std::cout << "p2[2] = " << p2[2] <<std::endl;
   this->boundingBox = new BoundingBox(p1,p2);
 
   this->bins = new FacetBins(p1[0],p1[1],p2[0],p2[1],v1,v2,v3,numFacets);
