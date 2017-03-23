@@ -6,7 +6,7 @@
 #include <math.h>
 #include <cstdlib>
 
-#include "AsciiWriter.h"
+#include "asciiWriter.h"
 #include "../intField.h"
 #include "../doubleField.h"
 #include "../progressBar.h"
