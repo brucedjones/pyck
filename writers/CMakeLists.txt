@@ -5,6 +5,8 @@ add_library(sparkWriter sparkWriter.cpp)
 target_link_libraries(sparkWriter writer progressBar)
 add_library(asciiWriter asciiWriter.cpp)
 target_link_libraries(asciiWriter writer progressBar)
+add_library(verditeWriter verditeWriter.cpp)
+target_link_libraries(verditeWriter writer progressBar)
 
 # Section below is only required for SparkWriter
 find_package( ZLIB REQUIRED )
@@ -16,5 +18,6 @@ if ( ZLIB_FOUND )
 endif( ZLIB_FOUND )
 list(APPEND pyckLibs "sparkWriter")
 list(APPEND pyckLibs "asciiWriter")
+list(APPEND pyckLibs "verditeWriter")
 
 set(pyckLibs "${pyckLibs}" PARENT_SCOPE)

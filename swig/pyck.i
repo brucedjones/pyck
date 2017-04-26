@@ -109,3 +109,4 @@
 // Add an interface file for each new writer, see existing writers for reference
 %include writers/sparkWriter.i
 %include writers/asciiWriter.i
+%include writers/verditeWriter.i
