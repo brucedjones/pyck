@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <iomanip>
 
-#include "VerditeWriter.h"
+#include "verditeWriter.h"
 #include "../intField.h"
 #include "../doubleField.h"
 #include "../progressBar.h"
@@ -61,7 +61,7 @@ void VerditeWriter::Write(std::string fname,
    {
     j = 3*i;
     outfile <<  positions[j] << " " << positions[j+1] << " " << positions[j+2] << std::endl;
-
+   }	
 
     outfile <<  "POINT_DATA " << numParticles << std::endl;
 
@@ -110,20 +110,19 @@ void VerditeWriter::Write(std::string fname,
   std::string fname_par = fname.substr(0, fname.find(".", 0));
   fname_par = fname_par + ".par";
 
-  std::ofstream outfile((char*)fname_par.c_str(), std::ios::out);
-  if(outfile.is_open()) 
+  std::ofstream outfile2((char*)fname_par.c_str(), std::ios::out);
+  if(outfile2.is_open()) 
   {
 
-    outfile <<  "numParticles=" << numParticles << std::endl; // Number of particles
+    outfile2 <<  "numParticles=" << numParticles << std::endl; // Number of particles
 
     for ( it = parameters.begin(); it != parameters.end(); it++ ) // All the parameters defined int he python script
     {
-      outfile <<  it->first << "=" << space2comma(it->second) << std::endl;
+      outfile2 <<  it->first << "=" << space2comma(it->second) << std::endl;
     }
 
-    outfile.close();
+    outfile2.close();
   }
 
   pb.Finish();
-}
 }
