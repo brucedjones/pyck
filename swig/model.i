@@ -33,9 +33,15 @@ class Model {
 
     void SetIntField(int handle, int state, int *iprop);
 
+    %rename SetIntField SetIntFieldCallback;
+    void SetIntField(int handle, int state, PyObject *PyFunc);
+
     IntField *GetIntField(int handle);
 
     void SetDoubleField(int handle, int state, double *dprop);
+
+    %rename SetDoubleField SetDoubleFieldCallback;
+    void SetDoubleField(int handle, int state, PyObject *PyFunc);
 
     DoubleField *GetDoubleField(int handle);
 

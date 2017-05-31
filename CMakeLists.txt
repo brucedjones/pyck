@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project (pyck)
 
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+
 set(pyckLibs "")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
 

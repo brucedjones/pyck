@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <vector>
+#include <Python.h>
 
 #include "pack.h"
 #include "writer.h"
@@ -67,10 +68,18 @@ class Model {
     /**
      * Set the values of an integer field
      * @param handle Handle of the field to be set
-     * @param state  particle state for which these values will be applioed
+     * @param state  particle state for which these values will be applied
      * @param val    Array of length equal to the dimensionality of the field
      */
     void SetIntField(int handle, int state, int *val);
+    
+    /**
+     * Set the values of an integer field
+     * @param handle Handle of the field to be set
+     * @param state  particle state for which these values will be applied
+     * @param PyFunc Python callback used to determine the value of the field for any given particle. Callback takes an array indicating xyz position, and returns the value of the field at this position.
+     */
+    void SetIntField(int handle, int state, PyObject *PyFunc);
 
     /**
      * Get a pointer to a DoubleField
@@ -81,10 +90,18 @@ class Model {
     /**
      * Set the values of an float field
      * @param handle Handle of the field to be set
-     * @param state  particle state for which these values will be applioed
+     * @param state  particle state for which these values will be applied
      * @param val    Array of length equal to the dimensionality of the field
      */
     void SetDoubleField(int handle, int state, double *val);
+    
+    /**
+     * Set the values of a float field
+     * @param handle Handle of the field to be set
+     * @param state  particle state for which these values will be applied
+     * @param PyFunc Python callback used to determine the value of the field for any given particle. Callback takes an array indicating xyz position, and returns the value of the field at this position.
+     */
+    void SetDoubleField(int handle, int state, PyObject *PyFunc);
 
     /**
      * Get a pointer to a DoubleField
@@ -134,7 +151,8 @@ class Model {
     std::vector<DoubleField*> doubleFields; /**< Vector of double fields */
     std::map<std::string, std::string> parameters; /**< Map of parameters */
 
-
+    template<typename T>
+    int Process_Python_Result(PyObject* incoming, std::vector<T> *data);
 };
 
 #endif

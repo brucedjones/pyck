@@ -2,6 +2,14 @@
 
 %include doc.i
 
+%typemap(in) PyObject *PyFunc {
+  if (!PyCallable_Check($input)) {
+      PyErr_SetString(PyExc_TypeError, "Need a callable object!");
+      return NULL;
+  }
+  $1 = $input;
+}
+
 %typemap(in) (double *xyz) {
  int i;
  if (!PySequence_Check($input)) {

@@ -308,6 +308,16 @@ model.SetDoubleField(someDoubleField,tag,value);
 
 Where the first argument is the handle to the field created with the CreateField functions, `tag` corresponds to the particle tags applied during shape mapping, and `value` is the value of the property to be applied. For non-scalar values, an array may be specified.
 
+#### Field callbacks
+A common requirement is for the value of a field to vary with position. To do this with pyck we use a python callback such as,
+
+```python
+def fieldCallback(x, y, z):
+    return [x/10, y*50, 0]
+```
+
+The callback is then applied with `model.SetIntField(someDoubleField,tag,fieldCallback);` or`model.SetDoubleField(someDoubleField,tag,fieldCallback);`. When using field callbacks, the callback must always take 3 arguments which indicate the x y and z positions, for a 2D pack z will be zero but is still required. The callback should return either single value or a vector of values, when the number of values returned is equal to the dimensionality of the field being set.
+
 ## Writing the output file
 
 Once all parameters and field have been specified, the model is now ready to be written to a file. Currently only one format is supported, which is the format used within MIT Geonumerics, for other formats a new class deriving from the abstract writer class must be implemented. See sparkWriter.h/cpp for reference.

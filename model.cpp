@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
+#include <Python.h>
 
 #include "model.h"
 #include "writer.h"
@@ -165,6 +166,48 @@ void Model::SetIntField(int handle, int state, int *val)
   }
 }
 
+void Model::SetIntField(int handle, int state, PyObject *PyFunc)
+{
+  IntField *thisField = intFields[handle];
+  int fieldDim = thisField->dim;
+
+  Py_XINCREF(PyFunc);
+  PyObject *func, *arglist;
+  PyObject *result;
+  std::vector<int> cResult;
+  double pt[3];
+  for(long i=0; i<numParticles; i++)
+  {
+    if(states[i] == state)
+    {
+      pt[0] = positions[0+i*3];
+      pt[1] = positions[1+i*3];
+      pt[2] = positions[2+i*3];
+
+      arglist = Py_BuildValue("(ddd)",pt[0],pt[1],pt[2]);
+      result =  PyEval_CallObject(PyFunc, arglist);
+
+      if(result == NULL) { std::cout << "Error in field callback" << std::endl; break; }
+
+      int success = Process_Python_Result<int>(result, &cResult);
+      if(!success) { std::cout << "Error: Non-numeric data returned from field callback" << std::endl; break; }
+      if(cResult.size() != fieldDim) { std::cout << "Error: Data returned from field callback has different dimensions to field" << std::endl; break; }
+      
+      for(int d=0; d<fieldDim; d++)
+      {
+        long idx = d+i*fieldDim;
+        thisField->data[idx] = cResult[d];
+      }
+
+      cResult.clear();
+      
+      Py_DECREF(arglist);
+      Py_XDECREF(result);
+    }
+  }
+  Py_XDECREF(PyFunc);
+}
+
 IntField *Model::GetIntField(int handle)
 {
   return intFields[handle];
@@ -188,6 +231,49 @@ void Model::SetDoubleField(int handle, int state, double *val)
   }
 }
 
+void Model::SetDoubleField(int handle, int state, PyObject *PyFunc)
+{
+  DoubleField *thisField = doubleFields[handle];
+  int fieldDim = thisField->dim;
+
+  Py_XINCREF(PyFunc);
+  PyObject *func, *arglist;
+  PyObject *result;
+  std::vector<double> cResult;
+  double pt[3];
+
+  for(long i=0; i<numParticles; i++)
+  {
+    if(states[i] == state)
+    {
+      pt[0] = positions[0+i*3];
+      pt[1] = positions[1+i*3];
+      pt[2] = positions[2+i*3];
+
+      arglist = Py_BuildValue("(ddd)",pt[0],pt[1],pt[2]);
+      result =  PyEval_CallObject(PyFunc, arglist);
+
+      if(result == NULL) { std::cout << "Error in field callback" << std::endl; break; }
+
+      int success = Process_Python_Result<double>(result, &cResult);
+      if(!success) { std::cout << "Error: Non-numeric data returned from field callback" << std::endl; break; }
+      if(cResult.size() != fieldDim) { std::cout << "Error: Data returned from field callback has different dimensions to field" << std::endl; break; }
+      
+      for(int d=0; d<fieldDim; d++)
+      {
+        long idx = d+i*fieldDim;
+        thisField->data[idx] = cResult[d];
+      }
+
+      cResult.clear();
+
+      Py_DECREF(arglist);
+      Py_XDECREF(result);
+    }
+  }
+
+  Py_XDECREF(PyFunc);
+}
 
 DoubleField *Model::GetDoubleField(int handle)
 {
@@ -221,4 +307,28 @@ std::vector<double> Model::ReadMultipleDoubleParameter(std::string key, int n)
     for (int i=0; i<n; i++) {stream>>values[i];}
 
     return values;
+}
+
+template<typename T>
+int  Model::Process_Python_Result(PyObject* incoming, std::vector<T> *data) {
+  bool failure = false;
+	if (PyTuple_Check(incoming)) {
+		for(Py_ssize_t i = 0; i < PyTuple_Size(incoming); i++) {
+			PyObject *value = PyTuple_GetItem(incoming, i);
+			if(PyFloat_Check(value)) data->push_back((T)PyFloat_AsDouble(value));
+      else failure = true;
+		}
+	} else if (PyList_Check(incoming)) {
+			for(Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
+				PyObject *value = PyList_GetItem(incoming, i);
+			  if(PyFloat_Check(value)) data->push_back((T)PyFloat_AsDouble(value));
+        else failure = true;
+			}
+	} else if(PyFloat_Check(incoming))
+  {
+    data->push_back( (T)PyFloat_AsDouble(incoming) );
+  } else failure = true;
+
+  if(failure) return 0;
+  return 1;
 }

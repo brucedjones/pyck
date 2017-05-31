@@ -21,8 +21,6 @@ add_library(stlShape stlShape.cpp)
 target_link_libraries(stlShape shape boundingBox)
 list(APPEND pyckLibs "stlShape")
 
-FIND_PACKAGE(PythonLibs)
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 add_library(pyShape pyShape.cpp)
 target_link_libraries(pyShape shape boundingBox)
 list(APPEND pyckLibs "pyShape")
