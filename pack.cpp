@@ -24,6 +24,11 @@ long Pack::GetNumParticles()
   return numParticles;
 }
 
+double * Pack::GetPositions()
+{
+  return positions;
+}
+
 long Pack::GetNumParticlesByState(int state)
 {
   long n = 0;

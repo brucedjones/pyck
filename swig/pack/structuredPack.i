@@ -10,6 +10,7 @@ class StructuredPack : Pack {
     void AddShape(Shape *shape);
     void Process();
     long GetNumParticles();
+    double * GetPositions();
     long GetNumParticlesByState(int state);
     std::vector<double> GetClosestParticlePosition(double *xyz);
 };

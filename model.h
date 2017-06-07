@@ -88,6 +88,16 @@ class Model {
     IntField *GetIntField(int handle);
 
     /**
+    * Get the xyz position of a particle
+    */
+    double *GetPositions();
+
+    /**
+
+    */
+    int GetNumberParticles();
+
+    /**
      * Set the values of an float field
      * @param handle Handle of the field to be set
      * @param state  particle state for which these values will be applied
