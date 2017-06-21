@@ -103,6 +103,7 @@ import pyck       # Pyck library
 ```
 
 ## Creating a domain
+### Packers
 To create a domain to packed with a structured packing configuration a packer must first be defined reflecting the desired packing configuration. Options are as follows,
 
 ```python
@@ -115,14 +116,6 @@ hexagonalClosePack2d  = pyck.Hcp2dPacker([Lx,Ly,0],minSeparation);
 
 In which `Lx`, `Ly`, and `Lz`, are the domain lengths in the x, y, and z directions respectively. `minSeparation` is the minimum separation distance between particles. To pack a 2D domain, simply set `Lz` to 0. Note: the only packing configurations that make sense in 2D are Cubic and Hexagonal Close Packing.
 
-Packers can be used to compute an approximate particle volume, for example,
-
-```python
-particleVolume = cubic.GetParticleVolume();
-```
-
-This approximation is computed as the domain volume / number of particles.
-
 With a packer defined, the domain is initialized with the following,
 
 ```python
@@ -131,7 +124,35 @@ pack = pyck.StructuredPack(cubic);
 
 Take care to create the packer separately to the StructuredPack object. If the Packer is dynamically created within the constructor argument of structed pack (eg. `StructuredPack(pyck.CubicPacker([Lx,Ly,Lz],radius)`) pyck will crash. This is because the python garbage collects the CubicPacker as soon as the StructuredPack constructor returns.
 
-### Periodic Domains
+#### Particle Volume
+Packers can be used to compute an approximate particle volume, for example,
+
+```python
+particleVolume = cubic.GetParticleVolume();
+```
+
+This approximation is computed as the domain volume / number of particles.
+
+#### Rotating the pack
+Packers which use a hexagonal packing configuration can have their orientation rotated. To rotate the pack 90 degrees add a boolean `True` flag as the last option to the packer construction. For example,
+
+```python
+hexagonalClosePack = pyck.HcpPacker([Lx,Ly,Lz],minSeparation,True);
+```
+
+#### Offsetting the domain
+By default pyck will pack a domain from 0 to L in each direction, so the lower left corner of the domain will always be (0,0,0). In some cases it is desireable to move the domain by some amount. To do this an offset vector may be specified in the packer constructor such as,
+
+```python
+cubic = pyck.CubicPacker([Lx,Ly,Lz],minSeparation,[Ox,Oy,Oz]);
+```
+The offset vector is always the last argument in the packer constructor. If using the offset vector with a packer which supports packing rotation, such as HcpPacker, the optional boolean flag is now manadatory and must be set as either `True` or `False` for the offset to be correctly applied. For instance,
+
+```python
+hexagonalClosePack = pyck.HcpPacker([Lx,Ly,Lz],minSeparation,False,[Ox,Oy,Oz]);
+```
+
+#### Periodic Domains
 All packers pack in a periodic fashion. That is, if the domain is fully filled with particles, the domain boundaries will be periodic. However to ensure periodicity in a model, the domain extent must be correctly specified so that the distance between particles accross the boundary is correct. For a packer created for a domain of size, `L`, the periodic domain size, `Lp` is returned by the `GetPeriodicExtent()` function so that,
 
 ```python
