@@ -43,10 +43,13 @@ void HcpPacker::IDX2Pos(long i, long j, long k, double *posOut)
     posOut[1] = (dx/2.0)*2.0*sqrt(6.0)*(double)(j)/3.0;
     posOut[2] = (dx/2.0)*2.0*(double)(k+(j+i)%2);
   }
+  
+  ApplyOffset(posOut);
 }
 
 void HcpPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
+  RemoveOffset(posIn);
   double i,j,k;
 
   if(!rotate90){

@@ -23,10 +23,12 @@ void CubicPacker::IDX2Pos(long i, long j, long k, double *posOut)
   posOut[0] = (double)i*dx;
   posOut[1] = (double)j*dx;
   posOut[2] = (double)k*dx;
+  ApplyOffset(posOut);
 }
 
 void CubicPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
+  RemoveOffset(posIn);
   double i,j,k;
   i = posIn[0]/dx;
   j = posIn[1]/dx;

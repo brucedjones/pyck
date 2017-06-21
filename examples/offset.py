@@ -1,7 +1,7 @@
 import pyck
 
 L = [10.0, 10.0, 0.0]
-offset = [0.2, 0.1, 0.0]
+offset = [100.0, 50.0, 0.0]
 r = 0.1
 
 # Create a packer, see packers directory for options
@@ -13,8 +13,8 @@ pack = pyck.StructuredPack(cubic)
 # Create some shapes, see shapes directory for options and reference
 # First argument is always a tag for these particles
 # Mapping operations are applied sequentially
-cube = pyck.Cuboid(1, [2, 2, -1], [6, 6, 1])
-sphere = pyck.Sphere(2, [2, 2, 2], 5)
+cube = pyck.Cuboid(1, [102, 52, -1], [106, 56, 1])
+sphere = pyck.Sphere(2, [102, 52, 2], 5)
 
 # Map the shapes and generate the pack
 # As with creating the cubic packer, do not create the shapes within the

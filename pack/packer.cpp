@@ -1,19 +1,23 @@
 #include "packer.h"
 
-#include <iostream>
-
 Packer::Packer(double *len, double *offset)
 {
     for(int i=0;i<3;i++) lend[i] = len[i];
-    if(offset != nullptr) {
-        for(int i=0;i<3;i++) {
-            this->offset[i] = offset[i];
-            std::cout << this->offset[i] << std::endl;
-        }
-    }
+    if(offset != nullptr) for(int i=0;i<3;i++) this->offset[i] = offset[i];
+    else for(int i=0;i<3;i++) this->offset[i] = 0.0;
 }
 
 Packer::~Packer(){}
+
+void Packer::ApplyOffset(double *coord)
+{
+    for(int i=0;i<3;i++) coord[i] += offset[i];
+}
+
+void Packer::RemoveOffset(double *coord)
+{
+    for(int i=0;i<3;i++) coord[i] -= offset[i];
+}
 
 double Packer::GetParticleVolume()
 {

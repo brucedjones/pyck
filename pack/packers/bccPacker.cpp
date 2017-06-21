@@ -24,10 +24,12 @@ void BccPacker::IDX2Pos(long i, long j, long k, double *posOut)
     posOut[0] = (double)i*dx+(double)(k%2)*dx/2;
     posOut[1] = (double)j*dx+(double)(k%2)*dx/2;
     posOut[2] = (double)k*dx/2;
+    ApplyOffset(posOut);
 }
 
 void BccPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
+  RemoveOffset(posIn);
   double i,j,k;
   i = posIn[0]/dx;
   j = posIn[1]/dx;

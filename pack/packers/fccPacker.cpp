@@ -32,10 +32,13 @@ void FccPacker::IDX2Pos(long i, long j, long k, double *posOut)
     posOut[1] = (double)j*dx/2;
     posOut[2] = (double)k*dx/2;
   }
+  
+  ApplyOffset(posOut);
 }
 
 void FccPacker::Pos2IDX(double *posIn, long *idxOut, bool doFloor)
 {
+  RemoveOffset(posIn);
   double i,j,k;
   i = posIn[0]/dx;
   j = 2*posIn[1]/dx;

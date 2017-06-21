@@ -41,13 +41,13 @@ class Packer {
      * Applies the packers offset to a set of coordinates
      * @param Coordinates to apply the offset to
      */
-    //void ApplyOffset(double *coord);
+    void ApplyOffset(double *coord);
 
     /**
      * Removes the packers offset to a set of coordinates
      * @param Coordinates to remove the offset from
      */
-    //void RemoveOffset(double *coord);
+    void RemoveOffset(double *coord);
 
     /**
      * Get particle volume
