@@ -42,6 +42,7 @@ class Pack {
     */
     long GetNumParticlesByState(int state);
 
+    double * GetPositions();
     double *positions; /**< Array containing all packed particle positions */
     int *states; /**< Array containing all packed particle states */
     long numParticles; /**< The number of particles packed in this pack */

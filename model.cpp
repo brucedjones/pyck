@@ -280,6 +280,14 @@ DoubleField *Model::GetDoubleField(int handle)
   return doubleFields[handle];
 }
 
+int Model::GetNumberParticles(){
+  return (int)this->numParticles;
+  }
+
+double* Model::GetPositions(){
+  return positions;
+}
+
 void Model::SetParameter(std::string key, std::string value)
 {
   parameters[key] = value;
