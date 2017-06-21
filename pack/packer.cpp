@@ -1,8 +1,16 @@
 #include "packer.h"
 
-Packer::Packer(double *len)
+#include <iostream>
+
+Packer::Packer(double *len, double *offset)
 {
     for(int i=0;i<3;i++) lend[i] = len[i];
+    if(offset != nullptr) {
+        for(int i=0;i<3;i++) {
+            this->offset[i] = offset[i];
+            std::cout << this->offset[i] << std::endl;
+        }
+    }
 }
 
 Packer::~Packer(){}

@@ -6,6 +6,7 @@ INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
 set(pyckLibs "")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 add_subdirectory(pack)
 add_subdirectory(shapes)

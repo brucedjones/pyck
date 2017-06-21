@@ -7,7 +7,7 @@
 class HcpPacker : public Packer {
 
   public:
-    HcpPacker(double *xyz, double h, bool rotate90=false);
+    HcpPacker(double *xyz, double h, bool rotate90=false, double *xyz=nullptr);
     std::vector<double> GetPeriodicExtent();
     double GetParticleVolume();
 };

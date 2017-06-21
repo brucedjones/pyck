@@ -91,7 +91,7 @@ To run a script in a different directory  you need to add pyck to your python pa
 Option 1 (Preferred), add the path to pyck to the PYTHONPATH environment variable,
 
 ```bash
-$ export PYTHONPATH=${PTHONPATH}:/path/to/pyck/swig
+$ export PYTHONPATH=${PYTHONPATH}:/path/to/pyck/swig
 ```
 
 Option 2, add the path to pyck within the script before importing pyck.
