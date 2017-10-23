@@ -63,5 +63,53 @@ target_link_libraries(model pack writer)
 # Do this for each new writer
 #target_link_libraries(pyckcpp ${pyckLibs})
 
+set(CPACK_PACKAGE_VERSION "0.0.1")
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_VERSION_PATCH "1")
+set(CPACK_PACKAGE_VENDOR "MIT Geonumerics")
+
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE.txt")
+
+option(USE_WIX_TOOLSET "USe WIX" true)
+
+if (WIN32)
+    if (USE_WIX_TOOLSET)
+        set(CPACK_GENERATOR "WIX") # this need WiX Tooset installed and a path to candle.exe
+        set(CPACK_WIX_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/install/windows/pyck.template.in")
+        SET(CPACK_WIX_PRODUCT_GUID 7EC919B7-6484-49BF-8803-614CEBB4154A)
+        SET(CPACK_WIX_UPGRADE_GUID 7EC919B7-6484-49BF-8803-614CEBB4154A)
+        # SET(CPACK_WIX_PRODUCT_ICON ../rsc/app.ico)
+        SET(CPACK_WIX_UI_BANNER  "${CMAKE_CURRENT_SOURCE_DIR}/install/windows/banner_493x58.bmp")
+        SET(CPACK_WIX_UI_DIALOG  "${CMAKE_CURRENT_SOURCE_DIR}/install/windows/dialog_493x312.bmp")
+    else ()
+        set(CPACK_GENERATOR "NSIS") # this needs NSIS installed, and available
+    endif ()
+    set(CPACK_SOURCE_GENERATOR "ZIP")
+    set(INSTALL_DEST .)
+elseif ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
+    set(CPACK_GENERATOR "PackageMake")
+else ()
+  set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/usr/local")
+  set(INSTALL_DEST local/pyck)
+  install(TARGETS solver DESTINATION ${INSTALL_DEST})
+  install(FILES ${CMAKE_SOURCE_DIR}/install/unix/set_pyck_env.sh DESTINATION ${INSTALL_DEST})
+    
+  option(BUILD_RPM "Builds an RPM instead of a DEB" OFF)
+  if(BUILD_RPM)
+    set(CPACK_RPM_PACKAGE_AUTOREQ OFF) # should probably use CPACK_RPM_PACKAGE_CONFLICTS instead
+    set(CPACK_GENERATOR "RPM")
+  else()
+    set(CPACK_GENERATOR "DEB")
+    set(CPACK_SOURCE_GENERATOR "TGZ")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Bruce Jones") #required
+  endif()
+endif ()
+
+# INSTALL(TARGETS ${SWIG_MODULE_swig_test_REAL_NAME} DESTINATION test)
+install(FILES ${CMAKE_BINARY_DIR}/swig/pyck.py DESTINATION ${INSTALL_DEST})
+install(FILES ${ZLIB_LIBRARY_RELEASE} DESTINATION ${INSTALL_DEST})
 
 add_subdirectory(swig)
+
+include(CPack)
