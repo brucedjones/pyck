@@ -92,7 +92,7 @@ elseif ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
 else ()
   set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/usr/local")
   set(INSTALL_DEST local/pyck)
-  install(TARGETS solver DESTINATION ${INSTALL_DEST})
+  # install(TARGETS solver DESTINATION ${INSTALL_DEST})
   install(FILES ${CMAKE_SOURCE_DIR}/install/unix/set_pyck_env.sh DESTINATION ${INSTALL_DEST})
     
   option(BUILD_RPM "Builds an RPM instead of a DEB" OFF)
