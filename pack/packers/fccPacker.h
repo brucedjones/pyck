@@ -14,7 +14,7 @@ class FccPacker: public Packer {
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
      * @param h Minimum particle separation
      */
-    FccPacker(double *doubleLenIn, double h, double *offset=nullptr);
+    FccPacker(double *doubleLenIn, double h, double *offset=NULL);
     ~FccPacker();
 
     /**

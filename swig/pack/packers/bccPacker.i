@@ -7,7 +7,7 @@
 class BccPacker : public Packer {
 
   public:
-    BccPacker(double *xyz, double h, double *xyz=nullptr);
+    BccPacker(double *xyz, double h, double *xyz=NULL);
     std::vector<double> GetPeriodicExtent();
     double GetParticleVolume();
 };

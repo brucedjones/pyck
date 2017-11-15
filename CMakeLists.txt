@@ -71,7 +71,7 @@ set(CPACK_PACKAGE_VENDOR "MIT Geonumerics")
 
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE.txt")
 
-option(USE_WIX_TOOLSET "USe WIX" true)
+option(USE_WIX_TOOLSET "Use WIX" true)
 
 if (WIN32)
     if (USE_WIX_TOOLSET)

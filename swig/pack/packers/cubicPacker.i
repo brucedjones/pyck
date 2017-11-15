@@ -7,7 +7,7 @@
 class CubicPacker : public Packer {
 
   public:
-    CubicPacker(double *xyz, double h, double *xyz=nullptr);
+    CubicPacker(double *xyz, double h, double *xyz=NULL);
     std::vector<double> GetPeriodicExtent();
     double GetParticleVolume();
 };
