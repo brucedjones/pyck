@@ -11,7 +11,7 @@ class Packer {
      * @param len Size of the domain in Cartesian coordinate system
      * @param offset Vector used to shift the particles in this pack
      */
-    Packer(double *len, double *offset=NULL);
+    Packer(std::vector<double> len, std::vector<double> offset=std::vector<double>());
     ~Packer();
 
     /**

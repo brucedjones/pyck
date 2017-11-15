@@ -3,31 +3,27 @@
 #include <math.h>
 #include <algorithm>
 
-TriPrism::TriPrism(int state, double *pt1, double *pt2, double *pt3, double l, bool invert) : Shape(state,invert)
+TriPrism::TriPrism(int state, std::vector<double> pt1, std::vector<double> pt2, std::vector<double> pt3, double l, bool invert) : Shape(state,invert)
 {
 
   this->l   = l;
-  this->pt1 = new double[3];
-  this->pt2 =new double[3];
-  this->pt3 = new double[3];
-  this->pt1[0] = pt1[0]; this->pt1[1] = pt1[1]; this->pt1[2] = pt1[2];
-  this->pt2[0] = pt2[0]; this->pt2[1] = pt2[1]; this->pt2[2] = pt2[2];
-  this->pt3[0] = pt3[0]; this->pt3[1] = pt3[1]; this->pt3[2] = pt3[2];
+  this->pt1 = pt1;
+  this->pt2 = pt2;
+  this->pt3 = pt3;
 
-  double *p1 = new double[3];
-  double *p2 = new double[3];
+  std::vector<double> p1(3);
+  std::vector<double> p2(3);
 
-  p1[0] = std::min(pt1[0],std::min(pt2[0],pt3[0])); p1[1]=std::min(pt1[1],std::min(pt2[1],pt3[1])); p1[2]=std::min(pt1[2],std::min(pt2[2],pt3[2]));
-  p2[0] = std::max(pt1[0],std::max(pt2[0],pt3[0])); p2[1]=std::max(pt1[1],std::max(pt2[1],pt3[1])); p2[2]=p1[2]+l;
+  if(pt1.size() != pt2.size() && pt1.size() != pt3.size()) std::cout << "Error: Inconsistent dimensions specified for Triangular Prism" << std::endl;
+  else {
+    for(size_t i=0; i<pt1.size();i++) p1[i] = std::min(pt1[i],std::min(pt2[i],pt3[i]));
+    for(size_t i=0; i<pt1.size();i++) p2[i] = std::max(pt1[i],std::max(pt2[i],pt3[i]));
+  }
 
-  this->boundingBox = new BoundingBox(p1,p2);
+  this->boundingBox = new BoundingBox(p1.data(),p2.data());
 }
 
-TriPrism::~TriPrism(){
- delete [] pt1;
- delete [] pt2;
- delete [] pt3;
-}
+TriPrism::~TriPrism(){}
 
 bool TriPrism::IsInside(double *pt)
 {

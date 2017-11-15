@@ -14,7 +14,7 @@ class HcpPacker: public Packer {
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
      * @param h Minimum particle separation
      */
-    HcpPacker(double *doubleLenIn, double h, bool rotate90=false, double *offset=NULL);
+    HcpPacker(std::vector<double> doubleLenIn, double h, bool rotate90=false, std::vector<double> offset=std::vector<double>());
     ~HcpPacker();
 
     /**

@@ -14,7 +14,7 @@ class CubicPacker: public Packer {
      * @param doubleLenIn Size of the domain in Cartesian coordinate system
      * @param h Minimum particle separation
      */
-    CubicPacker(double *doubleLenIn, double h, double *offset=NULL);
+    CubicPacker(std::vector<double> doubleLenIn, double h, std::vector<double> offset=std::vector<double>());
     ~CubicPacker();
 
     /**

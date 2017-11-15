@@ -7,7 +7,7 @@
 class CubicPacker : public Packer {
 
   public:
-    CubicPacker(double *xyz, double h, double *xyz=NULL);
+    CubicPacker(std::vector<double> doubleLenIn, double h, std::vector<double> offset=std::vector<double>());
     std::vector<double> GetPeriodicExtent();
     double GetParticleVolume();
 };

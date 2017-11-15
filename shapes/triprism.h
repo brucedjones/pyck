@@ -1,6 +1,8 @@
 #ifndef TRIPRISM_H
 #define TRIPRISM_H
+
 #include "../shape.h"
+#include <vector>
 
 class TriPrism: public Shape {
   public:
@@ -20,7 +22,7 @@ class TriPrism: public Shape {
         //     ||      ||              ||      ||
         // pt3||||||||||||pt2_________||||||||||||
      */
-    TriPrism(int state, double *pt1, double *pt2, double *pt3, double l, bool invert=false);
+    TriPrism(int state, std::vector<double> pt1, std::vector<double> pt2, std::vector<double> pt3, double l, bool invert=false);
     ~TriPrism();
 
     /**
@@ -31,9 +33,9 @@ class TriPrism: public Shape {
     bool IsInside(double *pt);
 
   private:
-    double *pt1; /**< Point 1 of the triprism in cartesian coordinates */
-    double *pt2; /**< Point 2 of the triprism in cartesian coordinates */
-    double *pt3; /**< Point 3 of the triprism in cartesian coordinates */
+    std::vector<double> pt1; /**< Point 1 of the triprism in cartesian coordinates */
+    std::vector<double> pt2; /**< Point 2 of the triprism in cartesian coordinates */
+    std::vector<double> pt3; /**< Point 3 of the triprism in cartesian coordinates */
     double l; /**< Length of the triprism */
 };
 

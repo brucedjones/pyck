@@ -4,7 +4,7 @@
 
 #include <vector>
 
-FccPacker::FccPacker(double *doubleLenIn, double h, double *offset) : Packer(doubleLenIn, offset)
+FccPacker::FccPacker(std::vector<double> doubleLenIn, double h, std::vector<double> offset) : Packer(doubleLenIn, offset)
 {
   h = h/2.0;
   dx = sqrt(8*h*h);

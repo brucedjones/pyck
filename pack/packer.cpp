@@ -1,9 +1,9 @@
 #include "packer.h"
 
-Packer::Packer(double *len, double *offset)
+Packer::Packer(std::vector<double> len, std::vector<double> offset)
 {
     for(int i=0;i<3;i++) lend[i] = len[i];
-    if(offset != NULL) for(int i=0;i<3;i++) this->offset[i] = offset[i];
+    if(offset.size() > 0) for(int i=0;i<offset.size();i++) this->offset[i] = offset[i];
     else for(int i=0;i<3;i++) this->offset[i] = 0.0;
 }
 
