@@ -66,7 +66,7 @@ class Model {
      * @param numParticles Number of particles to add
      * @param dim          Dimensionality of the pack
      */
-    void Model::AddPack(std::vector<double> positions, std::vector<int> states, long numParticles, int dim);
+    void AddPack(std::vector<double> positions, std::vector<int> states, long numParticles, int dim);
     
     /**
      * Create a dim dimensional field of integers
