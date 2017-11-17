@@ -5,7 +5,6 @@
 #include <map>
 #include <math.h>
 #include <cstdlib>
-#include <iomanip>
 
 #include "verditeWriter.h"
 #include "../intField.h"

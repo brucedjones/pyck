@@ -7,5 +7,5 @@
 class Cylinder : public Shape {
 
   public:
-    Cylinder(int state, double *xyz, double r, double *xyz, bool invert=false);
+    Cylinder(int state, std::vector<double> c, double r, std::vector<double> l, bool invert=false);
 };

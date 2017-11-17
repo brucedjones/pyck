@@ -12,7 +12,7 @@ pack = pyck.StructuredPack(cubic)
 # Create some shapes, see shapes directory for options and reference
 # First argument is always a tag for these particles
 # Mapping operations are applied sequentially
-sphere = pyck.Sphere(1, [2, 2, 2], 5)
+sphere = pyck.Sphere(1, [2, 2, 2], 5, True)
 
 # Map the shapes and generate the pack
 # As with creating the cubic packer, do not create the shapes within the

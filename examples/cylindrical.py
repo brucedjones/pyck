@@ -15,7 +15,7 @@ pack = pyck.CylindricalPacker(center, r, ratio_ellipse, h, 5)
 pack.updateStates(center, r - 7 * h + 0.001, ratio_ellipse, 2)
 positions = pack.getPositions()
 states = pack.getStates()
-numParticles = pack.getNumParticles()
+numParticles = pack.GetNumParticles()
 dim = pack.getDim()
 
 model = pyck.Model(positions, states, numParticles, dim)

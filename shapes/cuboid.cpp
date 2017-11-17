@@ -2,20 +2,17 @@
 
 #include "cuboid.h"
 
-Cuboid::Cuboid(int state, double *p1, double *p2, bool invert) : Shape(state,invert)
+#include <vector>
+
+Cuboid::Cuboid(int state, std::vector<double> p1, std::vector<double> p2, bool invert) : Shape(state,invert)
 {
-  this->p1 = new double[3];
-  this->p2 = new double[3];
-  this->p1[0] = p1[0]; this->p1[1] = p1[1]; this->p1[2] = p1[2];
-  this->p2[0] = p2[0]; this->p2[1] = p2[1]; this->p2[2] = p2[2];
+  this->p1 = p1;
+  this->p2 = p2;
 
-  this->boundingBox = new BoundingBox(this->p1,this->p2);
+  this->boundingBox = new BoundingBox(p1.data(),p2.data());
 }
 
-Cuboid::~Cuboid(){
-  delete [] this->p1;
-  delete [] this->p2;
-}
+Cuboid::~Cuboid(){}
 
 bool Cuboid::IsInside(double *pt)
 {

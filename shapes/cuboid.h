@@ -1,6 +1,9 @@
 #ifndef CUBOID_H
 #define CUBOID_H
+
 #include "../shape.h"
+
+#include <vector>
 
 class Cuboid: public Shape {
   public:
@@ -11,7 +14,7 @@ class Cuboid: public Shape {
      * @param p2 Upper-right corner of cuboid in cartesian coordinates
      * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    Cuboid(int state, double *p1, double *p2, bool invert = false);
+    Cuboid(int state, std::vector<double> p1, std::vector<double> p2, bool invert = false);
     ~Cuboid();
 
     /**
@@ -22,8 +25,8 @@ class Cuboid: public Shape {
     bool IsInside(double *pt);
 
   private:
-    double *p1; /**< Lower-left corner of cuboid in cartesian coordinates */
-    double *p2; /**< Upper-right corner of cuboid in cartesian coordinates */
+    std::vector<double> p1; /**< Lower-left corner of cuboid in cartesian coordinates */
+    std::vector<double> p2; /**< Upper-right corner of cuboid in cartesian coordinates */
 };
 
 #endif

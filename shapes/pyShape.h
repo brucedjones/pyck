@@ -3,6 +3,7 @@
 #include "../shape.h"
 
 #include <Python.h>
+#include <vector>
 
 class PyShape: public Shape {
   public:
@@ -14,7 +15,7 @@ class PyShape: public Shape {
      * @param PyFunc Python callback defining the shape. Takes 3 arguments, x, y, and z, coordinates of a point. Returns true if a particle is inside the shape and false otherwise
      * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    PyShape(int state, double *p1, double *p2, PyObject *PyFunc, bool invert=false);
+    PyShape(int state, std::vector<double> p1, std::vector<double> p2, PyObject *PyFunc, bool invert=false);
     ~PyShape();
 
     /**

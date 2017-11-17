@@ -17,7 +17,7 @@ public:
      * @param state Integer representing the state of the created particles
      * @param num_div Double indicating in how many parts the half-circle is divided  (default 3)
      */
-  CylindricalPacker(double *c, double r, double ratio, double h, int state, double num_div = 3.0);
+  CylindricalPacker(std::vector<double> c, double r, double ratio, double h, int state, double num_div = 3.0);
       /**
      * 3D 'Cylindrical' Circular constructor.
      * @param c Array of 3 doubles (x y z) representing the center of the ellipsoidal packing
@@ -28,7 +28,7 @@ public:
      * @param state Integer representing the state of the created particles
      * @param num_div Double indicating in how many parts the half-circle is divided  (default 3)
      */
-  CylindricalPacker(double *c, double r, double ratio, double *l, double h, int state, double num_div = 3.0);
+  CylindricalPacker(std::vector<double> c, double r, double ratio, std::vector<double> l, double h, int state, double num_div = 3.0);
         /**
      * 3D Circular constructor.
      * @param c Array of 3 doubles (x y z) representing the center of the ellipsoidal packing
@@ -39,7 +39,7 @@ public:
      * @param state Integer representing the state of the created particles
      * @param num_div Double indicating in how many parts the half-circle is divided  (default 3)
      */
-  CylindricalPacker(double *c, double r, double ratioY, double ratioZ, double h, int state, double num_div = 3.0);
+  CylindricalPacker(std::vector<double> c, double r, double ratioY, double ratioZ, double h, int state, double num_div = 3.0);
        /**
      * Circular destructor.
      */
@@ -54,7 +54,7 @@ public:
      * @param ratio Double representing the ratio of the ellipse so that the radius along Y is equal to r*ratio
      * @param state Integer representing the state of the created particles
      */
-  void updateStates(double *c, double r,double ratio, int state);
+  void updateStates(std::vector<double> c, double r,double ratio, int state);
         /**
      * 3D Method to update the state of the particles outside a certain radius.
      * @param c Array of 3 doubles (x y z) representing the center of the circular packing
@@ -65,7 +65,7 @@ public:
      * @param ratioZ Double representing the ratio of the ellipse so that the radius along Z is equal to r*ratioZ
      * @param state Integer representing the state of the created particles
      */
-  void updateStates(double *c, double r,double ratioY, double ratioZ, int state);
+  void updateStates(std::vector<double> c, double r,double ratioY, double ratioZ, int state);
     /**
      * Method that return the particles within a shape
      * @param shape Shape object

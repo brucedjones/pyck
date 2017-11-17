@@ -1,6 +1,8 @@
 #ifndef SPHERE_H
 #define SPHERE_H
+
 #include "../shape.h"
+#include<vector>
 
 class Sphere: public Shape {
   public:
@@ -11,7 +13,7 @@ class Sphere: public Shape {
      * @param r Radius of the sphere
      * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    Sphere(int state, double *c, double r, bool invert=false);
+    Sphere(int state, std::vector<double> c, double r, bool invert=false);
     ~Sphere();
 
     /**
@@ -22,7 +24,7 @@ class Sphere: public Shape {
     bool IsInside(double *pt);
 
   private:
-    double *c; /**< Center of the sphere in cartesian coordinates */
+    std::vector<double> c; /**< Center of the sphere in cartesian coordinates */
     double r; /**< Radius of the sphere */
 };
 

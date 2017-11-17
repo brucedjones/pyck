@@ -8,7 +8,7 @@
 
 class FacetBins {
   public:
-    FacetBins(float minX, float minY, float maxX, float maxY, double *v1, double *v2, double *v3, long numFacets);
+    FacetBins(float minX, float minY, float maxX, float maxY,  std::vector<double> &v1, std::vector<double> &v2, std::vector<double> &v3, long numFacets);
     ~FacetBins();
 
     std::vector<long> *GetBin(double *pt);
@@ -33,13 +33,13 @@ class StlShape: public Shape {
      * StlShape constructor
      * @param state State to be applied to particles within this shape. state = 0 will remove particle from output
      * @param fname STL filename
-     * @param translation (Optional) Array of length three representing a translation to be applied to the shape
+     * @param translation (Optional) Vector of length three representing a translation to be applied to the shape
      * @param scale (Optional) Scaling factor to be applied to the STL geometry
-     * @param rot_axis (Optional) Array of length three representing the axis about which to rotate the STL Geometry
+     * @param rot_axis (Optional) Vector of length three representing the axis about which to rotate the STL Geometry
      * @param rot_angle (Optional) Angle (in radians) by which the shape will be rotated about the rotation axis
      * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    StlShape(int state, std::string fname, double *translation=NULL, double scale=1.0, double *rot_axis=NULL, double rot_angle=0.0, bool invert=false);
+    StlShape(int state, std::string fname, std::vector<double> translation = std::vector<double>(), double scale=1.0, std::vector<double> rot_axis = std::vector<double>(), double rot_angle=0.0, bool invert=false);
     ~StlShape();
 
     /**
@@ -50,13 +50,13 @@ class StlShape: public Shape {
     bool IsInside(double *pt);
 
   private:
-    double *c; /**< Center of the stl in cartesian coordinates */
-    double *translation; /**< Translation to apply to the STL */
+    std::vector<double> c; /**< Center of the stl in cartesian coordinates */
+    std::vector<double> translation; /**< Translation to apply to the STL */
     double scale; /**< Scaling factor to be applied to the stl */
-    double *v1; /**< Array of vertex coordinates for vertex 1 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
-    double *v2; /**< Array of vertex coordinates for vertex 2 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
-    double *v3; /**< Array of vertex coordinates for vertex 3 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
-    double *normal; /**< Array of face normals*/
+    std::vector<double> v1; /**< Vector of vertex coordinates for vertex 1 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
+    std::vector<double> v2; /**< Vector of vertex coordinates for vertex 2 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
+    std::vector<double> v3; /**< Vector of vertex coordinates for vertex 3 (x1,y1,z1,x2,y2,z2,...xn,yn,zn) */
+    std::vector<double> normal; /**< Vector of face normals*/
     long numFacets; /**< Number of triangles*/
     FacetBins *bins;
 

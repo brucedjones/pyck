@@ -23,7 +23,7 @@ particle make_particle(double x, double y, double z, int state)
   return p;
 }
 
-CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double h, int state, double num_div)
+CylindricalPacker::CylindricalPacker(std::vector<double> c, double r, double ratio, double h, int state, double num_div)
 {
 
   double halfcircle_number_of_divisions = num_div; // number of divisions of a half circle
@@ -77,7 +77,7 @@ CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double h
   return;
 }
 
-CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double *l, double h, int state, double num_div)
+CylindricalPacker::CylindricalPacker(std::vector<double> c, double r, double ratio, std::vector<double> l, double h, int state, double num_div)
 {
 
   double L = 0.0;
@@ -197,7 +197,7 @@ CylindricalPacker::CylindricalPacker(double *c, double r, double ratio, double *
   return;
 }
 
-CylindricalPacker::CylindricalPacker(double *c, double r, double ratioY, double ratioZ, double h, int state, double num_div)
+CylindricalPacker::CylindricalPacker(std::vector<double> c, double r, double ratioY, double ratioZ, double h, int state, double num_div)
 {
   double halfcircle_number_of_divisions = num_div; // number of divisions of a half circle
 
@@ -272,7 +272,7 @@ CylindricalPacker::~CylindricalPacker()
   delete [] states;
 }
 
-void CylindricalPacker::updateStates(double *c, double r,double ratio, int state)
+void CylindricalPacker::updateStates(std::vector<double> c, double r,double ratio, int state)
 {
   double x,y,z,equation;
   for(long j = 0; j < numParticles; j++)
@@ -288,7 +288,7 @@ void CylindricalPacker::updateStates(double *c, double r,double ratio, int state
 }
 
 
-void CylindricalPacker::updateStates(double *c, double r,double ratioY, double ratioZ, int state)
+void CylindricalPacker::updateStates(std::vector<double> c, double r,double ratioY, double ratioZ, int state)
 {
   double x,y,z,equation;
   for(long j = 0; j < numParticles; j++)

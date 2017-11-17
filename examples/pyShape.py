@@ -8,7 +8,6 @@ speedsound = 1
 density = 1
 shearmodulus = 1
 bulkmodulus = 1
-material = pyck_utils.chromite
 # Create a packer, see packers directory for options
 Hcp = pyck.HcpPacker(domain, h)
 pack = pyck.StructuredPack(Hcp)

@@ -8,23 +8,18 @@
 #include <omp.h>
 #include <algorithm>
 
-StlShape::StlShape(int state, std::string fname, double *translation, double scale, double *rot_axis, double rot_angle, bool invert) : Shape(state,invert)
+StlShape::StlShape(int state, std::string fname, std::vector<double> translation, double scale, std::vector<double> rot_axis, double rot_angle, bool invert) : Shape(state,invert)
 {
   bool translate=false;
-  if(translation!=NULL) translate=true;
+  if(translation.size()>0) translate=true;
 
   bool rescale=false;
   if(scale!=1.0) rescale=true;
 
   bool rotation=false;
-  if(rot_axis!=NULL) rotation=true;
+  if(rot_axis.size()>0) rotation=true;
 
-  this->translation = new double[3];
-  if(translate){
-    this->translation[0] = translation[0];
-    this->translation[1] = translation[1];
-    this->translation[2] = translation[2];
-  }
+  if(translate) this->translation = translation;
 
   if(rescale) this->scale = scale;
 
@@ -41,8 +36,7 @@ StlShape::StlShape(int state, std::string fname, double *translation, double sca
     }
   }
 
-  double center[3];
-  center[0] = 0.0; center[1] = 0.0; center[2] = 0.0;
+  std::vector<double> center(3,0.0);
 
   // Load the STL file
   std::ifstream stlFile(fname.c_str(), std::ios::in | std::ios::binary);
@@ -60,10 +54,10 @@ StlShape::StlShape(int state, std::string fname, double *translation, double sca
     numFacets = (long)*((unsigned int*)buff);
 
     // Allocate arrays
-    normal = new double[numFacets*3];
-    v1 = new double[numFacets*3];
-    v2 = new double[numFacets*3];
-    v3 = new double[numFacets*3];
+    normal.resize(numFacets*3);
+    v1.resize(numFacets*3);
+    v2.resize(numFacets*3);
+    v3.resize(numFacets*3);
 
     // Read normal and vertices
     for (size_t t = 0; t < numFacets; t++) {
@@ -111,11 +105,8 @@ StlShape::StlShape(int state, std::string fname, double *translation, double sca
   stlFile.close();
 
   // Finalize centroid calculation
-  this->c = new double[3];
-  for (size_t i = 0; i < 3; i++) {
-    center[i] = center[i]/(numFacets*3);
-    this->c[i] = center[i];
-  }
+  for (size_t i = 0; i < 3; i++) center[i] = center[i]/(numFacets*3);
+  this->c = center;
 
   // Rotate, Scale, Translate points
   double *quart = new double[4];
@@ -199,12 +190,6 @@ StlShape::StlShape(int state, std::string fname, double *translation, double sca
 }
 
 StlShape::~StlShape(){
-  delete [] c;
-  delete [] translation;
-  delete [] normal;
-  delete [] v1;
-  delete [] v2;
-  delete [] v3;
   delete bins;
 }
 
@@ -247,7 +232,7 @@ bool StlShape::FacetIntersection(double *p, double *p0, double *p1, double *p2, 
   return inside;
 }
 
-FacetBins::FacetBins(float minX, float minY, float maxX, float maxY,  double *v1, double *v2, double *v3, long numFacets)
+FacetBins::FacetBins(float minX, float minY, float maxX, float maxY,  std::vector<double> &v1, std::vector<double> &v2, std::vector<double> &v3, long numFacets)
 {
   this->nx = 10;
   this->ny = 10;

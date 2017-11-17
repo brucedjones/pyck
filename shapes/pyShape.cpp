@@ -1,11 +1,12 @@
 #include "pyShape.h"
 
 #include <Python.h>
+#include <vector>
 
-PyShape::PyShape(int state, double *p1, double *p2, PyObject *PyFunc, bool invert) : Shape(state,invert)
+PyShape::PyShape(int state, std::vector<double> p1, std::vector<double> p2, PyObject *PyFunc, bool invert) : Shape(state,invert)
 {
   this->parallel = false;
-  this->boundingBox = new BoundingBox(p1,p2);
+  this->boundingBox = new BoundingBox(p1.data(),p2.data());
 
   pyCallback = PyFunc;
   Py_XINCREF(pyCallback);

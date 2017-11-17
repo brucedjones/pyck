@@ -15,9 +15,8 @@ pack = pyck.EllipsoidalPacker(center, r, ratio_ellipse, h, 5)
 pack.updateStates(center, r, h, r - 5 * h, ratio_ellipse, 2)
 positions = pack.getPositions()
 states = pack.getStates()
-numParticles = pack.getNumParticles()
+numParticles = pack.GetNumParticles()
 dim = pack.getDim()
-
 model = pyck.Model(positions, states, numParticles, dim)
 
 stateField = model.CreateIntField("State", 1)

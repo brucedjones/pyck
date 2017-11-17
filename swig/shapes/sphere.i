@@ -7,5 +7,5 @@
 class Sphere : public Shape {
 
   public:
-    Sphere(int state, double *xyz, double r, bool invert=false);
+    Sphere(int state, std::vector<double> c, double r, bool invert=false);
 };

@@ -1,24 +1,17 @@
 #include "cylinder.h"
 #include <iostream>
 #include <math.h>
+#include <vector>
 
-Cylinder::Cylinder(int state, double *c, double r, double *l, bool invert) : Shape(state,invert)
+Cylinder::Cylinder(int state, std::vector<double> c, double r, std::vector<double> l, bool invert) : Shape(state,invert)
 {
-  this->c = new double[3];
-  this->l = new double[3];
-
-  this->c[0] = c[0];
-  this->c[1] = c[1];
-  this->c[2] = c[2];
-
-  this->l[0] = l[0];
-  this->l[1] = l[1];
-  this->l[2] = l[2];
+  this->c = c;
+  this->l = l;
 
   this->r = r;
 
-  double *p1 = new double[3];
-  double *p2 = new double[3];
+  std::vector<double> p1(3);
+  std::vector<double> p2(3);
 
   if(l[0] != 0.0 && l[1] == 0.0 && l[2] == 0.0)
   {
@@ -42,16 +35,10 @@ Cylinder::Cylinder(int state, double *c, double r, double *l, bool invert) : Sha
   }
 
 
-  this->boundingBox = new BoundingBox(p1,p2);
-
-  delete [] p1;
-  delete [] p2;
+  this->boundingBox = new BoundingBox(p1.data(),p2.data());
 }
 
-Cylinder::~Cylinder(){
-  delete [] c;
-  delete [] l;
-}
+Cylinder::~Cylinder(){}
 
 bool Cylinder::IsInside(double *pt)
 {

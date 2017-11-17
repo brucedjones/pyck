@@ -1,6 +1,9 @@
 #ifndef CYLINDER_H
 #define CYLINDER_H
+
 #include "../shape.h"
+
+#include <vector>
 
 class Cylinder: public Shape {
   public:
@@ -13,7 +16,7 @@ class Cylinder: public Shape {
      * @param domain Domain in which this shape will be mapped
      * @param invert Inverts the shape to tag particles outside the shape instead of inside
      */
-    Cylinder(int state, double *c, double r, double *l, bool invert=false);
+    Cylinder(int state, std::vector<double> c, double r, std::vector<double> l, bool invert=false);
     ~Cylinder();
 
     /**
@@ -24,9 +27,9 @@ class Cylinder: public Shape {
     bool IsInside(double *pt);
 
   private:
-    double *c; /**< Center of the cylinder in cartesian coordinates */
+    std::vector<double> c; /**< Center of the cylinder in cartesian coordinates */
     double r; /**< Radius of the cylinder */
-    double *l; /**< Length of the cylinder */
+    std::vector<double> l; /**< Length of the cylinder */
 };
 
 #endif

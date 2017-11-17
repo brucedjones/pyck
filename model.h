@@ -29,8 +29,18 @@ class Model {
      * @param positions N x 3 array of positions, third dimension should be 0.0 for 2d
      * @param states N x 1 array of pack states
      * @param numParticles Specifies N particles
+     * @param dim Specifies the dimensionality of the pack
      */
     Model(double *positions, int *states, long numParticles, int dim);
+
+    /**
+     * Model Constructor
+     * @param positions N x 3 array of positions, third dimension should be 0.0 for 2d
+     * @param states N x 1 array of pack states
+     * @param numParticles Specifies N particles
+     * @param dim Specifies the dimensionality of the pack
+     */
+    Model(std::vector<double> positions, std::vector<int> states, long numParticles, int dim);
 
     ~Model();
 
@@ -49,6 +59,15 @@ class Model {
      */
     void AddPack(double *positions, int *states, long numParticles, int dim);
 
+    /**
+     * Append particles to this model
+     * @param positions    Nx3 array of positions (x1,y1,z1,x2,y2,z2,...,xn,yn,zn)
+     * @param states       Length N integer array of states
+     * @param numParticles Number of particles to add
+     * @param dim          Dimensionality of the pack
+     */
+    void Model::AddPack(std::vector<double> positions, std::vector<int> states, long numParticles, int dim);
+    
     /**
      * Create a dim dimensional field of integers
      * @param  name Name of the field
@@ -71,7 +90,15 @@ class Model {
      * @param state  particle state for which these values will be applied
      * @param val    Array of length equal to the dimensionality of the field
      */
-    void SetIntField(int handle, int state, int *val);
+    void SetIntField(int handle, int state, std::vector<int> val);
+    
+    /**
+     * Set the values of an integer field
+     * @param handle Handle of the field to be set
+     * @param state  particle state for which these values will be applied
+     * @param val    Value to set
+     */
+    void SetIntField(int handle, int state, int val);
     
     /**
      * Set the values of an integer field
@@ -101,9 +128,17 @@ class Model {
      * Set the values of an float field
      * @param handle Handle of the field to be set
      * @param state  particle state for which these values will be applied
+     * @param val    Value to set
+     */
+    void SetDoubleField(int handle, int state, double val);
+    
+    /**
+     * Set the values of an float field
+     * @param handle Handle of the field to be set
+     * @param state  particle state for which these values will be applied
      * @param val    Array of length equal to the dimensionality of the field
      */
-    void SetDoubleField(int handle, int state, double *val);
+    void SetDoubleField(int handle, int state, std::vector<double> val);
     
     /**
      * Set the values of a float field

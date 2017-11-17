@@ -322,14 +322,14 @@ int StructuredPack::GetDim()
   return dim;
 }
 
-std::vector<double> StructuredPack::GetClosestParticlePosition(double *pos)
+std::vector<double> StructuredPack::GetClosestParticlePosition(std::vector<double> pos)
 {
   long *p1 = new long[3];
   long *p2 = new long[3];
 
   // Get the ijk range to check against the input pos
-  packer->Pos2IDX(pos, p1, true);
-  packer->Pos2IDX(pos, p2, false);
+  packer->Pos2IDX(pos.data(), p1, true);
+  packer->Pos2IDX(pos.data(), p2, false);
 
   std::vector<double> output(3,0.);
 

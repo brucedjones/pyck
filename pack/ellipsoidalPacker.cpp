@@ -24,7 +24,7 @@ part make_part(double x, double y, double z, int state)
   return p;
 }
 
-EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
+EllipsoidalPacker::EllipsoidalPacker(std::vector<double> c, double r, double ratio,double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
 {
   std::vector<part> p,pfinal,pexclu;
 
@@ -407,7 +407,7 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio,double h,
   return;
 }
 
-EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio, double *l, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
+EllipsoidalPacker::EllipsoidalPacker(std::vector<double> c, double r, double ratio, std::vector<double> l, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
 {
 
   double L = 0.0;
@@ -489,7 +489,7 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratio, double *
   return;
 }
 
-EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratioY, double ratioZ, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
+EllipsoidalPacker::EllipsoidalPacker(std::vector<double> c, double r, double ratioY, double ratioZ, double h, int state, double tolerance_angle, double tolerance_h, bool random_startingpoint, bool adjust_h)
 {
 
   std::vector<part> p;
@@ -514,7 +514,8 @@ EllipsoidalPacker::EllipsoidalPacker(double *c, double r, double ratioY, double 
     ratio = ratioY;
     current_radius = r * sqrt(1-((z*z)/(r*ratioZ*r*ratioZ)));
 
-    double ctemp[3] = { 0.0,0.0,z };
+    std::vector<double> ctemp(3,0.0);
+    ctemp[2] = z;
     std::cout << "[Ellipsoid] Packing at z= "<<z<< " with r=" << current_radius << " and ratio=" << ratio << " ..."<<std::endl;
     EllipsoidalPacker *pack  = new EllipsoidalPacker(ctemp, current_radius, ratio,h, state,tolerance_angle,tolerance_h,random_startingpoint,adjust_h);
 
@@ -554,7 +555,7 @@ EllipsoidalPacker::~EllipsoidalPacker()
   delete [] states;
 }
 
-void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,double ratio, int state)
+void EllipsoidalPacker::updateStates(std::vector<double> c, double r0, double h, double r,double ratio, int state)
 {
   double xc,yc,zc,thetac,rc,xth,yth,zth,rth, thetamax,ymax;
   double ra = r0 - h/2;
@@ -625,7 +626,7 @@ void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,do
 }
 
 
-void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,double ratioY, double ratioZ, int state)
+void EllipsoidalPacker::updateStates(std::vector<double> c, double r0, double h, double r,double ratioY, double ratioZ, int state)
 {
   double ratio;
   double current_radius;
@@ -637,8 +638,8 @@ void EllipsoidalPacker::updateStates(double *c, double r0, double h, double r,do
     ratio = ratioY;
     current_radius = r0 * sqrt(1-((z*z)/(r0*ratioZ*r0*ratioZ)));
 
-    double ctemp[3] = { c[0],c[1],c[2]+z};
-
+    std::vector<double> ctemp = c;
+    ctemp[2] += z;
 
     if(fabs(z) < ratioZ*r)
     {

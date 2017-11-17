@@ -7,5 +7,5 @@
 class PyShape : public Shape {
 
   public:
-    PyShape(int state, double *xyz, double *xyz, PyObject *PyFunc, bool invert=false);
+    PyShape(int state, std::vector<double> p1, std::vector<double> p2, PyObject *PyFunc, bool invert=false);
 };

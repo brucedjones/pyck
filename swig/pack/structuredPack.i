@@ -12,5 +12,5 @@ class StructuredPack : Pack {
     long GetNumParticles();
     double * GetPositions();
     long GetNumParticlesByState(int state);
-    std::vector<double> GetClosestParticlePosition(double *xyz);
+    std::vector<double> GetClosestParticlePosition(std::vector<double> pos);
 };

@@ -45,6 +45,19 @@ Model::Model(double *positions, int *states, long numParticles, int dim)
   this->dim = dim;
 }
 
+Model::Model(std::vector<double> positions, std::vector<int> states, long numParticles, int dim)
+{
+  this->numParticles = numParticles;
+
+  this->positions = new double[numParticles*3];
+  std::copy(positions.data(), positions.data()+numParticles*3, this->positions);
+
+  this->states = new int[numParticles];
+  std::copy(states.data(), states.data()+numParticles, this->states);
+
+  this->dim = dim;
+}
+
 Model::~Model()
 {
   if(positions) delete [] positions;
@@ -130,6 +143,12 @@ void Model::AddPack(double *positions, int *states, long numParticles, int dim)
   this->dim = dim;
 }
 
+
+void Model::AddPack(std::vector<double> positions, std::vector<int> states, long numParticles, int dim)
+{
+  AddPack(positions.data(), states.data(), numParticles, dim);
+}
+
 void Model::Serialize(std::string fname, Writer *writer)
 {
   writer->Write(fname, parameters, positions, intFields, doubleFields, dim, numParticles);
@@ -147,10 +166,33 @@ int Model::CreateDoubleField(std::string name, int dim)
   return doubleFields.size()-1;
 }
 
-void Model::SetIntField(int handle, int state, int *val)
+void Model::SetIntField(int handle, int state, int val)
 {
   IntField *thisField = intFields[handle];
   int fieldDim = thisField->dim;
+
+  if(fieldDim>1)
+  {
+    std::cout << "Error: Input value does not have the same dimensionality as IntField" << std::endl;
+    return;
+  }
+
+  for(long i=0; i<numParticles; i++)
+  {
+    if(states[i] == state) thisField->data[i] = val;
+  }
+}
+
+void Model::SetIntField(int handle, int state, std::vector<int> val)
+{
+  IntField *thisField = intFields[handle];
+  int fieldDim = thisField->dim;
+
+  if(val.size()!=thisField->dim)
+  {
+    std::cout << "Error: Input value does not have the same dimensionality as IntField" << std::endl;
+    return;
+  }
 
   for(long i=0; i<numParticles; i++)
   {
@@ -213,10 +255,33 @@ IntField *Model::GetIntField(int handle)
   return intFields[handle];
 }
 
-void Model::SetDoubleField(int handle, int state, double *val)
+void Model::SetDoubleField(int handle, int state, double val)
 {
   DoubleField *thisField = doubleFields[handle];
   int fieldDim = thisField->dim;
+
+  if(fieldDim>1)
+  {
+    std::cout << "Error: Input value does not have the same dimensionality as DoubleField" << std::endl;
+    return;
+  }
+
+  for(long i=0; i<numParticles; i++)
+  {
+    if(states[i] == state) thisField->data[i] = val;
+  }
+}
+
+void Model::SetDoubleField(int handle, int state, std::vector<double> val)
+{
+  DoubleField *thisField = doubleFields[handle];
+  int fieldDim = thisField->dim;
+
+  if(val.size()!=thisField->dim)
+  {
+    std::cout << "Error: Input value does not have the same dimensionality as DoubleField" << std::endl;
+    return;
+  }
 
   for(long i=0; i<numParticles; i++)
   {

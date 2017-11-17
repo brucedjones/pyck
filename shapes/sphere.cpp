@@ -1,28 +1,25 @@
 #include "sphere.h"
 
-Sphere::Sphere(int state, double *c, double r, bool invert) : Shape(state,invert)
+#include<vector>
+
+Sphere::Sphere(int state, std::vector<double> c, double r, bool invert) : Shape(state,invert)
 {
-  this->c = new double[3];
-  this->c[0] = c[0];
-  this->c[1] = c[1];
-  this->c[2] = c[2];
+  this->c = c;
 
   this->r = r;
 
-  double *p1 = new double[3];
-  double *p2 = new double[3];
-  p1[0] = c[0] + r; p1[1] = c[1] + r; p1[2] = c[2] + r;
-  p2[0] = c[0] - r; p2[1] = c[1] - r; p2[2] = c[2] - r;
+  std::vector<double> p1(3);
+  std::vector<double> p2(3);
 
-  this->boundingBox = new BoundingBox(p1,p2);
+  for(size_t i=0; i<p1.size();i++){
+    p1[i] = c[i] + r;
+    p2[i] = c[i] - r;
+  }
 
-  delete [] p1;
-  delete [] p2;
+  this->boundingBox = new BoundingBox(p1.data(),p2.data());
 }
 
-Sphere::~Sphere(){
-  delete [] c;
-}
+Sphere::~Sphere(){}
 
 bool Sphere::IsInside(double *pt)
 {

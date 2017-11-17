@@ -31,7 +31,7 @@ class StructuredPack : public Pack {
      * @param pos Input coordinate
      * @return The coordinates of the closest valid particle
      */
-    std::vector<double> GetClosestParticlePosition(double *pos);
+    std::vector<double> GetClosestParticlePosition(std::vector<double> pos);
 
   private:
     // Methods
