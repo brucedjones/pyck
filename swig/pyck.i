@@ -43,3 +43,4 @@
 %include writers/sparkWriter.i
 %include writers/asciiWriter.i
 %include writers/verditeWriter.i
+%include writers/binaryWriter.i
